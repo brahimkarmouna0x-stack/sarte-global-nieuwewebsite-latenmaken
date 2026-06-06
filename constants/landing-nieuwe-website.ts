@@ -1,6 +1,8 @@
 import type {
+  ImpactStat,
   ServiceCTACopy,
   ServiceFeature,
+  ServiceIconName,
   ServiceProcessItem,
 } from "@/types";
 
@@ -16,11 +18,19 @@ export interface LandingFAQItem {
 
 export const LANDING_HERO = {
   eyebrow: "Nieuwe website laten maken · Sarte Global",
+  badge: "Nu beschikbaar voor 3 nieuwe projecten",
   titleLead: "Nieuwe website laten maken voor",
   titleEm: "meer groei en klanten.",
   sub: "Sarte Global ontwikkelt nieuwe, professionele en responsive websites voor ondernemers en bedrijven in Nederland. Modern design, sterke SEO en een opbouw die bezoekers omzet in klanten.",
   primaryCta: "Nieuwe website aanvragen",
   secondaryCta: { label: "Bekijk ons proces", href: "#proces" },
+  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
+  pills: [
+    { label: "+41% conversie" },
+    { label: "0,8s laadtijd" },
+    { label: "100/100 SEO-score" },
+    { label: "Live in 2 weken" },
+  ],
   trust: [
     "150+ websites opgeleverd",
     "98% tevreden klanten",
@@ -219,3 +229,485 @@ export const LANDING_CTA = {
   secondaryLabel: "Neem contact op",
   secondaryHref: "/contact",
 } as const satisfies ServiceCTACopy;
+
+/* ──────────────────────────────────────────────────────────────
+   Premium landing — extra section data (Sectie 02 t/m 10)
+   View-model interfaces co-located met de overige landing-types.
+   ────────────────────────────────────────────────────────────── */
+
+/* 02 — Trust & social proof (geanimeerde tellers) */
+export const LANDING_TRUST = {
+  eyebrow: "In cijfers",
+  titleLead: "Cijfers die",
+  titleEm: "vertrouwen wekken.",
+  sub: "Geen loze beloften — wel een bewezen werkwijze waar ondernemers door heel Nederland op bouwen.",
+} as const;
+
+export const LANDING_TRUST_STATS: readonly ImpactStat[] = [
+  { target: 150, suffix: "+", label: "Websites opgeleverd" },
+  { target: 12, suffix: "+", label: "Jaar ervaring" },
+  { target: 98, suffix: "%", label: "Tevreden klanten" },
+  { target: 2, suffix: " wk", label: "Gem. oplevertijd" },
+];
+
+/* 03 — Waarom Sarte Global (afwisselende layout + pijlers) */
+export interface LandingPillar {
+  readonly iconName: ServiceIconName;
+  readonly title: string;
+  readonly description: string;
+}
+
+export const LANDING_WHY = {
+  eyebrow: "Waarom Sarte Global",
+  titleLead: "Eén team voor strategie, design",
+  titleEm: "én development.",
+  lead: "Geen losse freelancers of doorverkochte uren. Bij Sarte Global werkt één senior team aan jouw nieuwe website — van het eerste strategiegesprek tot ruim na de livegang.",
+  media: {
+    image: "/images/company-img.png",
+    alt: "Het team van Sarte Global aan het werk in de studio.",
+    caption: "Sarte Global · studio",
+    tag: "Gevestigd in Nederland",
+  },
+  proof: [
+    "Senior designers & developers",
+    "Vaste contactpersoon",
+    "Heldere planning vooraf",
+  ],
+  pillars: [
+    {
+      iconName: "chart",
+      title: "Strategie",
+      description:
+        "We beginnen bij jouw doelen, doelgroep en markt — niet bij een template. Elke keuze onderbouwd met inzicht.",
+    },
+    {
+      iconName: "palette",
+      title: "Design",
+      description:
+        "Een modern, merkgericht ontwerp dat vertrouwen wekt en bezoekers moeiteloos naar de juiste actie leidt.",
+    },
+    {
+      iconName: "code",
+      title: "Development",
+      description:
+        "Schone code op een snelle, veilige basis — gebouwd om te schalen en jarenlang probleemloos mee te gaan.",
+    },
+    {
+      iconName: "search",
+      title: "SEO",
+      description:
+        "Sterke technische SEO, nette structuur en schema-markup, zodat je vindbaar bent vanaf dag één.",
+    },
+    {
+      iconName: "gauge",
+      title: "Performance",
+      description:
+        "Razendsnelle laadtijden en topscores op Core Web Vitals — beter voor je bezoeker én voor Google.",
+    },
+  ],
+} as const satisfies {
+  eyebrow: string;
+  titleLead: string;
+  titleEm: string;
+  lead: string;
+  media: {
+    image: string;
+    alt: string;
+    caption: string;
+    tag: string;
+  };
+  proof: readonly string[];
+  pillars: readonly LandingPillar[];
+};
+
+/* 05 — Website features (interactieve slider) */
+export type LandingFeatureKey =
+  | "mobile"
+  | "seo"
+  | "speed"
+  | "secure"
+  | "convert"
+  | "manage";
+
+export interface LandingFeatureItem {
+  readonly key: LandingFeatureKey;
+  readonly iconName: ServiceIconName;
+  readonly title: string;
+  readonly description: string;
+  readonly stat: { readonly value: string; readonly label: string };
+}
+
+export const LANDING_FEATURES_SECTION = {
+  eyebrow: "Wat je krijgt",
+  titleLead: "Alles wat een moderne website",
+  titleEm: "nodig heeft.",
+  sub: "Kies een onderdeel en zie wat het voor jouw bezoekers betekent. Standaard inbegrepen bij elke nieuwe website.",
+} as const;
+
+export const LANDING_FEATURES: readonly LandingFeatureItem[] = [
+  {
+    key: "mobile",
+    iconName: "mobile",
+    title: "Mobile-first",
+    description:
+      "Ontworpen vanaf de eerste schets voor mobiel — waar het grootste deel van je bezoek vandaan komt. Vlekkeloos op telefoon, tablet en desktop.",
+    stat: { value: "100%", label: "responsive" },
+  },
+  {
+    key: "seo",
+    iconName: "search",
+    title: "SEO-geoptimaliseerd",
+    description:
+      "Nette structuur, snelle laadtijden, schema-markup en doordachte metadata zorgen dat nieuwe klanten je vinden in Google.",
+    stat: { value: "100/100", label: "SEO-score" },
+  },
+  {
+    key: "speed",
+    iconName: "lightning",
+    title: "Razendsnel",
+    description:
+      "Geoptimaliseerde code en beelden voor laadtijden onder de seconde. Snelheid houdt bezoekers vast én geeft een SEO-voorsprong.",
+    stat: { value: "0,8s", label: "laadtijd" },
+  },
+  {
+    key: "secure",
+    iconName: "shield",
+    title: "Veilig & betrouwbaar",
+    description:
+      "SSL, dagelijkse back-ups en doorlopende updates. Je website blijft veilig, online en up-to-date — zonder dat jij erover hoeft na te denken.",
+    stat: { value: "99,9%", label: "uptime" },
+  },
+  {
+    key: "convert",
+    iconName: "cursor",
+    title: "Conversiegericht",
+    description:
+      "Een heldere opbouw met duidelijke call-to-actions die bezoekers stap voor stap naar contact of aankoop leidt.",
+    stat: { value: "+41%", label: "meer conversie" },
+  },
+  {
+    key: "manage",
+    iconName: "layers",
+    title: "Eenvoudig te beheren",
+    description:
+      "Pas teksten en beelden zelf eenvoudig aan via een overzichtelijk beheersysteem — of laat het ons doen. Jij houdt de controle.",
+    stat: { value: "5 min", label: "om bij te werken" },
+  },
+];
+
+/* 06 — Inspiratie: succesvolle Nederlandse digitale merken (geen klanten — referentie) */
+export interface LandingInspirationScore {
+  readonly label: string;
+  /** 0–100, onze eigen UX-beoordeling ter illustratie. */
+  readonly value: number;
+}
+
+export interface LandingInspirationItem {
+  readonly id: string;
+  readonly brand: string;
+  readonly industry: string;
+  readonly domain: string;
+  readonly accent: string;
+  readonly analysis: string;
+  readonly strengths: readonly string[];
+  readonly trust: string;
+  readonly scores: readonly LandingInspirationScore[];
+}
+
+export const LANDING_INSPIRATION_SECTION = {
+  eyebrow: "Inspiratie van succesvolle Nederlandse digitale merken",
+  titleLead: "Websites die",
+  titleEm: "marktleider werden.",
+  sub: "Geïnspireerd door succesvolle Nederlandse merken die uitblinken in gebruiksvriendelijkheid, conversie en digitale ervaring.",
+  note: "Ter inspiratie getoond. Deze merken zijn geen klanten van Sarte Global — we laten ze zien als toonbeeld van sterke Nederlandse digitale ervaringen.",
+  seoTitle: "Moderne website voorbeelden uit Nederland",
+  seoBody:
+    "Op zoek naar website design inspiratie? Deze succesvolle websites uit Nederland laten zien wat een professionele website onderscheidt: heldere navigatie, een vlekkeloze mobiele ervaring en een ontwerp dat bezoekers vertrouwen geeft. Wil je zelf een moderne, professionele website laten maken die aan dit niveau voldoet? Sarte Global vertaalt deze bewezen UX-principes naar jouw merk.",
+  ctaLabel: "Nieuwe website laten maken",
+} as const;
+
+export const LANDING_INSPIRATION: readonly LandingInspirationItem[] = [
+  {
+    id: "bol",
+    brand: "bol.",
+    industry: "E-commerce · Online warenhuis",
+    domain: "bol.com",
+    accent: "#1A4FFF",
+    analysis:
+      "Bol zet een vertrouwde, voorspelbare flow centraal: krachtige zoekfunctie, persoonlijke aanbevelingen en een afrekenproces dat bijna geen nadenken vereist.",
+    strengths: ["Razendsnelle zoekfunctie", "Persoonlijke aanbevelingen", "Helder retourbeleid"],
+    trust:
+      "Miljoenen reviews, een duidelijk retourbeleid en Select-voordelen maken online kopen risicoloos.",
+    scores: [
+      { label: "Navigatie", value: 96 },
+      { label: "Mobiele ervaring", value: 94 },
+      { label: "Conversie", value: 97 },
+      { label: "Laadsnelheid", value: 90 },
+      { label: "Vertrouwen", value: 98 },
+      { label: "Visuele hiërarchie", value: 93 },
+    ],
+  },
+  {
+    id: "coolblue",
+    brand: "Coolblue",
+    industry: "Elektronica & retail",
+    domain: "coolblue.nl",
+    accent: "#1FA3F0",
+    analysis:
+      "Coolblue is geobsedeerd door klanttevredenheid — elke pagina ademt service, met glasheldere product-USP's, eerlijk advies en concrete bezorgbeloftes.",
+    strengths: ["Glasheldere USP's", "Vandaag besteld, morgen in huis", "Topklantenservice"],
+    trust:
+      "Concrete bezorgbeloftes, eerlijk productadvies en 'alles voor een glimlach' bouwen merkvertrouwen op.",
+    scores: [
+      { label: "Navigatie", value: 95 },
+      { label: "Mobiele ervaring", value: 96 },
+      { label: "Conversie", value: 98 },
+      { label: "Laadsnelheid", value: 92 },
+      { label: "Vertrouwen", value: 97 },
+      { label: "Visuele hiërarchie", value: 95 },
+    ],
+  },
+  {
+    id: "hema",
+    brand: "HEMA",
+    industry: "Warenhuis & lifestyle",
+    domain: "hema.nl",
+    accent: "#E5132C",
+    analysis:
+      "HEMA vertaalt z'n nuchtere, toegankelijke merk naar een speelse maar overzichtelijke webervaring met opvallend sterke eigen-merk-branding.",
+    strengths: ["Sterke merkidentiteit", "Toegankelijk & speels", "Naadloos online/offline"],
+    trust:
+      "Een vertrouwd Nederlands merk met fysieke winkels, herkenbaar design en transparante prijzen.",
+    scores: [
+      { label: "Navigatie", value: 92 },
+      { label: "Mobiele ervaring", value: 93 },
+      { label: "Conversie", value: 90 },
+      { label: "Laadsnelheid", value: 91 },
+      { label: "Vertrouwen", value: 95 },
+      { label: "Visuele hiërarchie", value: 94 },
+    ],
+  },
+  {
+    id: "ah",
+    brand: "Albert Heijn",
+    industry: "Supermarkt & e-grocery",
+    domain: "ah.nl",
+    accent: "#19A0DC",
+    analysis:
+      "Albert Heijn maakt complexe boodschappen-flows simpel: slimme lijstjes, gepersonaliseerde bonus en een feilloze mobiele bestelervaring.",
+    strengths: ["Slimme boodschappenlijst", "Gepersonaliseerde bonus", "Vlekkeloze bezorgflow"],
+    trust:
+      "Bonuskaart-personalisatie, betrouwbare bezorgmomenten en een vertrouwd merk maken dagelijks bestellen moeiteloos.",
+    scores: [
+      { label: "Navigatie", value: 94 },
+      { label: "Mobiele ervaring", value: 97 },
+      { label: "Conversie", value: 95 },
+      { label: "Laadsnelheid", value: 89 },
+      { label: "Vertrouwen", value: 96 },
+      { label: "Visuele hiërarchie", value: 92 },
+    ],
+  },
+  {
+    id: "wehkamp",
+    brand: "wehkamp",
+    industry: "Mode & wonen",
+    domain: "wehkamp.nl",
+    accent: "#E5006D",
+    analysis:
+      "Wehkamp combineert een inspirerende, magazine-achtige presentatie met flexibele betaalopties die drempelvrij online shoppen mogelijk maken.",
+    strengths: ["Inspirerende fotografie", "Achteraf betalen", "Sterke filters & maatadvies"],
+    trust:
+      "Achteraf betalen, gratis retour en duidelijke maattabellen verlagen de drempel om te bestellen.",
+    scores: [
+      { label: "Navigatie", value: 91 },
+      { label: "Mobiele ervaring", value: 92 },
+      { label: "Conversie", value: 93 },
+      { label: "Laadsnelheid", value: 88 },
+      { label: "Vertrouwen", value: 92 },
+      { label: "Visuele hiërarchie", value: 93 },
+    ],
+  },
+  {
+    id: "zalando",
+    brand: "Zalando",
+    industry: "Mode & schoenen",
+    domain: "zalando.nl",
+    accent: "#FF6900",
+    analysis:
+      "Zalando zet visuele mode-inspiratie voorop met een gestroomlijnde checkout en een retourproces dat online kleding kopen zorgeloos maakt.",
+    strengths: ["Visuele mode-inspiratie", "Gratis verzending & retour", "Naadloze checkout"],
+    trust:
+      "Gratis verzending en retour, eerlijke reviews en een vlotte checkout nemen twijfel bij online mode weg.",
+    scores: [
+      { label: "Navigatie", value: 94 },
+      { label: "Mobiele ervaring", value: 95 },
+      { label: "Conversie", value: 96 },
+      { label: "Laadsnelheid", value: 90 },
+      { label: "Vertrouwen", value: 94 },
+      { label: "Visuele hiërarchie", value: 96 },
+    ],
+  },
+];
+
+/* 07 — Branches */
+export type LandingIndustryIconName =
+  | "construction"
+  | "health"
+  | "finance"
+  | "ecommerce"
+  | "horeca"
+  | "corporate";
+
+export interface LandingIndustryItem {
+  readonly icon: LandingIndustryIconName;
+  readonly title: string;
+  readonly description: string;
+}
+
+export const LANDING_INDUSTRIES_SECTION = {
+  eyebrow: "Branches",
+  titleLead: "Gebouwd voor",
+  titleEm: "jouw branche.",
+  sub: "We kennen de vragen van jouw markt — en bouwen de website die daar antwoord op geeft.",
+} as const;
+
+export const LANDING_INDUSTRIES: readonly LandingIndustryItem[] = [
+  {
+    icon: "construction",
+    title: "Bouw & techniek",
+    description:
+      "Projecten, certificeringen en offerteaanvragen die direct vertrouwen wekken bij opdrachtgevers.",
+  },
+  {
+    icon: "health",
+    title: "Zorg & gezondheid",
+    description:
+      "Rustige, toegankelijke sites met online afspraken en heldere informatie voor je patiënten.",
+  },
+  {
+    icon: "finance",
+    title: "Finance & advies",
+    description:
+      "Een professionele uitstraling die autoriteit uitstraalt en bezoekers omzet in afspraken.",
+  },
+  {
+    icon: "ecommerce",
+    title: "E-commerce & retail",
+    description:
+      "Snelle webshops die bezoekers moeiteloos en met vertrouwen naar de afrekenpagina leiden.",
+  },
+  {
+    icon: "horeca",
+    title: "Horeca & hospitality",
+    description:
+      "Sfeervolle sites met menu's, reserveringen en routebeschrijving — meteen lokaal vindbaar.",
+  },
+  {
+    icon: "corporate",
+    title: "Corporate & B2B",
+    description:
+      "Schaalbare merksites die jouw organisatie neerzetten als de marktleider in je vakgebied.",
+  },
+];
+
+/* 08 — Testimonials (grote quote-kaarten, auto-scroll) */
+export const LANDING_TESTIMONIALS_SECTION = {
+  eyebrow: "Klantverhalen",
+  titleLead: "Ondernemers die ons",
+  titleEm: "aanbevelen.",
+  sub: "Echte ervaringen van bedrijven die hun nieuwe website door Sarte Global lieten maken.",
+  score: "4,9",
+  scoreLabel: "Gemiddeld 4,9 / 5 uit 100+ beoordelingen",
+} as const;
+
+/* 06b — Case studies (active cards met browser-mockup, voor/na metrics) */
+export interface LandingCaseItem {
+  readonly id: string;
+  readonly domain: string;
+  readonly accent: string;
+  readonly tag: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly metrics: readonly { readonly label: string; readonly value: string }[];
+  readonly compare: {
+    readonly label: string;
+    readonly before: string;
+    readonly after: string;
+  };
+}
+
+export const LANDING_CASES_SECTION = {
+  eyebrow: "Ons werk",
+  titleLead: "Resultaten die",
+  titleEm: "voor zich spreken.",
+  sub: "Een greep uit projecten waar we trots op zijn — met meetbare resultaten en een helder voor/na-verschil.",
+} as const;
+
+export const LANDING_CASES: readonly LandingCaseItem[] = [
+  {
+    id: "zaak1",
+    domain: "voorbeeld.nl",
+    accent: "#F5A623",
+    tag: "Nieuwe website",
+    title: "Van oude naar nieuwe website",
+    summary: "Een complete redesign met focus op conversie en moderne uitstraling.",
+    metrics: [
+      { label: "Meer bezoekers", value: "+85%" },
+      { label: "Snellere laadtijd", value: "-60%" },
+    ],
+    compare: {
+      label: "Conversie",
+      before: "1,2%",
+      after: "3,8%",
+    },
+  },
+  {
+    id: "zaak2",
+    domain: "voorbeeld2.nl",
+    accent: "#1A4FFF",
+    tag: "Webshop",
+    title: "Nieuwe webshop met hogere omzet",
+    summary: "Van verouderde shop naar een snelle, mobielvriendelijke webshop.",
+    metrics: [
+      { label: "Meer omzet", value: "+120%" },
+      { label: "Lagere bounce", value: "-45%" },
+    ],
+    compare: {
+      label: "Conversie",
+      before: "0,8%",
+      after: "2,9%",
+    },
+  },
+  {
+    id: "zaak3",
+    domain: "voorbeeld3.nl",
+    accent: "#19A0DC",
+    tag: "Landingspagina",
+    title: "Landingspagina optimalisatie",
+    summary: "Gerichte landingspagina die bezoekers moeiteloos naar contact leidt.",
+    metrics: [
+      { label: "Meer aanvragen", value: "+200%" },
+      { label: "Snellere laadtijd", value: "-70%" },
+    ],
+    compare: {
+      label: "Conversie",
+      before: "0,5%",
+      after: "4,2%",
+    },
+  },
+];
+
+/* 10 — Final CTA (emotionele kop + inline formulier + urgentie) */
+export const LANDING_FINAL_CTA = {
+  eyebrow: "Klaar om te starten",
+  titleLead: "Jouw nieuwe website",
+  titleEm: "begint vandaag.",
+  sub: "Vertel ons kort over je bedrijf en doelen. Binnen één werkdag ontvang je een vrijblijvend voorstel — helder, op maat en zonder verplichtingen.",
+  urgency: "Nog 3 projectplekken beschikbaar deze maand",
+  points: [
+    "Reactie binnen 1 werkdag",
+    "Vrijblijvend & volledig op maat",
+    "Eén vaste contactpersoon",
+  ],
+  projectType: "Nieuwe website laten maken",
+} as const;

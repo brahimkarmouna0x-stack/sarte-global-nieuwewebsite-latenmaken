@@ -26,11 +26,10 @@ export const TRUST_LINE =
 export const NAV_LINKS = [
   { label: "Nieuwe website", href: "/" },
   { label: "Diensten", href: "#services" },
-  { label: "laten maken", href: "/nieuwe-website-laten-maken" },
+  { label: "Website laten maken", href: "/website-laten-maken" },
   { label: "Werk", href: "#work" },
   { label: "Proces", href: "#process" },
   { label: "Over ons", href: "#about" },
-  { label: "Team", href: "#team" },
   { label: "Journal", href: "#journal" },
 ] as const satisfies readonly NavLink[];
 
@@ -162,6 +161,7 @@ export const COOKIE_COPY = {
 export * from "./about";
 export * from "./new-website";
 export * from "./landing-nieuwe-website";
+export * from "./pricing";
 export * from "./journal";
 export * from "./services";
 export * from "./team";

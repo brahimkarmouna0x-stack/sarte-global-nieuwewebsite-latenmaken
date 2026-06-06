@@ -8,7 +8,7 @@ import {
   type FormEvent,
 } from "react";
 
-import { DIALOG_COPY, PROJECT_TYPES } from "@/constants/contact";
+import { DIALOG_COPY, PROJECT_TYPES, getMessageStarter } from "@/constants/contact";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
@@ -16,6 +16,8 @@ const EASE = [0.2, 0.7, 0.2, 1] as const;
 interface ContactFormProps {
   readonly initialProjectType?: string;
   readonly onComplete: () => void;
+  /** Focus the message field on mount. Disable for inline (non-dialog) use to avoid scroll-jank. */
+  readonly autoFocus?: boolean;
 }
 
 interface FormState {
@@ -28,28 +30,67 @@ interface FormState {
 export function ContactForm({
   initialProjectType,
   onComplete,
+  autoFocus = true,
 }: ContactFormProps) {
+  const initialStarter = getMessageStarter(initialProjectType);
   const [state, setState] = useState<FormState>({
     name: "",
     email: "",
     projectType: initialProjectType ?? "",
-    message: "",
+    message: initialStarter,
   });
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [showMessageError, setShowMessageError] = useState<boolean>(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  // Tracks the last auto-injected starter so we never overwrite the user's own text.
+  const autoStarterRef = useRef<string>(initialStarter);
 
   useEffect(() => {
+    if (!autoFocus) return;
     const id = window.setTimeout(() => {
-      textareaRef.current?.focus();
+      const el = textareaRef.current;
+      if (!el) return;
+      el.focus();
+      const end = el.value.length;
+      el.setSelectionRange(end, end);
     }, 240);
     return () => window.clearTimeout(id);
-  }, []);
+  }, [autoFocus]);
+
+  function focusMessageEnd() {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.focus();
+    const end = el.value.length;
+    el.setSelectionRange(end, end);
+  }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setState((prev) => ({ ...prev, [key]: value }));
     if (key === "message" && showMessageError && String(value).trim().length > 0) {
       setShowMessageError(false);
+    }
+  }
+
+  function handleProjectTypeChange(value: string) {
+    const newStarter = getMessageStarter(value);
+    // Only auto-fill when the field is untouched or still holds a previous starter.
+    const userHasCustomText =
+      state.message.trim().length > 0 && state.message !== autoStarterRef.current;
+
+    setState((prev) => ({
+      ...prev,
+      projectType: value,
+      message: userHasCustomText ? prev.message : newStarter,
+    }));
+
+    if (!userHasCustomText) {
+      autoStarterRef.current = newStarter;
+      if (showMessageError && newStarter.trim().length > 0) {
+        setShowMessageError(false);
+      }
+      // Run after the new value commits so the caret lands at the end.
+      requestAnimationFrame(focusMessageEnd);
     }
   }
 
@@ -113,7 +154,7 @@ export function ContactForm({
           <select
             className="cd-input cd-select"
             value={state.projectType}
-            onChange={(e) => update("projectType", e.target.value)}
+            onChange={(e) => handleProjectTypeChange(e.target.value)}
             disabled={submitting}
           >
             <option value="">

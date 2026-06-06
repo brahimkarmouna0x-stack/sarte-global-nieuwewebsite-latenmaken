@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { PricingSchema } from "@/components/pricing/PricingSchema";
+import { PricingSection } from "@/components/pricing/PricingSection";
 import { ServiceCTA } from "@/components/services/ServiceCTA";
 import { ServiceFeatures } from "@/components/services/ServiceFeatures";
 import { ServicePageHero } from "@/components/services/ServicePageHero";
@@ -15,6 +17,10 @@ const SITE_URL = SITE.url;
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
 }
+
+// The service set is a fixed, known list. Disallow unknown params so an
+// invalid slug returns a real 404 (not a soft 200) at the routing layer.
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return SERVICES.map((service) => ({ slug: service.slug }));
@@ -39,6 +45,9 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
       `nieuwe ${service.name.toLowerCase()}`,
       `professionele ${service.name.toLowerCase()}`,
       `${service.name} Nederland`,
+      `${service.name} kosten`,
+      `${service.name} prijs`,
+      `${service.name.toLowerCase()} tarieven`,
       `Sarte Global ${service.name}`,
     ],
     openGraph: {
@@ -113,6 +122,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      <PricingSchema serviceSlug={service.slug} />
       <ServicePageHero service={service} />
       <ServiceFeatures features={service.features} />
       <ServiceProcess steps={service.process} />
@@ -121,6 +131,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         categories={service.relatedCategories}
         serviceName={service.name}
       />
+      <PricingSection defaultServiceSlug={service.slug} />
       <NewWebsiteSeo serviceName={service.name} />
       <ServiceCTA copy={service.cta} projectType={service.name} />
     </main>

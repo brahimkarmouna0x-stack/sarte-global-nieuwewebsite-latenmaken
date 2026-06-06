@@ -71,7 +71,7 @@ export function MobileDrawer({
         </div>
         <ul>
           {NAV_LINKS.map((link) => {
-            const isRoute = link.href.startsWith("/") && link.href !== "/";
+            const isRoute = link.href.startsWith("/");
             if (isRoute) {
               return (
                 <li key={link.href}>

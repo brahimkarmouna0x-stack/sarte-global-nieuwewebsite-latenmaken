@@ -8,39 +8,22 @@ import type { ProjectCardProps, CSSVarStyle } from "@/types";
 import { PROJECTS_SECTION } from "@/data/projects";
 import { useReveal } from "@/hooks/useReveal";
 
-function hashCode(input: string): number {
-  let hash = 5381;
-  for (let i = 0; i < input.length; i++) {
-    hash = ((hash << 5) + hash) ^ input.charCodeAt(i);
-  }
-  return Math.abs(hash);
-}
-
 function microlinkUrl(url: string): string {
   return `https://api.microlink.io/?url=${encodeURIComponent(
     url,
   )}&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1280&viewport.height=800`;
 }
 
-function themedUrl(seed: string, category: string): string {
-  const tags = encodeURIComponent(`${category},premium,design`.toLowerCase());
-  return `https://loremflickr.com/1280/800/${tags}?lock=${hashCode(seed)}`;
-}
-
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const { ref, isIn } = useReveal<HTMLAnchorElement>();
 
   const fallbackChain = useMemo(
-    () => [
-      project.screenshot,
-      microlinkUrl(project.url),
-      themedUrl(project.id, project.category),
-    ],
-    [project.screenshot, project.url, project.id, project.category],
+    () => [project.screenshot, microlinkUrl(project.url)],
+    [project.screenshot, project.url],
   );
 
   const [attempt, setAttempt] = useState(0);
-  const [hidden, setHidden] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   const onPointerMove = (event: PointerEvent<HTMLAnchorElement>) => {
@@ -65,11 +48,11 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       setAttempt((current) => current + 1);
       setLoaded(false);
     } else {
-      setHidden(true);
+      // Both screenshot providers failed (e.g. bot-protected store) — show an
+      // on-brand placeholder instead of an irrelevant random photo.
+      setFailed(true);
     }
   };
-
-  if (hidden) return null;
 
   const baseStyle: CSSVarStyle = {
     "--i": index,
@@ -93,19 +76,52 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
     >
       <span className="proj-glow" aria-hidden="true" />
 
-      <div className="proj-media" data-loading={loaded ? undefined : "true"}>
-        <Image
-          src={currentSrc!}
-          alt={`${project.title} — ${project.category} — voorvertoning van de live website`}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-          className="proj-img"
-          priority={index < 3}
-          loading={index < 3 ? undefined : "lazy"}
-          quality={75}
-          onLoad={() => setLoaded(true)}
-          onError={handleImageError}
-        />
+      <div className="proj-media" data-loading={!failed && !loaded ? "true" : undefined}>
+        {failed ? (
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "grid",
+              placeItems: "center",
+              padding: "24px",
+              background:
+                "linear-gradient(135deg, color-mix(in srgb, var(--accent-local) 28%, var(--color-surface-3)), var(--color-surface-3))",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                fontSize: "clamp(20px, 2.4vw, 30px)",
+                lineHeight: 1.1,
+                letterSpacing: "-0.01em",
+                color: "var(--color-text)",
+                textAlign: "center",
+              }}
+            >
+              {project.title}
+            </span>
+          </div>
+        ) : (
+          <Image
+            src={currentSrc!}
+            alt={`${project.title} — ${project.category} — voorvertoning van de live website`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+            className="proj-img"
+            priority={index < 3}
+            loading={index < 3 ? undefined : "lazy"}
+            quality={75}
+            // thum.io cold-renders are slow; the Next image optimizer times out
+            // on them and the card falls back. Loading thum.io directly lets the
+            // browser wait for the render so the real screenshot appears.
+            unoptimized={currentSrc?.includes("image.thum.io")}
+            onLoad={() => setLoaded(true)}
+            onError={handleImageError}
+          />
+        )}
         <span className="proj-media-grad" aria-hidden="true" />
         <span className="proj-cat" aria-hidden="true">
           {project.category}

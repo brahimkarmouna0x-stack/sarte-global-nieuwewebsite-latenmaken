@@ -16,7 +16,9 @@ export type ServiceIconName =
   | "lightning"
   | "layers"
   | "spark"
-  | "gauge";
+  | "gauge"
+  | "video"
+  | "wrench";
 
 export interface NavLink {
   readonly label: string;
@@ -95,6 +97,99 @@ export interface Service {
   readonly techIds: readonly string[];
   readonly relatedCategories: readonly Exclude<ProjectCategory, "All">[];
   readonly cta: ServiceCTACopy;
+}
+
+/* ── Pricing ("Pakketten") ─────────────────────────────────────────────── */
+
+export type PricingTierId = "start" | "professioneel" | "maatwerk";
+
+/** A single cell in the comparison matrix: yes (✓), no (—) or a literal value. */
+export type PricingCell = boolean | string;
+
+/**
+ * Tier price. `amount: null` renders as "Op aanvraag" (no CountUp). `plus`
+ * appends a trailing "+" (open-ended/starting price). `period` drives the
+ * caption ("eenmalig" / "per maand").
+ */
+export interface PricingPrice {
+  readonly amount: number | null;
+  readonly prefix?: string;
+  readonly plus?: boolean;
+  readonly period?: "eenmalig" | "maand";
+}
+
+export interface PricingTier {
+  readonly id: PricingTierId;
+  readonly name: string;
+  readonly badge?: string;
+  readonly tagline: string;
+  readonly bestFor: string;
+  readonly timeline: string;
+  readonly price: PricingPrice;
+  readonly deliverables: readonly string[];
+  readonly techIds: readonly string[];
+  readonly ctaLabel: string;
+  readonly highlighted?: boolean;
+}
+
+export interface PricingComparisonRow {
+  readonly label: string;
+  readonly values: readonly [PricingCell, PricingCell, PricingCell];
+}
+
+export interface PricingRoiStat {
+  readonly target: number;
+  readonly prefix?: string;
+  readonly suffix?: string;
+  readonly label: string;
+}
+
+export interface PricingFaqItem {
+  readonly question: string;
+  readonly answer: string;
+}
+
+export interface ServicePricing {
+  readonly slug: string;
+  readonly name: string;
+  readonly chipLabel: string;
+  readonly icon: ServiceIconName;
+  readonly projectType: string;
+  readonly headline: string;
+  readonly tiers: readonly [PricingTier, PricingTier, PricingTier];
+  readonly comparison: readonly PricingComparisonRow[];
+  readonly roi: {
+    readonly lead: string;
+    readonly stats: readonly PricingRoiStat[];
+  };
+  readonly faq: readonly PricingFaqItem[];
+  readonly seo: {
+    readonly title: string;
+    readonly body: string;
+  };
+}
+
+export interface PricingSectionContent {
+  readonly eyebrow: string;
+  readonly titleLead: string;
+  readonly titleEm: string;
+  readonly sub: string;
+  readonly filterLabel: string;
+  readonly comparisonTitle: string;
+  readonly roiEyebrow: string;
+  readonly faqEyebrow: string;
+  readonly faqTitle: string;
+}
+
+export interface PricingSectionProps {
+  readonly defaultServiceSlug?: string;
+  readonly id?: string;
+}
+
+export interface PricingCardProps {
+  readonly tier: PricingTier;
+  readonly projectType: string;
+  readonly index: number;
 }
 
 export type WorkArtwork =

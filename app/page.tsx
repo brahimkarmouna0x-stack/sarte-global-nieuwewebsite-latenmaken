@@ -7,6 +7,8 @@ import { ImpactStats } from "@/components/sections/ImpactStats";
 import { Journal } from "@/components/sections/Journal";
 import { LocalBusinesses } from "@/components/sections/LocalBusinesses";
 import { NewWebsiteSeo } from "@/components/sections/NewWebsiteSeo";
+import { PricingSchema } from "@/components/pricing/PricingSchema";
+import { PricingSection } from "@/components/pricing/PricingSection";
 import { ProjectsSection } from "@/components/projects/projects-section";
 import { Process } from "@/components/sections/Process";
 import { Services } from "@/components/sections/Services";
@@ -52,11 +54,13 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(HOMEPAGE_JSON_LD) }}
       />
+      <PricingSchema serviceSlug="web-development" />
       <Hero />
       <TrustedMarquee />
       <AboutCompany />
       <NewWebsiteSeo />
       <Services />
+      <PricingSection />
       <LocalBusinesses />
       <TechStack />
       <ProjectsSection />

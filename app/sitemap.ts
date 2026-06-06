@@ -8,7 +8,7 @@ const LAST_MODIFIED = "2026-06-04";
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 1.0 },
-    { url: `${SITE_URL}/nieuwe-website-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${SITE_URL}/website-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
     { url: `${SITE_URL}/about`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/work`, lastModified: LAST_MODIFIED, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/journal`, lastModified: LAST_MODIFIED, changeFrequency: "weekly", priority: 0.7 },

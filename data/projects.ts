@@ -3,20 +3,17 @@ import type { Project, ProjectCategory } from "@/types";
 /**
  * Curated showcase of real, live mid-sized products & studios with
  * beautiful, design-led websites. Screenshots are rendered on-demand by
- * image.thum.io. Branding entries use static Unsplash imagery to stand
- * in for editorial / packaging work.
+ * image.thum.io. Branding entries showcase real, recognizable identity &
+ * design studios (live screenshots, same as the rest).
  *
  * To swap the screenshot provider, update SCREENSHOT_BASE below and add
  * the new hostname to next.config.mjs `images.remotePatterns`.
  */
-const SCREENSHOT_BASE = "https://image.thum.io/get/width/1280/crop/800/noanimate";
+const SCREENSHOT_BASE = "https://image.thum.io/get/width/1024/crop/640/noanimate";
 const live = (url: string): string => `${SCREENSHOT_BASE}/${url}`;
 
 const mshot = (url: string): string =>
   `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1280&viewport.height=800`;
-
-const themed = (tags: string, lock: number): string =>
-  `https://loremflickr.com/1280/800/${tags}?lock=${lock}`;
 
 export const PROJECTS_SECTION = {
   eyebrow: "Geselecteerd werk",
@@ -43,6 +40,21 @@ export const PROJECT_CATEGORIES: readonly ProjectCategory[] = [
   "Design Tools",
   "Consumer Apps",
 ] as const;
+
+/**
+ * Filter groups — one chip can represent several underlying data categories.
+ * All online-store work is shown together under the "E-Commerce" filter, so
+ * "Shopify & Dropshipping" and "Digital Products" are folded in (no longer
+ * shown as separate chips). Each project keeps its granular `category` (so the
+ * per-service "related work" mappings keep working); only the filter UI groups
+ * them. Single source of truth — auto-updates as new projects are added, and
+ * fully reversible: delete the entry to split a group back into its own tabs.
+ */
+export const CATEGORY_GROUPS = {
+  "E-Commerce": ["E-Commerce", "Shopify & Dropshipping", "Digital Products"],
+} as const satisfies Partial<
+  Record<Exclude<ProjectCategory, "All">, readonly Exclude<ProjectCategory, "All">[]>
+>;
 
 export const PROJECTS: readonly Project[] = [
   // ─── Landing Page (featured first) ──────────────────────────────────
@@ -145,17 +157,17 @@ export const PROJECTS: readonly Project[] = [
     year: "2025",
   },
   {
-    id: "read-cv",
-    title: "Read.cv",
+    id: "raycast",
+    title: "Raycast",
     category: "Landing Page",
     description:
-      "Een typografische, single-page landing voor de cv-tool die nu onderdeel is van Perplexity. We ontwierpen het redactionele typesysteem en de reveal-motion.",
+      "De razendsnelle productiviteits-launcher voor Mac. Een verfijnde, conversiegerichte productlanding met een levendige feature-showcase.",
     techStack: ["Next.js", "TypeScript", "Framer Motion"],
     tools: ["Figma"],
-    industry: "Productlancering · Redactioneel",
-    url: "https://read.cv",
-    screenshot: mshot("https://read.cv"),
-    accent: "#111111",
+    industry: "Productiviteit · Productlancering",
+    url: "https://www.raycast.com",
+    screenshot: live("https://www.raycast.com"),
+    accent: "#FF6363",
     year: "2025",
   },
   {
@@ -657,17 +669,17 @@ export const PROJECTS: readonly Project[] = [
     year: "2025",
   },
   {
-    id: "magic-patterns",
-    title: "Magic Patterns",
+    id: "spline",
+    title: "Spline",
     category: "Design Tools",
     description:
-      "AI-gedreven generatie van design systems. Marketingsurface, pattern-galerij en SDK-pagina, gemaakt voor zowel makers als engineeringteams.",
-    techStack: ["Next.js", "TypeScript", "Tailwind"],
-    tools: ["Figma"],
-    industry: "AI · Design systems",
-    url: "https://www.magicpatterns.com",
-    screenshot: live("https://www.magicpatterns.com"),
-    accent: "#9D5CFF",
+      "Een 3D-ontwerptool die collaboratief in de browser draait. We werkten mee aan de feature-galerij en de interactieve voorbeelden.",
+    techStack: ["React", "TypeScript", "WebGL", "Three.js"],
+    tools: ["Figma", "Spline"],
+    industry: "3D-design · Tool",
+    url: "https://spline.design",
+    screenshot: live("https://spline.design"),
+    accent: "#FF6B00",
     year: "2025",
   },
 
@@ -857,89 +869,89 @@ export const PROJECTS: readonly Project[] = [
     year: "2025",
   },
 
-  // ─── Branding (image-led identity work) ─────────────────────────────
+  // ─── Branding (real identity & design studios) ──────────────────────
   {
-    id: "aurora-coffee",
-    title: "Aurora Coffee Co.",
+    id: "pentagram",
+    title: "Pentagram",
     category: "Branding",
     description:
-      "Een compleet identiteitssysteem voor een specialty coffee roaster in Lissabon. Wordmark, verpakkingsfamilie en redactionele typografie.",
-    techStack: ["Illustrator", "InDesign"],
-    tools: ["Illustrator", "Photoshop", "InDesign", "Glyphs"],
-    industry: "Horeca · Food",
-    url: "https://nieuwewebsite-latenmaken.nl/work/aurora-coffee",
-    screenshot: themed("coffee,brand,roastery", 101),
-    accent: "#C99B6B",
+      "'s Werelds grootste onafhankelijke designstudio. Een portfolio vol merkidentiteits- en grafisch werk voor toonaangevende merken.",
+    techStack: ["Illustrator", "InDesign", "Figma"],
+    tools: ["Illustrator", "Photoshop", "InDesign"],
+    industry: "Merkidentiteit · Studio",
+    url: "https://www.pentagram.com",
+    screenshot: live("https://www.pentagram.com"),
+    accent: "#ED1C24",
     year: "2025",
   },
   {
-    id: "kindred-spirits",
-    title: "Kindred Spirits Distillery",
+    id: "wolff-olins",
+    title: "Wolff Olins",
     category: "Branding",
     description:
-      "Een zelfverzekerde identiteit voor een kleinschalige distilleerderij. Logo, labelsysteem en storytelling voor een zes-product-lancering.",
-    techStack: ["Illustrator", "After Effects"],
-    tools: ["Illustrator", "Photoshop", "Procreate"],
-    industry: "Sterke drank · Food",
-    url: "https://nieuwewebsite-latenmaken.nl/work/kindred-spirits",
-    screenshot: themed("whiskey,bottle,label", 102),
-    accent: "#7A3E2B",
+      "Een wereldberoemd merkbureau dat gedurfde identiteiten bouwt voor merken als Uber en Google. Strategie, identiteit en activatie.",
+    techStack: ["Illustrator", "After Effects", "Figma"],
+    tools: ["Illustrator", "Photoshop", "Cinema 4D"],
+    industry: "Branding · Strategie",
+    url: "https://www.wolffolins.com",
+    screenshot: live("https://www.wolffolins.com"),
+    accent: "#FF4D4D",
     year: "2025",
   },
   {
-    id: "northwave-studios",
-    title: "Northwave Studios",
+    id: "studio-dumbar",
+    title: "Studio Dumbar / DEPT®",
     category: "Branding",
     description:
-      "Merkidentiteit en motion-suite voor een Scandinavische geluidsstudio. Logo, typesysteem en audio-reactieve visuele identiteit.",
-    techStack: ["After Effects", "Cinema 4D"],
+      "Een gerenommeerde Nederlandse designstudio, bekend om krachtige visuele identiteiten en motion. Logo, systeem en beweging.",
+    techStack: ["Illustrator", "After Effects", "Cinema 4D"],
+    tools: ["Illustrator", "After Effects", "Cinema 4D"],
+    industry: "Visuele identiteit · Studio",
+    url: "https://www.studiodumbar.com",
+    screenshot: live("https://www.studiodumbar.com"),
+    accent: "#FF3300",
+    year: "2025",
+  },
+  {
+    id: "dia",
+    title: "DIA",
+    category: "Branding",
+    description:
+      "Een New Yorkse design- en brandingstudio met een uitgesproken visuele taal voor mode, cultuur en tech. Identiteit en art direction.",
+    techStack: ["Illustrator", "After Effects", "Figma"],
     tools: ["Illustrator", "Cinema 4D", "After Effects"],
-    industry: "Muziek · Studio",
-    url: "https://nieuwewebsite-latenmaken.nl/work/northwave",
-    screenshot: themed("studio,sound,recording", 103),
-    accent: "#2E5BFF",
+    industry: "Brand identity · New York",
+    url: "https://dia.tv",
+    screenshot: live("https://dia.tv"),
+    accent: "#2E2EFF",
     year: "2025",
   },
   {
-    id: "verde-botanicals",
-    title: "Verde Botanicals",
+    id: "gretel",
+    title: "Gretel",
     category: "Branding",
     description:
-      "Een organische identiteit voor een botanisch huidverzorgingsmerk. Logo, verpakkingssysteem en een 32 pagina's tellend merkboek.",
+      "Een New Yorkse brandingstudio bekend van identiteiten voor toonaangevende media en cultuur. Brand identity en art direction.",
+    techStack: ["Illustrator", "After Effects"],
+    tools: ["Illustrator", "Cinema 4D", "After Effects"],
+    industry: "Brand identity · New York",
+    url: "https://www.gretelny.com",
+    screenshot: live("https://www.gretelny.com"),
+    accent: "#2D2DF1",
+    year: "2025",
+  },
+  {
+    id: "robot-food",
+    title: "Robot Food",
+    category: "Branding",
+    description:
+      "Een onafhankelijk brandingbureau gespecialiseerd in food- en drankmerken. Strategie, verpakkingsontwerp en merkidentiteit.",
     techStack: ["Illustrator", "InDesign"],
     tools: ["Illustrator", "Photoshop", "InDesign"],
-    industry: "Beauty · DTC",
-    url: "https://nieuwewebsite-latenmaken.nl/work/verde",
-    screenshot: themed("skincare,botanical,packaging", 104),
-    accent: "#3D7A4E",
-    year: "2025",
-  },
-  {
-    id: "kairo-architects",
-    title: "Kairo Architects",
-    category: "Branding",
-    description:
-      "Een minimale architectuur-identiteit rond een aangepaste serif. Briefpapier, signing en een 48 pagina's tellende monografie.",
-    techStack: ["Illustrator", "InDesign", "Glyphs"],
-    tools: ["Illustrator", "InDesign", "Photoshop"],
-    industry: "Architectuur · Identiteit",
-    url: "https://nieuwewebsite-latenmaken.nl/work/kairo",
-    screenshot: themed("architecture,minimal,interior", 105),
-    accent: "#1A1A1A",
-    year: "2025",
-  },
-  {
-    id: "halcyon-press",
-    title: "Halcyon Press",
-    category: "Branding",
-    description:
-      "Identiteit en redactioneel systeem voor een onafhankelijke literaire uitgeverij. Coverserie, typografisch palet en beursmaterialen.",
-    techStack: ["InDesign", "Illustrator"],
-    tools: ["InDesign", "Illustrator", "Photoshop"],
-    industry: "Uitgeverij · Redactioneel",
-    url: "https://nieuwewebsite-latenmaken.nl/work/halcyon",
-    screenshot: themed("typography,book,letterpress", 106),
-    accent: "#A0522D",
+    industry: "Branding · Food & drank",
+    url: "https://www.robot-food.com",
+    screenshot: live("https://www.robot-food.com"),
+    accent: "#E8452A",
     year: "2025",
   },
 

@@ -111,23 +111,23 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   icons: {
     icon: [
-      { url: "/favicon/favicon.ico?v=5", sizes: "any" },
-      { url: "/favicon/favicon-16x16.png?v=5", type: "image/png", sizes: "16x16" },
-      { url: "/favicon/favicon-32x32.png?v=5", type: "image/png", sizes: "32x32" },
-      { url: "/favicon/favicon-48x48.png?v=5", type: "image/png", sizes: "48x48" },
-      { url: "/favicon/android-chrome-192x192.png?v=5", type: "image/png", sizes: "192x192" },
-      { url: "/favicon/android-chrome-512x512.png?v=5", type: "image/png", sizes: "512x512" },
+      { url: "/favicon/favicon.ico?v=6", sizes: "any" },
+      { url: "/favicon/favicon-16x16.png?v=6", type: "image/png", sizes: "16x16" },
+      { url: "/favicon/favicon-32x32.png?v=6", type: "image/png", sizes: "32x32" },
+      { url: "/favicon/favicon-48x48.png?v=6", type: "image/png", sizes: "48x48" },
+      { url: "/favicon/android-chrome-192x192.png?v=6", type: "image/png", sizes: "192x192" },
+      { url: "/favicon/android-chrome-512x512.png?v=6", type: "image/png", sizes: "512x512" },
     ],
-    shortcut: ["/favicon/favicon.ico?v=5"],
+    shortcut: ["/favicon/favicon.ico?v=6"],
     apple: [
-      { url: "/favicon/apple-touch-icon-152x152.png?v=5", type: "image/png", sizes: "152x152" },
-      { url: "/favicon/apple-touch-icon-167x167.png?v=5", type: "image/png", sizes: "167x167" },
-      { url: "/favicon/apple-touch-icon.png?v=5", type: "image/png", sizes: "180x180" },
+      { url: "/favicon/apple-touch-icon-152x152.png?v=6", type: "image/png", sizes: "152x152" },
+      { url: "/favicon/apple-touch-icon-167x167.png?v=6", type: "image/png", sizes: "167x167" },
+      { url: "/favicon/apple-touch-icon.png?v=6", type: "image/png", sizes: "180x180" },
     ],
   },
   other: {
     "msapplication-TileColor": SITE.themeColor,
-    "msapplication-TileImage": "/favicon/mstile-144x144.png?v=5",
+    "msapplication-TileImage": "/favicon/mstile-144x144.png?v=6",
     "msapplication-config": "/browserconfig.xml",
   },
   formatDetection: {
@@ -210,7 +210,7 @@ const ORGANIZATION_JSON_LD = {
 const SERVICE_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "@id": `${SITE_URL}/#service-nieuwe-website-laten-maken`,
+  "@id": `${SITE_URL}/#service-website-laten-maken`,
   name: SERVICE_NAME,
   serviceType: "Nieuwe website laten maken",
   provider: { "@id": `${SITE_URL}/#organization` },

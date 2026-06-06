@@ -27,7 +27,7 @@ export function Services() {
         </Reveal>
 
         <Reveal as="div" className="services-foot">
-          <Link href="/nieuwe-website-laten-maken" className="btn btn-ghost">
+          <Link href="/website-laten-maken" className="btn btn-ghost">
             Nieuwe website laten maken <span className="arr">→</span>
           </Link>
         </Reveal>

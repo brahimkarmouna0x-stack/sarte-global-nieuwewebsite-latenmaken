@@ -128,6 +128,20 @@ export function ServiceIcon({ name }: ServiceIconProps) {
           <circle cx="24" cy="32" r="2" />
         </svg>
       );
+    case "video":
+      return (
+        <svg {...common}>
+          <rect x="6" y="12" width="26" height="24" rx="3" />
+          <path d="M32 20l10-6v20l-10-6z" />
+          <path d="M14 22l8 4-8 4z" />
+        </svg>
+      );
+    case "wrench":
+      return (
+        <svg {...common}>
+          <path d="M34 8a8 8 0 00-9.8 10.5L8 34.7a3 3 0 104.3 4.3L28.5 23a8 8 0 0010.4-10l-5.3 5.3-4.9-1.3-1.3-4.9L34 8z" />
+        </svg>
+      );
     default:
       return null;
   }

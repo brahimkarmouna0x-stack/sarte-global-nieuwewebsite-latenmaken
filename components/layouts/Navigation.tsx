@@ -54,7 +54,7 @@ export function Navigation() {
           <Logo />
           <ul className="nav-links">
             {NAV_LINKS.map((link) => {
-              const isRoute = link.href.startsWith("/") && link.href !== "/";
+              const isRoute = link.href.startsWith("/");
               if (isRoute) {
                 const active = pathname === link.href;
                 return (

@@ -4,19 +4,30 @@ import { useMemo, useState } from "react";
 
 import type { Project, ProjectCategory, ProjectsGridProps } from "@/types";
 
-import { PROJECTS_SECTION, PROJECT_CATEGORIES } from "@/data/projects";
+import { PROJECTS_SECTION, PROJECT_CATEGORIES, CATEGORY_GROUPS } from "@/data/projects";
 
 import { ProjectCard } from "./project-card";
 import { ProjectsFilter } from "./projects-filter";
 
-const ALL_FILTER_CATEGORIES: readonly Exclude<ProjectCategory, "All">[] = [
-  "Landing Page",
-  "E-Commerce",
-  "WordPress",
-  "Shopify & Dropshipping",
-  "SaaS",
-  "Creative Studio",
-];
+// Child categories folded into a group parent — hidden as standalone chips.
+const GROUPED_CHILDREN = new Set<string>(
+  Object.values(CATEGORY_GROUPS).flatMap((children) =>
+    children.filter((child) => !(child in CATEGORY_GROUPS)),
+  ),
+);
+
+/**
+ * A chip matches a project when the project's category is in the chip's group,
+ * or equals the chip when it isn't a group parent. Keeps "E-Commerce" showing
+ * every online-store project while each project keeps its granular category.
+ */
+function filterMatches(
+  projectCategory: ProjectCategory,
+  active: ProjectCategory,
+): boolean {
+  const group = (CATEGORY_GROUPS as Record<string, readonly string[]>)[active];
+  return group ? group.includes(projectCategory) : projectCategory === active;
+}
 
 export function ProjectsGrid({
   projects,
@@ -26,16 +37,36 @@ export function ProjectsGrid({
   const [active, setActive] = useState<ProjectCategory>("All");
   const [visible, setVisible] = useState<number>(initialCount);
 
+  // Derived from the single source of truth (PROJECT_CATEGORIES), filtered to
+  // categories that actually have projects. No hardcoded list → the filter,
+  // the "All" sampler and the data stay in sync and auto-update when projects
+  // or categories are added.
+  const representativeCategories = useMemo(
+    () =>
+      PROJECT_CATEGORIES.filter(
+        (category): category is Exclude<ProjectCategory, "All"> =>
+          category !== "All" &&
+          !GROUPED_CHILDREN.has(category) &&
+          projects.some((project) => filterMatches(project.category, category)),
+      ),
+    [projects],
+  );
+
+  const filterCategories = useMemo<readonly ProjectCategory[]>(
+    () => ["All", ...representativeCategories],
+    [representativeCategories],
+  );
+
   const filtered = useMemo(() => {
     if (active === "All") {
-      return ALL_FILTER_CATEGORIES.reduce<Project[]>((acc, category) => {
-        const first = projects.find((project) => project.category === category);
+      return representativeCategories.reduce<Project[]>((acc, category) => {
+        const first = projects.find((project) => filterMatches(project.category, category));
         if (first) acc.push(first);
         return acc;
       }, []);
     }
-    return projects.filter((project) => project.category === active);
-  }, [projects, active]);
+    return projects.filter((project) => filterMatches(project.category, active));
+  }, [projects, active, representativeCategories]);
 
   const shown = filtered.slice(0, visible);
   const hasMore = visible < filtered.length;
@@ -56,7 +87,7 @@ export function ProjectsGrid({
   return (
     <>
       <ProjectsFilter
-        categories={PROJECT_CATEGORIES}
+        categories={filterCategories}
         active={active}
         onChange={handleFilterChange}
       />
