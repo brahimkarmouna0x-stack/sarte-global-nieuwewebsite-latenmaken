@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "eslint . --config eslint.config.mjs",
     "typecheck": "tsc --noEmit",
-    "clear-cache": "powershell -Command \"if(Test-Path '.next'){Remove-Item -LiteralPath '.next' -Recurse -Force -ErrorAction SilentlyContinue}; Write-Output 'Next.js cache cleared'\"",
-    "postinstall": "node -e \"console.log('\\n  ╔══════════════════════════════════════════════════╗'); console.log('  ║  To update the site logo:                      ║'); console.log('  ║  1. Replace public/images/logo-site.png        ║'); console.log('  ║  2. Bump LOGO_VERSION in components/shared/Logo.tsx ║'); console.log('  ║  3. Run: npm run clear-cache                   ║'); console.log('  ║  4. Restart dev server                         ║'); console.log('  ╚══════════════════════════════════════════════════╝\\n\");"
+    "clear-cache": "node -e \"const{rmSync,existsSync}=require('fs');const p='.next';if(existsSync(p)){rmSync(p,{recursive:true,force:true})}console.log('Next.js cache cleared')\"",
+    "postinstall": "node scripts/logo-message.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.18.2",
