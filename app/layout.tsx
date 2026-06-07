@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Playfair_Display } from "next/font/google";
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 
@@ -10,6 +9,7 @@ import { Navigation } from "@/components/layouts/Navigation";
 import { ArticleDialogProvider } from "@/contexts/ArticleDialogContext";
 import { ContactDialogProvider } from "@/contexts/ContactDialogContext";
 import { SITE } from "@/constants";
+import { dmSans, playfair } from "@/lib/fonts";
 
 import "./globals.css";
 
@@ -20,23 +20,6 @@ const ContactDialog = dynamic(
 const ArticleDialog = dynamic(
   () => import("@/components/journal/ArticleDialog").then((m) => m.ArticleDialog),
 );
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  weight: ["400", "600", "700", "800"],
-  style: ["normal", "italic"],
-  display: "swap",
-  preload: true,
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-dm-sans",
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  preload: true,
-});
 
 const SITE_URL = SITE.url;
 const SITE_NAME = SITE.name;
