@@ -36,14 +36,27 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
 
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const filterScrollRef = useRef<HTMLDivElement>(null);
+  const hasMountedRef = useRef(false);
   const active = services[activeIndex] ?? services[0];
 
-  // Keep the active tab centered when navigating on mobile (horizontal scroll).
+  // Center the active filter chip inside its own horizontal strip. We skip the
+  // first render and only scroll the strip itself (never the page) — otherwise
+  // mounting this below-the-fold section would auto-jump the page to it on load.
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    tabRefs.current[activeIndex]?.scrollIntoView({
-      inline: "center",
-      block: "nearest",
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
+    const strip = filterScrollRef.current;
+    const tab = tabRefs.current[activeIndex];
+    if (!strip || !tab) return;
+    const stripRect = strip.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    const delta =
+      tabRect.left + tabRect.width / 2 - (stripRect.left + stripRect.width / 2);
+    strip.scrollTo({
+      left: strip.scrollLeft + delta,
       behavior: reduced ? "auto" : "smooth",
     });
   }, [activeIndex, reduced]);
@@ -117,7 +130,10 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
 
         {/* ── Service Filter: Premium segmented control ── */}
         <Reveal as="div">
-          <div className="mx-auto mb-7 max-w-full overflow-x-auto px-4 pb-1 mask-[linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] scrollbar-none [-webkit-overflow-scrolling:touch] sm:mb-9 sm:overflow-visible sm:px-0 sm:mask-none [&::-webkit-scrollbar]:hidden">
+          <div
+            ref={filterScrollRef}
+            className="mx-auto mb-7 max-w-full overflow-x-auto px-4 pb-1 mask-[linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] scrollbar-none [-webkit-overflow-scrolling:touch] sm:mb-9 sm:overflow-visible sm:px-0 sm:mask-none [&::-webkit-scrollbar]:hidden"
+          >
             <div
               className="relative mx-auto flex w-max gap-1 rounded-full border border-(--color-border) bg-(--color-surface-2)/70 p-1 shadow-[inset_0_1px_0_rgba(245,240,232,0.04),0_8px_30px_-12px_rgba(0,0,0,0.7)] backdrop-blur-md sm:w-fit"
               role="tablist"
@@ -187,13 +203,8 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
                 {active.headline}
               </p>
 
-              {/* Cards grid — mobile: carousel with snap, desktop: 3-col grid */}
-              <div
-                className={
-                  "flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:items-stretch sm:gap-5 sm:overflow-visible sm:pb-0 " +
-                  "[-webkit-overflow-scrolling:touch]"
-                }
-              >
+              {/* Cards — mobile: 1 per row (vertical stack), desktop: 3-col grid */}
+              <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-3 sm:gap-5">
                 {active.tiers.map((tier, index) => (
                   <motion.div
                     key={tier.id}
@@ -202,7 +213,7 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
                     initial="hidden"
                     animate="show"
                     className={
-                      "min-w-[82%] shrink-0 snap-center sm:min-w-0 sm:h-full " +
+                      "w-full sm:h-full " +
                       (tier.highlighted ? "sm:z-10" : "")
                     }
                   >
