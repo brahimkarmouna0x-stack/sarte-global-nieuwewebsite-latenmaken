@@ -147,16 +147,24 @@ function FeatureMock({ feature }: { feature: LandingFeatureItem }) {
 function MobileMock() {
   return (
     <div className="wlm-mk wlm-mk--mobile">
-      <div className="wlm-mk__phone">
+      <div className="wlm-mk__device wlm-mk__device--desktop">
+        <span className="wlm-mk__bar" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </span>
+        <div className="wlm-mk__screen">
+          <span className="wlm-mk__line wlm-mk__line--img" />
+          <span className="wlm-mk__line wlm-mk__line--lg" />
+          <span className="wlm-mk__line wlm-mk__line--md" />
+          <span className="wlm-mk__btn" />
+        </div>
+      </div>
+      <div className="wlm-mk__device wlm-mk__device--phone">
         <span className="wlm-mk__notch" />
         <span className="wlm-mk__line wlm-mk__line--img" />
         <span className="wlm-mk__line wlm-mk__line--lg" />
-        <span className="wlm-mk__line wlm-mk__line--md" />
         <span className="wlm-mk__btn" />
-      </div>
-      <div className="wlm-mk__phone wlm-mk__phone--ghost">
-        <span className="wlm-mk__line wlm-mk__line--img" />
-        <span className="wlm-mk__line wlm-mk__line--md" />
       </div>
     </div>
   );
@@ -170,7 +178,10 @@ function SeoMock() {
       <span className="wlm-mk__seo-title" />
       <span className="wlm-mk__seo-meta" />
       <span className="wlm-mk__seo-meta wlm-mk__seo-meta--short" />
-      <div className="wlm-mk__seo-ghost">
+      <div className="wlm-mk__seo-trend" aria-hidden="true">
+        <span />
+        <span />
+        <span />
         <span />
         <span />
       </div>
@@ -186,9 +197,18 @@ function SpeedMock() {
         <span className="wlm-mk__gauge-center">0,8s</span>
       </div>
       <div className="wlm-mk__vitals">
-        <span className="wlm-mk__vital is-good" />
-        <span className="wlm-mk__vital is-good" />
-        <span className="wlm-mk__vital is-good" />
+        <span className="wlm-mk__vital">
+          <i className="is-good" />
+          <b>LCP</b>
+        </span>
+        <span className="wlm-mk__vital">
+          <i className="is-good" />
+          <b>CLS</b>
+        </span>
+        <span className="wlm-mk__vital">
+          <i className="is-good" />
+          <b>INP</b>
+        </span>
       </div>
     </div>
   );
@@ -224,9 +244,18 @@ function SecureMock() {
 function ConvertMock() {
   return (
     <div className="wlm-mk wlm-mk--convert">
-      <span className="wlm-mk__funnel wlm-mk__funnel--1">Bezoekers</span>
-      <span className="wlm-mk__funnel wlm-mk__funnel--2">Interesse</span>
-      <span className="wlm-mk__funnel wlm-mk__funnel--3">Klant</span>
+      <span className="wlm-mk__funnel wlm-mk__funnel--1">
+        <b>Bezoekers</b>
+        <i>100%</i>
+      </span>
+      <span className="wlm-mk__funnel wlm-mk__funnel--2">
+        <b>Interesse</b>
+        <i>74%</i>
+      </span>
+      <span className="wlm-mk__funnel wlm-mk__funnel--3">
+        <b>Klant</b>
+        <i>41%</i>
+      </span>
     </div>
   );
 }

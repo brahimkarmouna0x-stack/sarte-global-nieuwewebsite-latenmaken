@@ -70,5 +70,20 @@ export const NEW_WEBSITE_WHY = {
       description:
         "Een verzorgde, betrouwbare bedrijfswebsite die het juiste eerste beeld neerzet bij iedere bezoeker.",
     },
+    {
+      title: "Lokale SEO & Google Maps",
+      description:
+        "Optimalisatie voor jouw regio en een sterk Google Bedrijfsprofiel, zodat klanten uit de buurt je als eerste vinden.",
+    },
+    {
+      title: "Meetbare resultaten",
+      description:
+        "Heldere rapportage met Google Analytics en Search Console, zodat je precies ziet wat je website oplevert.",
+    },
+    {
+      title: "Doorlopend onderhoud & support",
+      description:
+        "Updates, back-ups en persoonlijke ondersteuning na de oplevering — je website blijft veilig, snel en up-to-date.",
+    },
   ],
 } as const;

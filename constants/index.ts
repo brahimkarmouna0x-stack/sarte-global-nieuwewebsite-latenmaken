@@ -26,6 +26,7 @@ export const TRUST_LINE =
 export const NAV_LINKS = [
   { label: "Nieuwe website", href: "/" },
   { label: "Diensten", href: "#services" },
+  { label: "Pakketten", href: "#pakketten" },
   { label: "Website laten maken", href: "/website-laten-maken" },
   { label: "Werk", href: "#work" },
   { label: "Proces", href: "#process" },

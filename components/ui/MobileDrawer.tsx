@@ -6,6 +6,7 @@ import type { MouseEvent } from "react";
 
 import { NAV_CTA, NAV_LINKS, SITE } from "@/constants";
 
+import { Logo } from "../shared/Logo";
 import { CTAButton } from "./CTAButton";
 
 export interface MobileDrawerProps {
@@ -48,12 +49,9 @@ export function MobileDrawer({
         aria-hidden={!isOpen}
       >
         <div className="drawer-head">
-          <span className="brand">
-            {SITE.brandName}
-            <span>{SITE.brandAccent}</span>
-          </span>
+          <Logo />
           <button
-            className="hamburger"
+            className="hamburger drawer-close"
             aria-label="Menu sluiten"
             onClick={onClose}
             type="button"
@@ -99,6 +97,12 @@ export function MobileDrawer({
           variant="primary"
           onClick={onClose}
         />
+        <div className="drawer-foot">
+          <span className="drawer-foot__eyebrow">Direct contact</span>
+          <a className="drawer-foot__link" href={`mailto:${SITE.email}`}>
+            {SITE.email}
+          </a>
+        </div>
       </aside>
     </>
   );
