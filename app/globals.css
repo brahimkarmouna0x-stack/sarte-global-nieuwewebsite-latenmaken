@@ -375,6 +375,19 @@ html {
   scroll-padding-top: 96px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Contain horizontal overflow at the viewport boundary. `clip` (not `hidden`)
+     so the root never becomes a scroll container — keeps scroll-behavior,
+     scroll-padding-top and position: sticky working. This also clips fixed/
+     absolute descendants (e.g. the off-canvas mobile drawer parked off-screen
+     right) that body's overflow-x can't contain. */
+  overflow-x: clip;
+}
+
+/* Legacy fallback: Safari < 16 lacks `overflow: clip`. */
+@supports not (overflow: clip) {
+  html {
+    overflow-x: hidden;
+  }
 }
 
 @media (max-width: 768px) {
@@ -390,7 +403,7 @@ body {
   font-family: var(--font-body);
   font-size: 17px;
   line-height: 1.65;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::selection {
@@ -692,7 +705,11 @@ section {
   border-left: 1px solid var(--color-border);
   z-index: 60;
   transform: translateX(105%);
-  transition: transform 0.45s var(--ease);
+  /* Inert + unfocusable while closed: prevents the off-screen panel from
+     contributing to layout/scroll width and stops its links from being
+     keyboard-focusable (aria-hidden alone does not remove tab order). */
+  visibility: hidden;
+  transition: transform 0.45s var(--ease), visibility 0.45s var(--ease);
   display: flex;
   flex-direction: column;
   padding: 22px 24px calc(24px + env(safe-area-inset-bottom));
@@ -701,6 +718,7 @@ section {
 
 .drawer.is-open {
   transform: translateX(0);
+  visibility: visible;
 }
 
 .drawer-head {
