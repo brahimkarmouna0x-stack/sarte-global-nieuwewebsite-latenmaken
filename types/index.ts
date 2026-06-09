@@ -313,20 +313,91 @@ export interface ServiceCardProps {
 }
 
 export type LocalBusinessIconName =
-  | "scissors"
-  | "sparkle"
-  | "hanger"
-  | "croissant"
-  | "cup"
-  | "basket"
-  | "cross"
-  | "dumbbell"
-  | "flower"
-  | "wrench";
+  // Auto
+  | "carWash"
+  | "autoRepair"
+  | "carDetailing"
+  | "autoDealer"
+  | "drivingSchool"
+  | "tireService"
+  // Vastgoed
+  | "realEstate"
+  | "propertyManagement"
+  | "rentalAgency"
+  | "commercialProperty"
+  | "mortgageAdvisor"
+  | "homeInspector"
+  // Horeca & food
+  | "restaurant"
+  | "coffeeBar"
+  | "bakery"
+  | "fastFood"
+  | "catering"
+  | "iceCreamShop"
+  // Beauty & wellness
+  | "hairSalon"
+  | "barbershop"
+  | "beautySalon"
+  | "spa"
+  | "nailSalon"
+  | "pedicure"
+  // Zakelijke diensten
+  | "lawyer"
+  | "accountant"
+  | "consultant"
+  | "insurance"
+  | "notary"
+  | "marketingAgency"
+  // Huis & klus
+  | "plumber"
+  | "electrician"
+  | "cleaningService"
+  | "pestControl"
+  | "landscaping"
+  | "painter"
+  | "construction"
+  // Retail
+  | "clothingStore"
+  | "mensFashion"
+  | "electronicsStore"
+  | "furnitureStore"
+  | "supermarket"
+  | "jewelry"
+  | "flowerShop"
+  // Fitness
+  | "gym"
+  | "yogaStudio"
+  | "personalTrainer"
+  | "danceStudio"
+  | "martialArts"
+  | "crossfitBox"
+  // Onderwijs
+  | "school"
+  | "languageCenter"
+  | "trainingCenter"
+  | "musicSchool"
+  | "tutoring"
+  | "cookingStudio"
+  // Zorg
+  | "clinic"
+  | "pharmacy"
+  | "physiotherapy"
+  | "veterinary"
+  | "dentist"
+  | "psychologist"
+  // Overig
+  | "photographer"
+  | "travelAgency"
+  | "petStore"
+  | "childcare"
+  | "tattooStudio"
+  | "eventPlanner";
 
 export interface LocalBusiness {
   readonly slug: string;
   readonly icon: LocalBusinessIconName;
+  /** Dutch group label used by the group-filter chips (e.g. "Auto", "Zorg"). */
+  readonly group: string;
   readonly title: string;
   readonly description: string;
   readonly badge?: string;
@@ -334,6 +405,8 @@ export interface LocalBusiness {
   readonly projectType: string;
   readonly image: string;
   readonly imageAlt: string;
+  /** Extra search terms — include English synonyms so e.g. "dentist" finds "Tandartspraktijk". */
+  readonly keywords?: readonly string[];
 }
 
 export interface LocalBusinessesSectionContent {
@@ -343,6 +416,19 @@ export interface LocalBusinessesSectionContent {
   readonly sub: string;
   readonly loadMoreLabel: string;
   readonly loadLessLabel: string;
+  /** Search + filter UI copy. */
+  readonly searchPlaceholder: string;
+  readonly searchAriaLabel: string;
+  readonly clearSearchLabel: string;
+  readonly allGroupsLabel: string;
+  readonly filterAriaLabel: string;
+  /** Result count: use {count} as the placeholder for the number. */
+  readonly resultsLabel: string;
+  readonly emptyTitle: string;
+  /** Empty-state body: use {query} as the placeholder for the search term. */
+  readonly emptyBody: string;
+  readonly emptyCtaLabel: string;
+  readonly emptyCtaProjectType: string;
 }
 
 export interface LocalBusinessCardProps {

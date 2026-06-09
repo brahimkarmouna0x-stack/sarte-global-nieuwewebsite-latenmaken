@@ -67,7 +67,7 @@ export function AboutCompany() {
               <div className="about-company__media-caption">
                 <span className="about-company__media-name">{ABOUT_COMPANY.brand}</span>
                 <span className="about-company__media-tag">{ABOUT_COMPANY.mediaCaption}</span>
-                <span className="about-company__media-est">Gevestigd in Nederland</span>
+                <span className="about-company__media-est">30 N Gould St Ste R</span>
               </div>
             </Reveal>
           </div>

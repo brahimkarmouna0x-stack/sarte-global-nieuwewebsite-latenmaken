@@ -18,8 +18,8 @@ export const CONTACT_CHANNELS: readonly ContactChannel[] = [
   {
     icon: "mail",
     label: "E-mail",
-    value: "info@nieuwewebsite-latenmaken.nl",
-    href: "mailto:info@nieuwewebsite-latenmaken.nl",
+    value: "info@sarteglobal.com",
+    href: "mailto:info@sarteglobal.com",
     note: "Het beste voor offertes en uitgebreide briefings.",
   },
   {

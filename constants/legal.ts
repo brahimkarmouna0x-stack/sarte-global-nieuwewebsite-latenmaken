@@ -4,7 +4,7 @@
 
 import type { LegalDocument } from "@/types";
 
-const CONTACT_EMAIL = "info@nieuwewebsite-latenmaken.nl";
+const CONTACT_EMAIL = "info@sarteglobal.com";
 const LAST_UPDATED = "26 mei 2026";
 const BRAND = "Sarte Global";
 const SERVICE_DOMAIN = "nieuwewebsite-latenmaken.nl";

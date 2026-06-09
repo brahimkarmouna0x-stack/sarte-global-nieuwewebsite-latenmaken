@@ -40,16 +40,16 @@ export function Footer() {
                 </svg>
                 <div className="flex flex-col">
                   <span className="font-medium text-(--color-text) transition-colors duration-300">
-                    Gevestigd in Nederland
+                    30 N Gould St Ste R
                   </span>
                   <span className="text-xs text-(--color-text-muted)">
-                    Nederland · Bezoek alleen op afspraak
+                    Sheridan, WY 82801, United States
                   </span>
                 </div>
               </div>
 
               <a
-                href="mailto:info@nieuwewebsite-latenmaken.nl"
+                href="mailto:info@sarteglobal.com"
                 className="flex items-center gap-3 group w-fit transition-colors duration-300 hover:text-(--color-accent)"
                 aria-label="Stuur ons een e-mail"
               >
@@ -67,7 +67,7 @@ export function Footer() {
                   <path d="m22 6-10 7L2 6" />
                 </svg>
                 <span className="font-medium text-(--color-text) group-hover:text-(--color-accent) transition-colors duration-300">
-                  info@nieuwewebsite-latenmaken.nl
+                  info@sarteglobal.com
                 </span>
               </a>
             </div>

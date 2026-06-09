@@ -11,10 +11,12 @@ import {
 
 import { PRICING_ORDER, PRICING_SECTION, getServicePricing } from "@/constants";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useScrollHint } from "@/hooks/useScrollHint";
 import type { PricingSectionProps } from "@/types";
 
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
+import { ScrollHintNav } from "../ui/ScrollHintNav";
 import { ServiceIcon } from "../ui/ServiceIcon";
 import { PricingCard } from "./PricingCard";
 import { PricingComparison } from "./PricingComparison";
@@ -39,6 +41,7 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
   const filterScrollRef = useRef<HTMLDivElement>(null);
   const hasMountedRef = useRef(false);
   const active = services[activeIndex] ?? services[0];
+  const { canLeft, canRight, scrollByDir } = useScrollHint(filterScrollRef);
 
   // Center the active filter chip inside its own horizontal strip. We skip the
   // first render and only scroll the strip itself (never the page) — otherwise
@@ -131,9 +134,21 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
         {/* ── Service Filter: Premium segmented control ── */}
         <Reveal as="div">
           <div
-            ref={filterScrollRef}
-            className="mx-auto mb-7 max-w-full overflow-x-auto px-4 pb-1 mask-[linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] scrollbar-none [-webkit-overflow-scrolling:touch] sm:mb-9 sm:overflow-visible sm:px-0 sm:mask-none [&::-webkit-scrollbar]:hidden"
+            className="filter-scroller mx-auto mb-7 max-w-full sm:mb-9"
+            data-can-left={canLeft}
+            data-can-right={canRight}
           >
+            <ScrollHintNav
+              className="sm:hidden"
+              canLeft={canLeft}
+              canRight={canRight}
+              onLeft={() => scrollByDir(-1)}
+              onRight={() => scrollByDir(1)}
+            />
+            <div
+              ref={filterScrollRef}
+              className="snap-x snap-proximity overflow-x-auto px-4 pb-1 mask-[linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] scrollbar-none [-webkit-overflow-scrolling:touch] sm:overflow-visible sm:px-0 sm:mask-none [&::-webkit-scrollbar]:hidden"
+            >
             <div
               className="relative mx-auto flex w-max gap-1 rounded-full border border-(--color-border) bg-(--color-surface-2)/70 p-1 shadow-[inset_0_1px_0_rgba(245,240,232,0.04),0_8px_30px_-12px_rgba(0,0,0,0.7)] backdrop-blur-md sm:w-fit"
               role="tablist"
@@ -156,7 +171,7 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
                     tabIndex={isActive ? 0 : -1}
                     whileTap={reduced ? undefined : { scale: 0.97 }}
                     className={
-                      "relative z-10 inline-flex min-h-[40px] items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-[13px] font-medium leading-none transition-colors duration-200 [&_svg]:h-[15px] [&_svg]:w-[15px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent) " +
+                      "snap-start relative z-10 inline-flex min-h-[40px] items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-[13px] font-medium leading-none transition-colors duration-200 [&_svg]:h-[15px] [&_svg]:w-[15px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-accent) " +
                       (isActive
                         ? "text-(--color-text-on-accent) font-semibold"
                         : "text-(--color-text-secondary) hover:text-(--color-text)")
@@ -180,6 +195,7 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
                   </motion.button>
                 );
               })}
+              </div>
             </div>
           </div>
         </Reveal>

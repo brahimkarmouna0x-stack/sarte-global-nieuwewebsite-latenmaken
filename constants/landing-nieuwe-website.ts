@@ -35,7 +35,7 @@ export const LANDING_HERO = {
     "150+ websites opgeleverd",
     "98% tevreden klanten",
     "Binnen 2 weken online",
-    "Gevestigd in Nederland",
+    "30 N Gould St Ste R",
   ],
   benefits: [
     "Modern & responsive design",
@@ -266,7 +266,7 @@ export const LANDING_WHY = {
     image: "/images/company-img.png",
     alt: "Het team van Sarte Global aan het werk in de studio.",
     caption: "Sarte Global · studio",
-    tag: "Gevestigd in Nederland",
+    tag: "30 N Gould St Ste R",
   },
   proof: [
     "Senior designers & developers",

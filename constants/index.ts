@@ -15,7 +15,7 @@ export const SITE = {
   brandAccent: ".",
   url: "https://nieuwewebsite-latenmaken.nl",
   name: "Sarte Global",
-  email: "info@nieuwewebsite-latenmaken.nl",
+  email: "info@sarteglobal.com",
   // TODO: vervang door definitief Nederlands telefoonnummer
   phone: "+31 00 000 0000",
 } as const satisfies SiteMeta;
@@ -28,7 +28,6 @@ export const NAV_LINKS = [
   { label: "Diensten", href: "#services" },
   { label: "Pakketten", href: "#pakketten" },
   { label: "Website laten maken", href: "/website-laten-maken" },
-  { label: "Werk", href: "#work" },
   { label: "Proces", href: "#process" },
   { label: "Over ons", href: "#about" },
   { label: "Journal", href: "#journal" },
@@ -80,7 +79,7 @@ export const CTA_SECTION = {
   titleEm: "vandaag starten.",
   sub: "Plan een gratis kennismaking van 30 minuten — geen verplichtingen, gewoon een open gesprek over jouw website en doelen.",
   ctaLabel: "Neem contact op",
-  ctaHref: "mailto:info@nieuwewebsite-latenmaken.nl",
+  ctaHref: "mailto:info@sarteglobal.com",
 } as const;
 
 export const FOOTER_MISSION =
@@ -121,7 +120,7 @@ export const NEWSLETTER = {
 } as const;
 
 export const FOOTER_LEGAL = {
-  copyright: "© 2025 Sarte Global",
+  copyright: `© ${new Date().getFullYear()} Sarte Global`,
   links: [
     { label: "Privacy", href: "/privacy" },
     { label: "Voorwaarden", href: "/terms" },

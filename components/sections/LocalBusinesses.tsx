@@ -1,7 +1,7 @@
 import { LOCAL_BUSINESSES, LOCAL_BUSINESSES_SECTION } from "@/constants";
 
 import { Container } from "../ui/Container";
-import { LocalBusinessesGrid } from "../ui/LocalBusinessesGrid";
+import { LocalBusinessesBrowser } from "../ui/LocalBusinessesBrowser";
 import { Reveal } from "../ui/Reveal";
 
 export function LocalBusinesses() {
@@ -24,7 +24,7 @@ export function LocalBusinesses() {
           <p className="sub">{LOCAL_BUSINESSES_SECTION.sub}</p>
         </Reveal>
 
-        <LocalBusinessesGrid businesses={LOCAL_BUSINESSES} />
+        <LocalBusinessesBrowser businesses={LOCAL_BUSINESSES} />
       </Container>
     </section>
   );
