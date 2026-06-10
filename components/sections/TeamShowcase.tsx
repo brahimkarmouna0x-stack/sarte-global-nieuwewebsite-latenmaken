@@ -45,8 +45,14 @@ export function TeamShowcase() {
       id="team"
       className="team-showcase"
       aria-labelledby="team-h"
-      onMouseEnter={showcase.pause}
-      onMouseLeave={showcase.resume}
+      // Pointer events unify mouse + touch + pen. On touch, pointerenter fires as
+      // the finger lands (pausing the auto-rotation) and pointerleave when it
+      // lifts, so the card — and its social links / CTAs — stays put for the whole
+      // tap instead of rotating away mid-press. Keyboard focus pauses it too.
+      onPointerEnter={showcase.pause}
+      onPointerLeave={showcase.resume}
+      onFocusCapture={showcase.pause}
+      onBlurCapture={showcase.resume}
     >
       <div className="ts-stages" aria-hidden="true">
         {TEAM_MEMBERS.map((member, index) => (
@@ -76,19 +82,21 @@ export function TeamShowcase() {
             </h2>
             <p className="ts-role">{current.role}</p>
             <p className="ts-bio">{current.bio}</p>
-            <div className="ts-socials">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.icon}
-                  href={social.href}
-                  aria-label={social.label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <SocialIcon icon={social.icon} />
-                </a>
-              ))}
-            </div>
+            {socialLinks.length > 0 ? (
+              <div className="ts-socials">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.icon}
+                    href={social.href}
+                    aria-label={social.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <SocialIcon icon={social.icon} />
+                  </a>
+                ))}
+              </div>
+            ) : null}
           </div>
 
           <div className="ts-ctas">

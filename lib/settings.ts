@@ -1,6 +1,6 @@
 import "server-only";
 
-import { FOOTER_MISSION, SITE, SOCIAL_LINKS } from "@/constants";
+import { FOOTER_MISSION, SITE } from "@/constants";
 import { WHATSAPP_NUMBER } from "@/constants/contact";
 import type { SettingsRecord, SiteSettings, SocialLink } from "@/types";
 
@@ -27,7 +27,10 @@ const FALLBACK: SiteSettings = {
     country: "United States",
   },
   footerMission: FOOTER_MISSION,
-  socialLinks: SOCIAL_LINKS,
+  // No social fallback on purpose: social icons appear only when the client sets
+  // a real URL in PocketBase. Otherwise blank placeholders would render and link
+  // back to the site itself.
+  socialLinks: [],
 };
 
 /** Returns the trimmed value when it has content, otherwise the fallback. */
@@ -38,8 +41,8 @@ function withFallback(value: string | undefined, fallback: string): string {
 
 /**
  * Builds the social-links list from the record's URL fields, keeping only the
- * ones that are actually set. Falls back to the SOCIAL_LINKS constant when none
- * are configured yet.
+ * ones the client has actually set in PocketBase. Returns an empty list when
+ * none are configured, so no placeholder icons are rendered.
  */
 function buildSocialLinks(record: SettingsRecord): readonly SocialLink[] {
   const candidates: readonly { url?: string; icon: SocialLink["icon"]; label: string }[] = [
@@ -54,7 +57,7 @@ function buildSocialLinks(record: SettingsRecord): readonly SocialLink[] {
     .filter((c): c is typeof c & { url: string } => Boolean(c.url?.trim()))
     .map(({ label, url, icon }) => ({ label, href: url.trim(), icon }));
 
-  return links.length > 0 ? links : FALLBACK.socialLinks;
+  return links;
 }
 
 /** Maps a raw PocketBase record to the clean app-facing shape, applying per-field fallbacks. */

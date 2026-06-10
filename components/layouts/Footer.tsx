@@ -141,19 +141,21 @@ export async function Footer() {
               </a>
             ))}
           </div>
-          <div className="socials" aria-label="Social media">
-            {settings.socialLinks.map((social) => (
-              <a
-                key={social.icon}
-                href={social.href}
-                aria-label={social.label}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <SocialIcon icon={social.icon} />
-              </a>
-            ))}
-          </div>
+          {settings.socialLinks.length > 0 ? (
+            <div className="socials" aria-label="Social media">
+              {settings.socialLinks.map((social) => (
+                <a
+                  key={social.icon}
+                  href={social.href}
+                  aria-label={social.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <SocialIcon icon={social.icon} />
+                </a>
+              ))}
+            </div>
+          ) : null}
         </div>
       </Container>
     </footer>
