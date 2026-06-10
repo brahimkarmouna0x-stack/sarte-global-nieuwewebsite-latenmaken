@@ -51,7 +51,7 @@ export function Navigation() {
         aria-label="Hoofdnavigatie"
       >
         <Container className="nav-inner">
-          <Logo />
+          <Logo onClick={(event) => handleHashClick(event, "#hero")} />
           <ul className="nav-links">
             {NAV_LINKS.map((link) => {
               const isRoute = link.href.startsWith("/");

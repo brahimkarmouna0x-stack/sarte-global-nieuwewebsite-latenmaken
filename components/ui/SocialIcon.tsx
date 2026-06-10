@@ -45,6 +45,12 @@ export function SocialIcon({ icon }: SocialIconProps) {
           <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
         </svg>
       );
+    case "facebook":
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M14 9h3V5.5h-3c-2.2 0-3.5 1.5-3.5 3.7V11H8v3.5h2.5V22H14v-7.5h2.6l.4-3.5H14V9.7c0-.5.3-.7.8-.7H14z" />
+        </svg>
+      );
     default:
       return null;
   }

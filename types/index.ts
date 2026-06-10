@@ -278,10 +278,54 @@ export interface FooterColumn {
   readonly links: readonly FooterLink[];
 }
 
+export type SocialIconName =
+  | "linkedin"
+  | "x"
+  | "dribbble"
+  | "instagram"
+  | "facebook";
+
 export interface SocialLink {
   readonly label: string;
   readonly href: string;
-  readonly icon: "linkedin" | "x" | "dribbble" | "instagram";
+  readonly icon: SocialIconName;
+}
+
+/**
+ * Raw `settings` record as returned by PocketBase (single "global" singleton).
+ * Every editable field is optional so a partial record still maps cleanly.
+ */
+export interface SettingsRecord {
+  readonly id: string;
+  readonly key: string;
+  readonly phone?: string;
+  readonly email?: string;
+  readonly whatsapp?: string;
+  readonly address_line?: string;
+  readonly address_city?: string;
+  readonly address_country?: string;
+  readonly instagram_url?: string;
+  readonly facebook_url?: string;
+  readonly linkedin_url?: string;
+  readonly x_url?: string;
+  readonly dribbble_url?: string;
+  readonly footer_mission?: string;
+  readonly created: string;
+  readonly updated: string;
+}
+
+/** Clean, app-facing settings shape (post-mapping, with fallbacks applied). */
+export interface SiteSettings {
+  readonly phone: string;
+  readonly email: string;
+  readonly whatsapp: string;
+  readonly address: {
+    readonly line: string;
+    readonly city: string;
+    readonly country: string;
+  };
+  readonly footerMission: string;
+  readonly socialLinks: readonly SocialLink[];
 }
 
 export interface SiteMeta {

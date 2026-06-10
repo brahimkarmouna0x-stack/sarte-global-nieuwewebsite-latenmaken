@@ -1,7 +1,7 @@
 import { SITE } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactElement } from "react";
+import type { MouseEvent, ReactElement } from "react";
 
 /**
  * Bump this version when the logo image file is replaced.
@@ -10,12 +10,21 @@ import type { ReactElement } from "react";
  */
 const LOGO_VERSION = 1;
 
-export function Logo(): ReactElement {
+export interface LogoProps {
+    /**
+     * Optional click handler. Lets the navbar/mobile drawer close menus and
+     * smooth-scroll to the hero when the user is already on the home page.
+     */
+    readonly onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+}
+
+export function Logo({ onClick }: LogoProps = {}): ReactElement {
     return (
         <Link
-            href="/"
+            href="/#hero"
             className="brand"
             aria-label={`${SITE.brandName} home`}
+            onClick={onClick}
         >
             <Image
                 src={`/images/logo-site.png?v=${LOGO_VERSION}`}

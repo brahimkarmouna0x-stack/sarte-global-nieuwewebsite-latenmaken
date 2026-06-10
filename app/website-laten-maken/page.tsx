@@ -6,7 +6,6 @@ import { LandingFinalCTA } from "@/components/landing/LandingFinalCTA";
 import { LandingFeaturesSlider } from "@/components/landing/LandingFeaturesSlider";
 import { LandingHero } from "@/components/landing/LandingHero";
 import { LandingIndustries } from "@/components/landing/LandingIndustries";
-import { LandingInspiration } from "@/components/landing/LandingInspiration";
 import { LandingProcess } from "@/components/landing/LandingProcess";
 import { LandingTestimonials } from "@/components/landing/LandingTestimonials";
 import { LandingTrustStats } from "@/components/landing/LandingTrustStats";

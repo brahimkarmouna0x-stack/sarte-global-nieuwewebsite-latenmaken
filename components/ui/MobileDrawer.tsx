@@ -49,7 +49,7 @@ export function MobileDrawer({
         aria-hidden={!isOpen}
       >
         <div className="drawer-head">
-          <Logo />
+          <Logo onClick={(event) => handleHashClick(event, "#hero")} />
           <button
             className="hamburger drawer-close"
             aria-label="Menu sluiten"

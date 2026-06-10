@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import { DIALOG_COPY, PROJECT_TYPES, getMessageStarter } from "@/constants/contact";
+import { useSiteSettings } from "@/contexts/SettingsContext";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
@@ -32,6 +33,7 @@ export function ContactForm({
   onComplete,
   autoFocus = true,
 }: ContactFormProps) {
+  const { whatsapp } = useSiteSettings();
   const initialStarter = getMessageStarter(initialProjectType);
   const [state, setState] = useState<FormState>({
     name: "",
@@ -105,12 +107,15 @@ export function ContactForm({
     }
 
     setSubmitting(true);
-    const url = buildWhatsAppUrl({
-      name: state.name,
-      email: state.email,
-      projectType: state.projectType,
-      message: state.message,
-    });
+    const url = buildWhatsAppUrl(
+      {
+        name: state.name,
+        email: state.email,
+        projectType: state.projectType,
+        message: state.message,
+      },
+      whatsapp,
+    );
 
     window.setTimeout(() => {
       window.open(url, "_blank", "noopener,noreferrer");

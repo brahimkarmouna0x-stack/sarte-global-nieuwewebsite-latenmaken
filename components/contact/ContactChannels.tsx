@@ -64,7 +64,12 @@ function ChannelIcon({ icon }: { icon: ContactChannel["icon"] }) {
   }
 }
 
-export function ContactChannels() {
+interface ContactChannelsProps {
+  /** Defaults to the static constant; the contact page passes channels merged with live settings. */
+  readonly channels?: readonly ContactChannel[];
+}
+
+export function ContactChannels({ channels = CONTACT_CHANNELS }: ContactChannelsProps) {
   return (
     <section
       className="contact-channels"
@@ -81,7 +86,7 @@ export function ContactChannels() {
         </Reveal>
 
         <div className="contact-channels__grid">
-          {CONTACT_CHANNELS.map((channel, index) => {
+          {channels.map((channel, index) => {
             const isExternal =
               channel.href.startsWith("http") || channel.href.startsWith("mailto");
             return (

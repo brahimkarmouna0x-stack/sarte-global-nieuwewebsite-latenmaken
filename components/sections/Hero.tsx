@@ -14,7 +14,7 @@ import { HeroBadge } from "../ui/HeroBadge";
  */
 export function Hero() {
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <section id="hero" className="hero" aria-labelledby="hero-title">
       <HeroStageProvider>
         <HeroAtmosphere />
 

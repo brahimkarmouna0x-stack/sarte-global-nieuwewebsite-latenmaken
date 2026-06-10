@@ -1,13 +1,12 @@
 import {
   FOOTER_COLUMNS,
   FOOTER_LEGAL,
-  FOOTER_MISSION,
   NEWSLETTER,
   PAYMENT_METHODS,
   PAYMENT_METHODS_LABEL,
-  SOCIAL_LINKS,
   TRUST_LINE,
 } from "@/constants";
+import { getSiteSettings } from "@/lib/settings";
 
 import { Container } from "../ui/Container";
 import { NewsletterForm } from "../ui/NewsletterForm";
@@ -15,14 +14,17 @@ import { PaymentIcon } from "../ui/PaymentIcon";
 import { SocialIcon } from "../ui/SocialIcon";
 import { Logo } from "../shared/Logo";
 
-export function Footer() {
+export async function Footer() {
+  const settings = await getSiteSettings();
+  const telHref = `tel:${settings.phone.replace(/\s+/g, "")}`;
+
   return (
     <footer aria-label="Sitevoettekst">
       <Container>
         <div className="foot-grid">
           <div className="foot-brand">
             <Logo />
-            <p className="foot-mission">{FOOTER_MISSION}</p>
+            <p className="foot-mission">{settings.footerMission}</p>
             <div className="mt-8 flex flex-col gap-4 text-sm text-(--color-text-secondary)">
               <div className="flex items-start gap-3 group">
                 <svg
@@ -40,16 +42,38 @@ export function Footer() {
                 </svg>
                 <div className="flex flex-col">
                   <span className="font-medium text-(--color-text) transition-colors duration-300">
-                    30 N Gould St Ste R
+                    {settings.address.line}
                   </span>
                   <span className="text-xs text-(--color-text-muted)">
-                    Sheridan, WY 82801, United States
+                    {settings.address.city}, {settings.address.country}
                   </span>
                 </div>
               </div>
 
               <a
-                href="mailto:info@sarteglobal.com"
+                href={telHref}
+                className="flex items-center gap-3 group w-fit transition-colors duration-300 hover:text-(--color-accent)"
+                aria-label="Bel ons"
+              >
+                <svg
+                  className="w-5 h-5 text-(--color-accent) shrink-0 transition-transform duration-300 group-hover:scale-110"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                <span className="font-medium text-(--color-text) group-hover:text-(--color-accent) transition-colors duration-300">
+                  {settings.phone}
+                </span>
+              </a>
+
+              <a
+                href={`mailto:${settings.email}`}
                 className="flex items-center gap-3 group w-fit transition-colors duration-300 hover:text-(--color-accent)"
                 aria-label="Stuur ons een e-mail"
               >
@@ -67,7 +91,7 @@ export function Footer() {
                   <path d="m22 6-10 7L2 6" />
                 </svg>
                 <span className="font-medium text-(--color-text) group-hover:text-(--color-accent) transition-colors duration-300">
-                  info@sarteglobal.com
+                  {settings.email}
                 </span>
               </a>
             </div>
@@ -120,8 +144,14 @@ export function Footer() {
             ))}
           </div>
           <div className="socials" aria-label="Social media">
-            {SOCIAL_LINKS.map((social) => (
-              <a key={social.icon} href={social.href} aria-label={social.label}>
+            {settings.socialLinks.map((social) => (
+              <a
+                key={social.icon}
+                href={social.href}
+                aria-label={social.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <SocialIcon icon={social.icon} />
               </a>
             ))}

@@ -3,8 +3,10 @@ import type { Metadata } from "next";
 import { ContactChannels } from "@/components/contact/ContactChannels";
 import { ContactPageBody } from "@/components/contact/ContactPageBody";
 import { PageHero } from "@/components/page/PageHero";
-import { CONTACT_HERO } from "@/constants/contact-page";
+import { CONTACT_CHANNELS, CONTACT_HERO } from "@/constants/contact-page";
 import { SITE } from "@/constants";
+import { getSiteSettings } from "@/lib/settings";
+import type { ContactChannel, SiteSettings } from "@/types";
 
 const PAGE_TITLE = "Contact — Neem contact op met Sarte Global";
 const PAGE_DESC =
@@ -30,34 +32,60 @@ export const metadata: Metadata = {
 
 const SITE_URL = SITE.url;
 
-const CONTACT_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "ContactPage",
-  url: `${SITE_URL}/contact`,
-  name: "Contact · Sarte Global",
-  description: PAGE_DESC,
-  mainEntity: {
-    "@type": "Organization",
-    name: "Sarte Global",
-    email: SITE.email,
-    telephone: SITE.phone,
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "NL",
-      // TODO: vul echte vestigingsgegevens in (straat, postcode, plaats)
-    },
-  },
-};
+/** Merges the static channel copy (labels, notes, icons) with live PocketBase values. */
+function buildContactChannels(settings: SiteSettings): readonly ContactChannel[] {
+  return CONTACT_CHANNELS.map((channel) => {
+    switch (channel.icon) {
+      case "mail":
+        return { ...channel, value: settings.email, href: `mailto:${settings.email}` };
+      case "phone":
+        return {
+          ...channel,
+          value: settings.phone,
+          href: `tel:${settings.phone.replace(/\s+/g, "")}`,
+        };
+      case "chat":
+        return { ...channel, href: `https://wa.me/${settings.whatsapp}` };
+      default:
+        return channel;
+    }
+  });
+}
 
-export default function ContactPage() {
+function buildContactJsonLd(settings: SiteSettings) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    url: `${SITE_URL}/contact`,
+    name: "Contact · Sarte Global",
+    description: PAGE_DESC,
+    mainEntity: {
+      "@type": "Organization",
+      name: "Sarte Global",
+      email: settings.email,
+      telephone: settings.phone,
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "NL",
+        // TODO: vul echte vestigingsgegevens in (straat, postcode, plaats)
+      },
+    },
+  };
+}
+
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+  const channels = buildContactChannels(settings);
+  const contactJsonLd = buildContactJsonLd(settings);
+
   return (
     <main className="contact-page" id="top">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(CONTACT_JSON_LD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactJsonLd) }}
       />
       <PageHero content={CONTACT_HERO} id="contact-h" />
-      <ContactChannels />
+      <ContactChannels channels={channels} />
       <ContactPageBody />
     </main>
   );

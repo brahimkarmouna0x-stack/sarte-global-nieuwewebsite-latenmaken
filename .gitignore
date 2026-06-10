@@ -146,3 +146,9 @@ input.txt
 # ── AI Assistant Config ─────────────────────────
 .claude/
 .gemini/
+
+# ── PocketBase Local Data ───────────────────────
+pb_data/
+pb_migrations/
+pocketbase.exe
+pocketbase

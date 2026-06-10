@@ -8,8 +8,11 @@ import { Footer } from "@/components/layouts/Footer";
 import { Navigation } from "@/components/layouts/Navigation";
 import { ArticleDialogProvider } from "@/contexts/ArticleDialogContext";
 import { ContactDialogProvider } from "@/contexts/ContactDialogContext";
+import { SettingsProvider } from "@/contexts/SettingsContext";
 import { SITE } from "@/constants";
+import { getSiteSettings } from "@/lib/settings";
 import { dmSans, playfair } from "@/lib/fonts";
+import type { SiteSettings } from "@/types";
 
 import "./globals.css";
 
@@ -131,64 +134,66 @@ interface RootLayoutProps {
   readonly children: ReactNode;
 }
 
-const ORGANIZATION_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": ["Organization", "ProfessionalService"],
-  "@id": `${SITE_URL}/#organization`,
-  name: SITE_NAME,
-  alternateName: ["Sarte Global", "Nieuwe website laten maken"],
-  legalName: SITE_NAME,
-  url: SITE_URL,
-  logo: `${SITE_URL}/images/company-img.png`,
-  image: `${SITE_URL}/images/company-img.png`,
-  description:
-    "Sarte Global maakt nieuwe, professionele websites voor ondernemers en bedrijven in Nederland. Modern design, sterke SEO, snelle oplevering en focus op resultaat.",
-  slogan: "Professionele, moderne websites voor bedrijven en ondernemers in Nederland.",
-  priceRange: "€€",
-  sameAs: [
-    "https://linkedin.com/company/sarteglobal",
-    "https://twitter.com/sarteglobal",
-    "https://instagram.com/sarteglobal",
-  ],
-  knowsAbout: [
-    "Nieuwe website laten maken",
-    "Website laten maken",
-    "Webshop laten maken",
-    "Landingspagina laten maken",
-    "Webdesign",
-    "SEO",
-    "Webhosting",
-    "Online marketing",
-    "AI oplossingen",
-  ],
-  areaServed: {
-    "@type": "Country",
-    name: "Netherlands",
-  },
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "NL",
-    // TODO: vul echte vestigingsgegevens aan (straat, postcode, plaats)
-  },
-  contactPoint: [
-    {
-      "@type": "ContactPoint",
-      contactType: "customer support",
-      email: CONTACT_EMAIL,
-      telephone: CONTACT_PHONE,
-      availableLanguage: ["Dutch", "English"],
-      areaServed: "NL",
+/** Used when no real social links are configured in PocketBase yet. */
+const FALLBACK_SAME_AS = [
+  "https://linkedin.com/company/sarteglobal",
+  "https://twitter.com/sarteglobal",
+  "https://instagram.com/sarteglobal",
+];
+
+/** Builds the Organization JSON-LD from dynamic settings (email, phone, socials). */
+function buildOrganizationJsonLd(settings: SiteSettings) {
+  const sameAs = settings.socialLinks
+    .map((link) => link.href)
+    .filter((href) => href.startsWith("http"));
+
+  const contactPoint = (contactType: string) => ({
+    "@type": "ContactPoint",
+    contactType,
+    email: settings.email || CONTACT_EMAIL,
+    telephone: settings.phone || CONTACT_PHONE,
+    availableLanguage: ["Dutch", "English"],
+    areaServed: "NL",
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": ["Organization", "ProfessionalService"],
+    "@id": `${SITE_URL}/#organization`,
+    name: SITE_NAME,
+    alternateName: ["Sarte Global", "Nieuwe website laten maken"],
+    legalName: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/images/company-img.png`,
+    image: `${SITE_URL}/images/company-img.png`,
+    description:
+      "Sarte Global maakt nieuwe, professionele websites voor ondernemers en bedrijven in Nederland. Modern design, sterke SEO, snelle oplevering en focus op resultaat.",
+    slogan: "Professionele, moderne websites voor bedrijven en ondernemers in Nederland.",
+    priceRange: "€€",
+    sameAs: sameAs.length > 0 ? sameAs : FALLBACK_SAME_AS,
+    knowsAbout: [
+      "Nieuwe website laten maken",
+      "Website laten maken",
+      "Webshop laten maken",
+      "Landingspagina laten maken",
+      "Webdesign",
+      "SEO",
+      "Webhosting",
+      "Online marketing",
+      "AI oplossingen",
+    ],
+    areaServed: {
+      "@type": "Country",
+      name: "Netherlands",
     },
-    {
-      "@type": "ContactPoint",
-      contactType: "sales",
-      email: CONTACT_EMAIL,
-      telephone: CONTACT_PHONE,
-      availableLanguage: ["Dutch", "English"],
-      areaServed: "NL",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "NL",
+      // TODO: vul echte vestigingsgegevens aan (straat, postcode, plaats)
     },
-  ],
-};
+    contactPoint: [contactPoint("customer support"), contactPoint("sales")],
+  };
+}
 
 const SERVICE_JSON_LD = {
   "@context": "https://schema.org",
@@ -216,7 +221,10 @@ const WEBSITE_JSON_LD = {
   inLanguage: "nl-NL",
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const settings = await getSiteSettings();
+  const organizationJsonLd = buildOrganizationJsonLd(settings);
+
   return (
     <html lang="nl" className={`${playfair.variable} ${dmSans.variable}`}>
       <head>
@@ -225,7 +233,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(ORGANIZATION_JSON_LD),
+            __html: JSON.stringify(organizationJsonLd),
           }}
         />
         <script
@@ -245,17 +253,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <a href="#top" className="sr-only focus:not-sr-only">
           Direct naar inhoud
         </a>
-        <ContactDialogProvider>
-          <ArticleDialogProvider>
-            <Navigation />
-            {children}
-            <Footer />
-            <CookieBar />
-            <WhatsAppFloatingButton />
-            <ContactDialog />
-            <ArticleDialog />
-          </ArticleDialogProvider>
-        </ContactDialogProvider>
+        <SettingsProvider settings={settings}>
+          <ContactDialogProvider>
+            <ArticleDialogProvider>
+              <Navigation />
+              {children}
+              <Footer />
+              <CookieBar />
+              <WhatsAppFloatingButton />
+              <ContactDialog />
+              <ArticleDialog />
+            </ArticleDialogProvider>
+          </ContactDialogProvider>
+        </SettingsProvider>
       </body>
     </html>
   );
