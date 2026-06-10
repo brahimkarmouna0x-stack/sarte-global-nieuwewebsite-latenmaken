@@ -51,6 +51,7 @@ export const HERO = {
     "Professionele, moderne en responsive websites voor bedrijven en ondernemers in Nederland. Sterke SEO, snelle oplevering en focus op conversie en groei.",
   primaryCta: { label: "Nieuwe website laten maken", href: "#cta" },
   secondaryCta: { label: "Bekijk portfolio", href: "/work" },
+  pricingCta: { label: "Bekijk pakketten", href: "#pakketten" },
   stats: [
     { label: "Modern & responsive design" },
     { label: "Binnen 2 weken online" },

@@ -4,6 +4,7 @@ export interface WhatsAppMessageInput {
   readonly name?: string;
   readonly email?: string;
   readonly projectType?: string;
+  readonly planName?: string;
   readonly message: string;
 }
 
@@ -11,6 +12,7 @@ function buildMessage({
   name,
   email,
   projectType,
+  planName,
   message,
 }: WhatsAppMessageInput): string {
   const lines: string[] = ["Hallo Sarte Global,"];
@@ -28,6 +30,11 @@ function buildMessage({
       ? `Ik ben geïnteresseerd in: ${trimmedType}.`
       : "Ik ben geïnteresseerd in een nieuw project.",
   );
+
+  const trimmedPlan = planName?.trim();
+  if (trimmedPlan) {
+    lines.push(`Gekozen pakket: ${trimmedPlan}.`);
+  }
 
   const trimmedEmail = email?.trim();
   if (trimmedEmail) {

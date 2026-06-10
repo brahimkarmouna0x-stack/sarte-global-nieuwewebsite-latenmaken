@@ -537,6 +537,11 @@ section {
   transform: translateX(4px);
 }
 
+/* Tactile press feedback — cancels the hover lift while the button is held. */
+.btn:active {
+  transform: translateY(0);
+}
+
 .btn-primary {
   background: var(--color-accent);
   color: var(--color-text-on-accent);

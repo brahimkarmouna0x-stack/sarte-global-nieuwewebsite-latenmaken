@@ -1,4 +1,4 @@
-import { SocialLink, TeamMember } from "@/types";
+import { TeamMember } from "@/types";
 
 
 export const TEAM_SECTION = {
@@ -46,8 +46,3 @@ export const TEAM_MEMBERS = [
         scene: "scene-office",
     },
 ] as const satisfies readonly TeamMember[];
-
-export const TEAM_SOCIALS = [
-    { label: "LinkedIn", href: "#", icon: "linkedin" },
-    { label: "X", href: "#", icon: "x" },
-] as const satisfies readonly SocialLink[];

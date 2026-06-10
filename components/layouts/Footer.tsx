@@ -9,7 +9,6 @@ import {
 import { getSiteSettings } from "@/lib/settings";
 
 import { Container } from "../ui/Container";
-import { NewsletterForm } from "../ui/NewsletterForm";
 import { PaymentIcon } from "../ui/PaymentIcon";
 import { SocialIcon } from "../ui/SocialIcon";
 import { Logo } from "../shared/Logo";
@@ -111,7 +110,6 @@ export async function Footer() {
           <div className="foot-col">
             <h4>{NEWSLETTER.title}</h4>
             <p className="foot-news-desc">{NEWSLETTER.description}</p>
-            <NewsletterForm />
           </div>
         </div>
 

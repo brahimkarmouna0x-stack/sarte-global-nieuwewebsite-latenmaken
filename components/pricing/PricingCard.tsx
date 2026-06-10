@@ -83,6 +83,7 @@ export function PricingCard({ tier, projectType }: PricingCardProps) {
           label={tier.ctaLabel}
           variant={featured ? "primary" : "outline"}
           projectType={projectType}
+          planName={tier.name}
           className="w-full justify-center"
         />
       </div>

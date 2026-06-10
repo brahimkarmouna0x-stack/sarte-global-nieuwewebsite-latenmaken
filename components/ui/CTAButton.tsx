@@ -14,6 +14,7 @@ interface CTAButtonProps {
   readonly variant?: Variant;
   readonly size?: "default" | "large";
   readonly projectType?: string;
+  readonly planName?: string;
   readonly className?: string;
   readonly showArrow?: boolean;
   readonly onClick?: () => void;
@@ -25,6 +26,7 @@ export function CTAButton({
   variant = "primary",
   size = "default",
   projectType,
+  planName,
   className,
   showArrow = true,
   onClick,
@@ -55,6 +57,7 @@ export function CTAButton({
       const url = buildWhatsAppUrl(
         {
           projectType: chosenService,
+          planName,
           message: getMessageStarter(chosenService),
         },
         whatsapp,

@@ -44,6 +44,7 @@ export interface HeroContent {
   readonly subtitle: string;
   readonly primaryCta: { readonly label: string; readonly href: string };
   readonly secondaryCta: { readonly label: string; readonly href: string };
+  readonly pricingCta: { readonly label: string; readonly href: string };
   readonly stats: readonly HeroStat[];
   readonly scrollLabel: string;
   readonly badgeText: string;

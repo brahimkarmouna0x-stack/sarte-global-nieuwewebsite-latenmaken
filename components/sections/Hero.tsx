@@ -59,6 +59,9 @@ export function Hero() {
               <a href={HERO.primaryCta.href} className="btn btn-primary">
                 {HERO.primaryCta.label} <span className="arr">-&gt;</span>
               </a>
+              <a href={HERO.pricingCta.href} className="btn btn-outline">
+                {HERO.pricingCta.label} <span className="arr">-&gt;</span>
+              </a>
             </div>
 
             <div className="hero-foot">

@@ -2,7 +2,8 @@
 
 import type { CSSProperties } from "react";
 
-import { TEAM_MEMBERS, TEAM_SECTION, TEAM_SOCIALS } from "@/constants";
+import { TEAM_MEMBERS, TEAM_SECTION } from "@/constants";
+import { useSiteSettings } from "@/contexts/SettingsContext";
 import { useTeamShowcase } from "@/hooks/useTeamShowcase";
 
 import { CTAButton } from "../ui/CTAButton";
@@ -14,6 +15,7 @@ function padIndex(value: number): string {
 }
 
 export function TeamShowcase() {
+  const { socialLinks } = useSiteSettings();
   const showcase = useTeamShowcase({
     length: TEAM_MEMBERS.length,
     durationMs: TEAM_SECTION.durationMs,
@@ -75,11 +77,13 @@ export function TeamShowcase() {
             <p className="ts-role">{current.role}</p>
             <p className="ts-bio">{current.bio}</p>
             <div className="ts-socials">
-              {TEAM_SOCIALS.map((social) => (
+              {socialLinks.map((social) => (
                 <a
                   key={social.icon}
                   href={social.href}
                   aria-label={social.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <SocialIcon icon={social.icon} />
                 </a>
