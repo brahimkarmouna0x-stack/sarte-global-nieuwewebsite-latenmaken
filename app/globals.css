@@ -4214,6 +4214,11 @@ footer {
     gap: 40px;
   }
 
+  /* Center the footer link columns (Diensten / Bedrijf) on mobile. */
+  .foot-col:has(ul) {
+    text-align: center;
+  }
+
   .foot-bar {
     flex-direction: column;
     align-items: flex-start;
