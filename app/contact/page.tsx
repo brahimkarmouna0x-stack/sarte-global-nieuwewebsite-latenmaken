@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 const SITE_URL = SITE.url;
 
-/** Merges the static channel copy (labels, notes, icons) with live PocketBase values. */
+/** Merges the static channel copy (labels, notes, icons) with live settings values from Supabase. */
 function buildContactChannels(settings: SiteSettings): readonly ContactChannel[] {
   return CONTACT_CHANNELS.map((channel) => {
     switch (channel.icon) {

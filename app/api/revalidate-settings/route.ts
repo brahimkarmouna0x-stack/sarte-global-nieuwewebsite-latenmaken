@@ -4,9 +4,9 @@ import { NextResponse, type NextRequest } from "next/server";
 /**
  * On-demand revalidation for the site settings.
  *
- * Lets the PocketBase admin (or a PocketBase hook) refresh the footer instantly
- * after editing settings, instead of waiting for the ISR window. Protected by a
- * shared secret.
+ * Lets the Supabase admin (or a database hook/trigger) refresh the footer
+ * instantly after editing settings, instead of waiting for the ISR window.
+ * Protected by a shared secret.
  *
  *   POST /api/revalidate-settings?secret=YOUR_SECRET
  */

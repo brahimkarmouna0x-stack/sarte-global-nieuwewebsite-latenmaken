@@ -293,26 +293,21 @@ export interface SocialLink {
 }
 
 /**
- * Raw `settings` record as returned by PocketBase (single "global" singleton).
+ * Raw `global_settings` record as returned by Supabase (single-row singleton).
  * Every editable field is optional so a partial record still maps cleanly.
+ * Column names mirror the actual Supabase table.
  */
 export interface SettingsRecord {
   readonly id: string;
-  readonly key: string;
   readonly phone?: string;
   readonly email?: string;
-  readonly whatsapp?: string;
-  readonly address_line?: string;
-  readonly address_city?: string;
-  readonly address_country?: string;
+  readonly whatsapp_url?: string;
   readonly instagram_url?: string;
   readonly facebook_url?: string;
   readonly linkedin_url?: string;
   readonly x_url?: string;
-  readonly dribbble_url?: string;
-  readonly footer_mission?: string;
-  readonly created: string;
-  readonly updated: string;
+  readonly created_at: string;
+  readonly updated_at: string;
 }
 
 /** Clean, app-facing settings shape (post-mapping, with fallbacks applied). */

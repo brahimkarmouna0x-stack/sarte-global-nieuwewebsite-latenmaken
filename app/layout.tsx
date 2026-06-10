@@ -134,7 +134,7 @@ interface RootLayoutProps {
   readonly children: ReactNode;
 }
 
-/** Used when no real social links are configured in PocketBase yet. */
+/** Used when no real social links are configured in the database yet. */
 const FALLBACK_SAME_AS = [
   "https://linkedin.com/company/sarteglobal",
   "https://twitter.com/sarteglobal",

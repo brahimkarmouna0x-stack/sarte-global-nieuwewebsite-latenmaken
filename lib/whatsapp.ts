@@ -78,7 +78,7 @@ export function normalizeWhatsAppNumber(raw: string | undefined | null): string 
 }
 
 /**
- * Builds a WhatsApp deep link. The number is dynamic (from PocketBase settings)
+ * Builds a WhatsApp deep link. The number is dynamic (from Supabase settings)
  * with the WHATSAPP_NUMBER constant as a safe fallback for non-dynamic callers.
  * The number is normalized so a raw, human-entered value still produces a valid
  * link.

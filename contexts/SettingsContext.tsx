@@ -5,9 +5,9 @@ import { createContext, useContext, type ReactNode } from "react";
 import type { SiteSettings } from "@/types";
 
 /**
- * Exposes the PocketBase-backed site settings (phone, email, WhatsApp, socials)
+ * Exposes the Supabase-backed site settings (phone, email, WhatsApp, socials)
  * to Client Components. The value is fetched server-side in the root layout and
- * passed down once, so client code never talks to PocketBase directly.
+ * passed down once, so client code never talks to Supabase directly.
  */
 const SettingsContext = createContext<SiteSettings | null>(null);
 
