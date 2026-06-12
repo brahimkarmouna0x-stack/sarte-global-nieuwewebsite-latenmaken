@@ -20,7 +20,7 @@ const REVALIDATE_SECONDS = 3600;
  */
 const DEFAULT_SOCIAL_LINKS: readonly SocialLink[] = [
   // { label: "LinkedIn", href: "https://linkedin.com/company/sarteglobal", icon: "linkedin" },
-  { label: "Instagram", href: "https://instagram.com/sarteglobal", icon: "instagram" },
+  { label: "Instagram", href: "https://www.instagram.com/sarte_global_llc?igsh=OGVkc2phOGFzeTNv&utm_source=qr", icon: "instagram" },
   { label: "X", href: "https://x.com/sarteglobal", icon: "x" },
 ];
 

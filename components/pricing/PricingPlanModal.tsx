@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { getMessageStarter } from "@/constants/contact";
 import { useSiteSettings } from "@/contexts/SettingsContext";
@@ -37,10 +37,17 @@ function priceCaption(price: PricingPrice): string {
   return price.period === "maand" ? "per maand · excl. btw" : "eenmalig · excl. btw";
 }
 
+/** Short, unambiguous billing term shown prominently in the dialog. */
+function periodLabel(price: PricingPrice): string {
+  if (price.amount === null) return "Op aanvraag";
+  return price.period === "maand" ? "Per maand" : "Eenmalig";
+}
+
 /**
  * Confirmation modal shown before a visitor is handed off to WhatsApp from the
- * pricing section. It restates the chosen service + tier, lets the visitor
- * fine-tune the opening message, and only then opens WhatsApp in a new tab.
+ * pricing section. It restates the chosen service + tier, prominently shows the
+ * billing term, previews the locked (read-only) message, and only then opens
+ * WhatsApp in a new tab.
  *
  * Fully accessible: closes on Escape or overlay click, traps focus, locks body
  * scroll and restores focus to the trigger on close.
@@ -52,17 +59,11 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
 
   const panelRef = useRef<HTMLDivElement | null>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
-  const [message, setMessage] = useState<string>("");
 
-  // Reset the editable message whenever a new plan is opened. Each card click
-  // creates a fresh `selection` object, so an identity change reliably signals
-  // "new open" — even for the same service — and we re-seed the starter.
-  // (Render-phase adjustment, not an effect: avoids a cascading re-render.)
-  const [renderedFor, setRenderedFor] = useState<PlanSelection | null>(selection);
-  if (selection !== renderedFor) {
-    setRenderedFor(selection);
-    setMessage(selection ? getMessageStarter(selection.projectType) : "");
-  }
+  // The opening message is locked: it's derived straight from the selection and
+  // never editable, so the exact payload handed off to WhatsApp can't be
+  // tampered with from the dialog.
+  const message = selection ? getMessageStarter(selection.projectType) : "";
 
   useEffect(() => {
     if (!open) return;
@@ -119,7 +120,9 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
       {
         projectType: selection.projectType,
         planName: selection.tier.name,
-        message: message.trim() || getMessageStarter(selection.projectType),
+        // Exact, unedited starter message — guaranteed identical to the locked
+        // preview shown in the dialog.
+        message: getMessageStarter(selection.projectType),
       },
       whatsapp,
     );
@@ -183,7 +186,7 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
                 Je gaat verder via <em className="font-normal italic text-(--color-accent)">WhatsApp</em>
               </h2>
               <p className="text-sm leading-relaxed text-(--color-text-secondary)">
-                Controleer je pakket en pas het bericht eventueel aan. Daarna openen we WhatsApp met je gegevens al ingevuld.
+                Controleer hieronder je pakket en termijn. Daarna openen we WhatsApp met je bericht al volledig ingevuld.
               </p>
             </div>
 
@@ -219,25 +222,56 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
                     {formatPrice(selection.tier.price)}
                   </span>
                   <span className="block text-[11px] text-(--color-text-muted)">
-                    {priceCaption(selection.tier.price)} · {selection.tier.timeline}
+                    {priceCaption(selection.tier.price)}
                   </span>
                 </dd>
               </div>
             </dl>
 
-            {/* Editable message */}
-            <label className="mt-5 flex flex-col gap-2">
-              <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-(--color-text-muted)">
-                Jouw bericht
+            {/* Prominent billing term — primary visual element so there's zero
+                confusion about what's charged and how long it runs. */}
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-(--color-accent)/35 bg-(--color-accent-soft) px-4 py-3.5">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-(--color-accent)">
+                  Termijn
+                </span>
+                <span className="font-[family-name:var(--font-display)] text-xl font-extrabold leading-tight text-(--color-text)">
+                  {periodLabel(selection.tier.price)}
+                </span>
+              </div>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-(--color-accent) px-3.5 py-1.5 text-sm font-extrabold tracking-wide text-(--color-text-on-accent)">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="shrink-0">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {selection.tier.timeline}
               </span>
+            </div>
+
+            {/* Locked message preview — read-only so the exact payload that's
+                handed off to WhatsApp can never be altered from the dialog. */}
+            <div className="mt-5 flex flex-col gap-2">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-(--color-text-muted)">
+                  Jouw bericht
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10.5px] font-medium uppercase tracking-[0.14em] text-(--color-text-muted)">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <rect x="5" y="11" width="14" height="9" rx="2" />
+                    <path d="M8 11V8a4 4 0 0 1 8 0v3" strokeLinecap="round" />
+                  </svg>
+                  Vergrendeld
+                </span>
+              </div>
               <textarea
                 rows={4}
                 value={message}
-                onChange={(event) => setMessage(event.target.value)}
-                placeholder="Vertel kort wat je nodig hebt…"
-                className="w-full resize-y rounded-xl border border-(--color-border) bg-(--color-surface-3)/70 px-3.5 py-3 text-sm leading-relaxed text-(--color-text) outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-(--color-text-muted) hover:border-(--color-border-strong) focus:border-(--color-accent) focus:shadow-[0_0_0_3px_var(--color-accent-soft)]"
+                readOnly
+                aria-readonly="true"
+                aria-label="Voorbeeld van je WhatsApp-bericht. Dit bericht staat vast en kan niet worden bewerkt."
+                className="w-full cursor-not-allowed resize-none select-none rounded-xl border border-(--color-border) bg-(--color-surface-2)/50 px-3.5 py-3 text-sm leading-relaxed text-(--color-text-secondary) outline-none"
               />
-            </label>
+            </div>
 
             {/* Actions */}
             <div className="mt-5 flex flex-col-reverse gap-2.5 sm:flex-row sm:gap-3">

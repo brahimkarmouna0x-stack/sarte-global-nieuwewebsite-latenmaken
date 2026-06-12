@@ -36,8 +36,18 @@ export const dmSans = localFont({
 
 /**
  * Playfair Display — heading / display font (serif).
- * Weights: 400, 600, 700, 800. Both normal + italic.
- * Only latin subset.
+ *
+ * Only the variants the design actually renders are shipped:
+ *   - normal: 400, 600, 700, 800 (headings + the 800 pricing-modal term)
+ *   - italic: 400, 600 (accent words in headings/pricing)
+ * The 700- and 800-italic files were dropped because no rule pairs `italic`
+ * with those weights, trimming two unused `.woff2` files from the payload.
+ *
+ * `preload: false` is deliberate: preloading the display face issues high-
+ * priority font requests that compete with the hero image for bandwidth and
+ * hurt mobile LCP. The body font stays preloaded; headings self-host and paint
+ * immediately via the metric-matched Georgia fallback (`display: "swap"`), then
+ * upgrade to Playfair with negligible layout shift.
  */
 export const playfair = localFont({
   src: [
@@ -67,23 +77,13 @@ export const playfair = localFont({
       style: "normal",
     },
     {
-      path: "../fonts/playfair-display-latin-700-italic.woff2",
-      weight: "700",
-      style: "italic",
-    },
-    {
       path: "../fonts/playfair-display-latin-800-normal.woff2",
       weight: "800",
       style: "normal",
     },
-    {
-      path: "../fonts/playfair-display-latin-800-italic.woff2",
-      weight: "800",
-      style: "italic",
-    },
   ],
   variable: "--font-playfair",
   display: "swap",
-  preload: true,
+  preload: false,
   fallback: ["Georgia", "serif"],
 });

@@ -15,7 +15,11 @@ import { Logo } from "../shared/Logo";
 
 export async function Footer() {
   const settings = await getSiteSettings();
-  const telHref = `tel:${settings.phone.replace(/\s+/g, "")}`;
+  // Strip everything except digits and a leading "+", so the href is always a
+  // valid `tel:` URL. Spaces, dashes or stray characters in the stored phone
+  // number would otherwise make React sanitize the link to
+  // `about:invalid#zCSafez`, which is what broke the live footer link.
+  const telHref = `tel:${settings.phone.replace(/[^\d+]/g, "")}`;
 
   return (
     <footer aria-label="Sitevoettekst">
@@ -51,7 +55,7 @@ export async function Footer() {
 
               <a
                 href={telHref}
-                className="flex items-center gap-3 group w-fit transition-colors duration-300 hover:text-(--color-accent)"
+                className="flex min-h-[44px] items-center gap-3 group w-fit transition-colors duration-300 hover:text-(--color-accent)"
                 aria-label="Bel ons"
               >
                 <svg
@@ -73,7 +77,7 @@ export async function Footer() {
 
               <a
                 href={`mailto:${settings.email}`}
-                className="flex items-center gap-3 group w-fit transition-colors duration-300 hover:text-(--color-accent)"
+                className="flex min-h-[44px] items-center gap-3 group w-fit transition-colors duration-300 hover:text-(--color-accent)"
                 aria-label="Stuur ons een e-mail"
               >
                 <svg

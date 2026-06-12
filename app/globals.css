@@ -3238,6 +3238,11 @@ footer {
   font-size: 14.5px;
   color: var(--color-text-secondary);
   transition: color 0.2s;
+  /* Enlarge the touch target on mobile while keeping the visual rhythm: an
+     inline-block with vertical padding gives each link a comfortably tappable
+     hit area (well past the 24px WCAG 2.2 minimum). */
+  display: inline-block;
+  padding: 6px 0;
 }
 
 .foot-col a:hover {

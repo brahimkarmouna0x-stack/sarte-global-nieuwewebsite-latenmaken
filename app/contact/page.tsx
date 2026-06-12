@@ -42,7 +42,10 @@ function buildContactChannels(settings: SiteSettings): readonly ContactChannel[]
         return {
           ...channel,
           value: settings.phone,
-          href: `tel:${settings.phone.replace(/\s+/g, "")}`,
+          // Keep only digits and a leading "+" so the result is always a valid
+          // `tel:` URL (mirrors the footer; avoids React's `about:invalid` href
+          // sanitization on numbers containing spaces or punctuation).
+          href: `tel:${settings.phone.replace(/[^\d+]/g, "")}`,
         };
       case "chat":
         return { ...channel, href: `https://wa.me/${settings.whatsapp}` };

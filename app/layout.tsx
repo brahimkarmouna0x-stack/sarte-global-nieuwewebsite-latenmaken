@@ -138,7 +138,7 @@ interface RootLayoutProps {
 const FALLBACK_SAME_AS = [
   "https://linkedin.com/company/sarteglobal",
   "https://twitter.com/sarteglobal",
-  "https://instagram.com/sarteglobal",
+  "https://www.instagram.com/sarte_global_llc?igsh=OGVkc2phOGFzeTNv&utm_source=qr",
 ];
 
 /** Builds the Organization JSON-LD from dynamic settings (email, phone, socials). */
