@@ -7,9 +7,11 @@ import { CheckIcon, ClockIcon } from "./PricingIcons";
 interface PricingCardProps {
   readonly tier: PricingTier;
   readonly projectType: string;
+  /** Intercepts the CTA click to open the WhatsApp confirmation modal. */
+  readonly onSelect?: () => void;
 }
 
-export function PricingCard({ tier, projectType }: PricingCardProps) {
+export function PricingCard({ tier, projectType, onSelect }: PricingCardProps) {
   const featured = Boolean(tier.highlighted);
 
   return (
@@ -84,6 +86,7 @@ export function PricingCard({ tier, projectType }: PricingCardProps) {
           variant={featured ? "primary" : "outline"}
           projectType={projectType}
           planName={tier.name}
+          onSelect={onSelect}
           className="w-full justify-center"
         />
       </div>

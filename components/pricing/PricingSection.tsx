@@ -21,6 +21,7 @@ import { ServiceIcon } from "../ui/ServiceIcon";
 import { PricingCard } from "./PricingCard";
 import { PricingComparison } from "./PricingComparison";
 import { PricingFaq } from "./PricingFaq";
+import { PricingPlanModal, type PlanSelection } from "./PricingPlanModal";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
@@ -37,6 +38,7 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
   }, [defaultServiceSlug]);
 
   const [activeIndex, setActiveIndex] = useState(initialIndex);
+  const [selectedPlan, setSelectedPlan] = useState<PlanSelection | null>(null);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const filterScrollRef = useRef<HTMLDivElement>(null);
   const hasMountedRef = useRef(false);
@@ -233,7 +235,17 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
                       (tier.highlighted ? "sm:z-10" : "")
                     }
                   >
-                    <PricingCard tier={tier} projectType={active.projectType} />
+                    <PricingCard
+                      tier={tier}
+                      projectType={active.projectType}
+                      onSelect={() =>
+                        setSelectedPlan({
+                          serviceName: active.name,
+                          projectType: active.projectType,
+                          tier,
+                        })
+                      }
+                    />
                   </motion.div>
                 ))}
               </div>
@@ -251,6 +263,11 @@ export function PricingSection({ defaultServiceSlug, id = "pakketten" }: Pricing
           </AnimatePresence>
         </div>
       </Container>
+
+      <PricingPlanModal
+        selection={selectedPlan}
+        onClose={() => setSelectedPlan(null)}
+      />
     </section>
   );
 }

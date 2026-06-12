@@ -6952,8 +6952,10 @@ footer {
 
 .hero-backdrop__image {
   object-fit: cover;
-  opacity: 0.9;
-  filter: saturate(1.1) contrast(1.08) brightness(0.68);
+  /* Brighter, more vivid backdrop so the image reads clearly. The veil below
+     keeps the left column (hero copy) dark enough for legible text. */
+  opacity: 0.97;
+  filter: saturate(1.2) contrast(1.04) brightness(0.96);
   transform: none;
 }
 
@@ -6984,25 +6986,28 @@ footer {
 .hero-backdrop__veil {
   position: absolute;
   inset: 0;
+  /* Lighter veil — only dark where it needs to be (left column behind the
+     copy) and near-clear through the center/right so the image stays visible
+     and vibrant. */
   background:
     radial-gradient(
       86% 76% at 72% 36%,
-      rgba(13, 13, 13, 0.1) 0%,
-      rgba(13, 13, 13, 0.34) 48%,
-      rgba(13, 13, 13, 0.86) 100%
+      rgba(13, 13, 13, 0.04) 0%,
+      rgba(13, 13, 13, 0.2) 48%,
+      rgba(13, 13, 13, 0.64) 100%
     ),
     linear-gradient(
       90deg,
-      rgba(13, 13, 13, 0.94) 0%,
-      rgba(13, 13, 13, 0.82) 38%,
-      rgba(13, 13, 13, 0.42) 70%,
-      rgba(13, 13, 13, 0.78) 100%
+      rgba(13, 13, 13, 0.82) 0%,
+      rgba(13, 13, 13, 0.58) 38%,
+      rgba(13, 13, 13, 0.16) 70%,
+      rgba(13, 13, 13, 0.44) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(13, 13, 13, 0.5) 0%,
-      transparent 38%,
-      rgba(13, 13, 13, 0.9) 100%
+      rgba(13, 13, 13, 0.32) 0%,
+      transparent 42%,
+      rgba(13, 13, 13, 0.72) 100%
     );
   pointer-events: none;
 }
@@ -7311,9 +7316,11 @@ footer {
 }
 
 .hero-service-rail__item span {
+  align-self: start;
+  margin-top: 1px;
   color: var(--hero-accent);
   font-size: 11px;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 .hero-service-rail__item strong {
@@ -7321,10 +7328,15 @@ footer {
   overflow: hidden;
   font-size: 12px;
   font-weight: 650;
-  line-height: 1.15;
+  line-height: 1.2;
   letter-spacing: 0;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* Wrap long service names to (max) two lines instead of truncating with an
+     ellipsis, so every name stays fully readable on all viewports. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  word-break: break-word;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -7382,18 +7394,20 @@ footer {
   }
 
   .hero-backdrop__veil {
+    /* Single-column: lighter veil, but keep top/bottom darker where the title,
+       CTAs and stats sit so the copy stays legible over the image. */
     background:
       radial-gradient(
         92% 74% at 68% 44%,
-        rgba(13, 13, 13, 0.22) 0%,
-        rgba(13, 13, 13, 0.6) 58%,
-        rgba(13, 13, 13, 0.94) 100%
+        rgba(13, 13, 13, 0.1) 0%,
+        rgba(13, 13, 13, 0.4) 58%,
+        rgba(13, 13, 13, 0.78) 100%
       ),
       linear-gradient(
         180deg,
-        rgba(13, 13, 13, 0.92) 0%,
-        rgba(13, 13, 13, 0.72) 48%,
-        rgba(13, 13, 13, 0.94) 100%
+        rgba(13, 13, 13, 0.72) 0%,
+        rgba(13, 13, 13, 0.48) 48%,
+        rgba(13, 13, 13, 0.8) 100%
       );
   }
 }
@@ -7422,6 +7436,12 @@ footer {
 
   .hero-showcase__title {
     font-size: 24px;
+  }
+
+  /* More breathing room so the service cards sit clearly below the slider
+     instead of looking attached to its bottom edge. */
+  .hero-showcase {
+    gap: 20px;
   }
 
   .hero-service-rail {
@@ -7480,10 +7500,17 @@ footer {
     bottom: 68px;
   }
 
+  /* Push the horizontal service rail clearly away from the slider on phones. */
+  .hero-showcase {
+    gap: 22px;
+  }
+
   .hero-service-rail {
     display: flex;
     gap: 8px;
+    margin-top: 2px;
     overflow-x: auto;
+    padding-top: 2px;
     padding-bottom: 4px;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;

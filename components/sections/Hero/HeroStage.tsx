@@ -13,6 +13,7 @@ import {
 import type { HeroSlide } from "@/types";
 
 import { HERO_STAGE_INTERVAL_MS, HERO_STAGE_SLIDES } from "@/constants";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const RESUME_DELAY_MS = 8_000;
 
@@ -33,27 +34,11 @@ interface HeroStageContextValue {
 
 const HeroStageContext = createContext<HeroStageContextValue | null>(null);
 
-function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  });
-
-  useEffect(() => {
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onChange = (event: MediaQueryListEvent): void =>
-      setReduced(event.matches);
-
-    mql.addEventListener("change", onChange);
-    return () => mql.removeEventListener("change", onChange);
-  }, []);
-
-  return reduced;
-}
-
 export function HeroStageProvider({ children }: { children: ReactNode }) {
   const slides = HERO_STAGE_SLIDES;
-  const reducedMotion = usePrefersReducedMotion();
+  // SSR-safe (useSyncExternalStore with a server snapshot of `false`), so the
+  // server and first client render always agree — no hydration mismatch.
+  const reducedMotion = useReducedMotion();
   const [index, setIndexState] = useState(0);
   const [manualPaused, setManualPaused] = useState(false);
   const [hoverPaused, setHoverPaused] = useState(false);

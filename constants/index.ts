@@ -17,7 +17,7 @@ export const SITE = {
   name: "Sarte Global",
   email: "info@sarteglobal.com",
   // TODO: vervang door definitief Nederlands telefoonnummer
-  phone: "+31 00 000 0000",
+  phone: "+212766269594",
 } as const satisfies SiteMeta;
 
 export const TRUST_LINE =

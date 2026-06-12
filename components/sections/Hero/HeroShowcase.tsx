@@ -92,13 +92,13 @@ export function HeroShowcase() {
           <motion.div
             key={current.id}
             className="hero-showcase__media"
-            initial={{ opacity: 0, scale: 0.96, filter: "blur(14px)" }}
+            initial={{ opacity: 0, scale: 0.99, filter: "blur(6px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 1.035, filter: "blur(10px)" }}
+            exit={{ opacity: 0, scale: 1.01, filter: "blur(4px)" }}
             transition={{
-              opacity: { duration: 0.9, ease: EASE },
-              scale: { duration: 1.1, ease: EASE },
-              filter: { duration: 1, ease: EASE },
+              opacity: { duration: 0.3, ease: EASE },
+              scale: { duration: 0.36, ease: EASE },
+              filter: { duration: 0.3, ease: EASE },
             }}
           >
             <Image
@@ -143,7 +143,7 @@ export function HeroShowcase() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.45, ease: EASE }}
+              transition={{ duration: 0.3, ease: EASE }}
             >
               <span className="hero-showcase__cat">{current.label}</span>
               <span className="hero-showcase__title">{current.title}</span>

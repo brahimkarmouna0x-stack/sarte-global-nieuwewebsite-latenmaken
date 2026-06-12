@@ -19,7 +19,7 @@ const REVALIDATE_SECONDS = 3600;
  * Kept in sync with the Organization JSON-LD `sameAs` in the root layout.
  */
 const DEFAULT_SOCIAL_LINKS: readonly SocialLink[] = [
-  { label: "LinkedIn", href: "https://linkedin.com/company/sarteglobal", icon: "linkedin" },
+  // { label: "LinkedIn", href: "https://linkedin.com/company/sarteglobal", icon: "linkedin" },
   { label: "Instagram", href: "https://instagram.com/sarteglobal", icon: "instagram" },
   { label: "X", href: "https://x.com/sarteglobal", icon: "x" },
 ];

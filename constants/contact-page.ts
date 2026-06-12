@@ -25,8 +25,8 @@ export const CONTACT_CHANNELS: readonly ContactChannel[] = [
   {
     icon: "phone",
     label: "Telefoon",
-    value: "+31 00 000 0000",
-    href: "tel:+310000000000",
+    value: "+212766269594",
+    href: "tel:+212766269594",
     note: "Maandag–vrijdag · 9:00–18:00.",
   },
   {
