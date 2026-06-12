@@ -4,6 +4,15 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
+  experimental: {
+    // Inline the (small) Tailwind CSS into the document <head> instead of
+    // shipping it as render-blocking external stylesheet requests. Removes the
+    // critical-path CSS round-trip that delays FCP/LCP on mobile.
+    inlineCss: true,
+    // Rewrite barrel imports (react-icons/{lu,si}, framer-motion) to per-symbol
+    // deep imports so only the icons/animations actually used are bundled.
+    optimizePackageImports: ["react-icons", "framer-motion"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     // Explicitly list all quality values used across components so Next.js

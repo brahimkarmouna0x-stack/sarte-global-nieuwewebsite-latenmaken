@@ -55,7 +55,7 @@ export function AboutCompany() {
                 src={ABOUT_COMPANY.mediaImage}
                 alt={ABOUT_COMPANY.mediaAlt}
                 fill
-                sizes="(max-width: 640px) 92vw, (max-width: 980px) 88vw, (max-width: 1280px) 40vw, 36vw"
+                sizes="(max-width: 640px) 90vw, (max-width: 980px) 80vw, (max-width: 1280px) 34vw, 30vw"
                 className="about-company__media-img"
                 quality={75}
                 loading="lazy"

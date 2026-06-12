@@ -8,7 +8,7 @@ import type { MouseEvent, ReactElement } from "react";
  * This busts the Next.js image-optimization cache and the browser cache
  * so the new logo is served immediately instead of a stale cached version.
  */
-const LOGO_VERSION = 1;
+const LOGO_VERSION = 2;
 
 export interface LogoProps {
     /**

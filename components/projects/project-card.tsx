@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, type CSSProperties, type PointerEvent } from "react";
+import { useMemo, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 
 import type { ProjectCardProps, CSSVarStyle } from "@/types";
 
@@ -26,10 +26,18 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
+  // Cache the card's rect on pointer enter so onPointerMove never reads layout
+  // (getBoundingClientRect) on every move — that per-move read forces a reflow.
+  const rectRef = useRef<DOMRect | null>(null);
+
+  const onPointerEnter = (event: PointerEvent<HTMLAnchorElement>) => {
+    rectRef.current = event.currentTarget.getBoundingClientRect();
+  };
+
   const onPointerMove = (event: PointerEvent<HTMLAnchorElement>) => {
     const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
+    const rect = rectRef.current;
+    if (!el || !rect) return;
     const x = ((event.clientX - rect.left) / rect.width) * 100;
     const y = ((event.clientY - rect.top) / rect.height) * 100;
     el.style.setProperty("--mx", `${x}%`);
@@ -37,6 +45,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
   };
 
   const onPointerLeave = () => {
+    rectRef.current = null;
     const el = ref.current;
     if (!el) return;
     el.style.setProperty("--mx", `50%`);
@@ -70,6 +79,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       className={isIn ? "proj-card is-in" : "proj-card"}
       data-reveal=""
       style={baseStyle as CSSProperties}
+      onPointerEnter={onPointerEnter}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       aria-label={`${project.title} — ${project.description}`}

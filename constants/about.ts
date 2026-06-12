@@ -6,7 +6,7 @@ export const ABOUT_COMPANY = {
   titleLead: "is het bureau achter",
   titleEm: "nieuwe websites",
   titleTail: "die écht resultaat opleveren.",
-  mediaImage: "/images/company-img.png",
+  mediaImage: "/images/company-img.webp",
   mediaAlt:
     "Binnen bij Sarte Global — onze werkplek waar nieuwe, moderne websites worden gebouwd voor ondernemers en bedrijven in Nederland.",
   mediaCaption: "Sarte Global · Nederland",

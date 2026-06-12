@@ -74,7 +74,7 @@ export function PricingComparison({ tiers, rows }: PricingComparisonProps) {
           (open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")
         }
       >
-        <div className="min-h-0 overflow-hidden">
+        <div className="cv-section min-h-0 overflow-hidden">
           <div className="mt-3 overflow-x-auto rounded-xl border border-(--color-border)">
           <table className="w-full min-w-[560px] border-collapse">
             <thead>

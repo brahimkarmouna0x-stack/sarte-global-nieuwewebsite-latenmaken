@@ -34,6 +34,16 @@
   font-weight: 600;
 }
 
+/* Defer rendering (style + layout + paint) of large, below-the-fold content
+   blocks until they approach the viewport. Only safe on elements that already
+   clip their overflow, since content-visibility forces paint containment.
+   The `auto` keyword in contain-intrinsic-size remembers the real rendered
+   size after first paint, keeping scroll position stable. */
+.cv-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+
 /* ── Tailwind v4 custom theme tokens ── */
 @theme {
   --color-blanc-50: #FFFFFF;

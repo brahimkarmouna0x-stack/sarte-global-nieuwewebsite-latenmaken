@@ -5,18 +5,59 @@ export interface WhatsAppMessageInput {
   readonly email?: string;
   readonly projectType?: string;
   readonly planName?: string;
+  /** Formatted price string, e.g. "€995" or "€1.995+" */
+  readonly planPrice?: string;
+  /** Human-readable period label, e.g. "eenmalig" or "per maand" */
+  readonly planPeriod?: string;
+  /** List of feature / deliverable descriptions for this plan */
+  readonly planFeatures?: readonly string[];
   readonly message: string;
 }
 
-function buildMessage({
-  name,
-  email,
-  projectType,
-  planName,
-  message,
-}: WhatsAppMessageInput): string {
+export function buildMessage(input: WhatsAppMessageInput): string {
+  const {
+    name,
+    email,
+    projectType,
+    planName,
+    planPrice,
+    planPeriod,
+    planFeatures,
+    message,
+  } = input;
+
   const lines: string[] = ["Hallo Sarte Global,"];
 
+  // ── Rich invoice-style summary when full plan data is available ──
+  if (planName && planPrice) {
+    lines.push(
+      "",
+      "═══════════════════════════════",
+      "  NIEUWE AANVRAAG ─ PAKKET",
+      "═══════════════════════════════",
+      "",
+      `  Pakket: ${planName}`,
+      `  Prijs:  ${planPrice}${planPeriod ? ` (${planPeriod})` : ""}`,
+    );
+    if (planFeatures?.length) {
+      lines.push("", "  Inclusief:");
+      planFeatures.forEach((f) => lines.push(`    ✓ ${f}`));
+    }
+    lines.push("");
+    if (projectType?.trim()) {
+      lines.push(`Projecttype: ${projectType.trim()}.`);
+    }
+    if (name?.trim()) {
+      lines.push(`Naam: ${name.trim()}.`);
+    }
+    if (email?.trim()) {
+      lines.push(`E-mail: ${email.trim()}.`);
+    }
+    lines.push("", "Bericht:", message.trim());
+    return lines.join("\n");
+  }
+
+  // ── Legacy format (no pricing data — backward compatible) ──
   const trimmedName = name?.trim();
   lines.push(
     trimmedName

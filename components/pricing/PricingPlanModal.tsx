@@ -6,8 +6,9 @@ import { useEffect, useRef } from "react";
 import { getMessageStarter } from "@/constants/contact";
 import { useSiteSettings } from "@/contexts/SettingsContext";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { buildMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { PricingPrice, PricingTier } from "@/types";
+import { CheckIcon } from "./PricingIcons";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
@@ -34,20 +35,17 @@ function formatPrice(price: PricingPrice): string {
 
 function priceCaption(price: PricingPrice): string {
   if (price.amount === null) return "Offerte op maat";
-  return price.period === "maand" ? "per maand · excl. btw" : "eenmalig · excl. btw";
-}
-
-/** Short, unambiguous billing term shown prominently in the dialog. */
-function periodLabel(price: PricingPrice): string {
-  if (price.amount === null) return "Op aanvraag";
-  return price.period === "maand" ? "Per maand" : "Eenmalig";
+  return "excl. btw";
 }
 
 /**
  * Confirmation modal shown before a visitor is handed off to WhatsApp from the
- * pricing section. It restates the chosen service + tier, prominently shows the
- * billing term, previews the locked (read-only) message, and only then opens
- * WhatsApp in a new tab.
+ * pricing section. It restates the chosen service + tier, lists all included
+ * features with checkmarks, previews the locked (read-only) message, and only
+ * then opens WhatsApp in a new tab.
+ *
+ * The billing period is intentionally hidden from the UI (to reduce friction)
+ * but is still injected into the WhatsApp payload so the team sees it.
  *
  * Fully accessible: closes on Escape or overlay click, traps focus, locks body
  * scroll and restores focus to the trigger on close.
@@ -63,7 +61,24 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
   // The opening message is locked: it's derived straight from the selection and
   // never editable, so the exact payload handed off to WhatsApp can't be
   // tampered with from the dialog.
-  const message = selection ? getMessageStarter(selection.projectType) : "";
+  // The preview shows the full invoice-style message including plan details.
+  const message = (() => {
+    if (!selection) return "";
+    const { price } = selection.tier;
+    const hasPrice = price.amount !== null;
+    return buildMessage({
+      projectType: selection.projectType,
+      planName: selection.tier.name,
+      planPrice: hasPrice ? formatPrice(price) : undefined,
+      planPeriod: hasPrice
+        ? price.period === "maand"
+          ? "per maand"
+          : "eenmalig"
+        : undefined,
+      planFeatures: selection.tier.deliverables,
+      message: getMessageStarter(selection.projectType),
+    });
+  })();
 
   useEffect(() => {
     if (!open) return;
@@ -116,10 +131,21 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
 
   function handleConfirm() {
     if (!selection) return;
+    const { price } = selection.tier;
+    const hasPrice = price.amount !== null;
     const url = buildWhatsAppUrl(
       {
         projectType: selection.projectType,
         planName: selection.tier.name,
+        // Full pricing data — the period is intentionally included here
+        // (in the background payload) while being hidden from the modal UI.
+        planPrice: hasPrice ? formatPrice(price) : undefined,
+        planPeriod: hasPrice
+          ? price.period === "maand"
+            ? "per maand"
+            : "eenmalig"
+          : undefined,
+        planFeatures: selection.tier.deliverables,
         // Exact, unedited starter message — guaranteed identical to the locked
         // preview shown in the dialog.
         message: getMessageStarter(selection.projectType),
@@ -186,7 +212,7 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
                 Je gaat verder via <em className="font-normal italic text-(--color-accent)">WhatsApp</em>
               </h2>
               <p className="text-sm leading-relaxed text-(--color-text-secondary)">
-                Controleer hieronder je pakket en termijn. Daarna openen we WhatsApp met je bericht al volledig ingevuld.
+                Controleer hieronder je gekozen pakket. Daarna openen we WhatsApp met je bericht al volledig ingevuld.
               </p>
             </div>
 
@@ -228,24 +254,24 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
               </div>
             </dl>
 
-            {/* Prominent billing term — primary visual element so there's zero
-                confusion about what's charged and how long it runs. */}
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-(--color-accent)/35 bg-(--color-accent-soft) px-4 py-3.5">
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-(--color-accent)">
-                  Termijn
-                </span>
-                <span className="font-[family-name:var(--font-display)] text-xl font-extrabold leading-tight text-(--color-text)">
-                  {periodLabel(selection.tier.price)}
-                </span>
-              </div>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-(--color-accent) px-3.5 py-1.5 text-sm font-extrabold tracking-wide text-(--color-text-on-accent)">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="shrink-0">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                {selection.tier.timeline}
+            {/* Deliverables / features included in this plan — rendered with
+                checkmarks so the client sees exactly what they are getting
+                before confirming. The billing period is intentionally excluded
+                from the UI (but still included in the WhatsApp payload). */}
+            <div className="mt-4 flex flex-col gap-2">
+              <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-(--color-text-muted)">
+                Inclusief diensten
               </span>
+              <ul className="space-y-2 rounded-xl border border-(--color-border) bg-(--color-surface-2) px-4 py-3">
+                {selection.tier.deliverables.map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm leading-snug text-(--color-text)">
+                    <span className="mt-0.5 shrink-0 text-(--color-accent)">
+                      <CheckIcon />
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Locked message preview — read-only so the exact payload that's
@@ -264,11 +290,11 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
                 </span>
               </div>
               <textarea
-                rows={4}
+                rows={8}
                 value={message}
                 readOnly
                 aria-readonly="true"
-                aria-label="Voorbeeld van je WhatsApp-bericht. Dit bericht staat vast en kan niet worden bewerkt."
+                aria-label="Volledig voorbeeld van je WhatsApp-bericht met pakketdetails. Dit bericht staat vast en kan niet worden bewerkt."
                 className="w-full cursor-not-allowed resize-none select-none rounded-xl border border-(--color-border) bg-(--color-surface-2)/50 px-3.5 py-3 text-sm leading-relaxed text-(--color-text-secondary) outline-none"
               />
             </div>
