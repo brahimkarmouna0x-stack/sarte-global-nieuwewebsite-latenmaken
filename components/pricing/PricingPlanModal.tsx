@@ -183,7 +183,7 @@ export function PricingPlanModal({ selection, onClose }: PricingPlanModalProps) 
           <motion.div
             ref={panelRef}
             tabIndex={-1}
-            className="relative z-10 flex max-h-[calc(100dvh-2rem)] w-full max-w-[480px] flex-col overflow-y-auto outline-none rounded-2xl border border-(--color-border-strong) bg-(--color-surface)/90 p-5 shadow-[0_30px_80px_-22px_rgba(0,0,0,0.95),0_0_0_1px_rgba(245,166,35,0.06),inset_0_1px_0_rgba(245,240,232,0.06)] backdrop-blur-xl scrollbar-none sm:p-7 [&::-webkit-scrollbar]:hidden"
+            className="relative z-10 flex max-h-[calc(100dvh_-_clamp(32px,8vw,64px))] w-full max-w-[480px] flex-col overflow-y-auto outline-none rounded-2xl border border-(--color-border-strong) bg-(--color-surface)/90 p-5 shadow-[0_30px_80px_-22px_rgba(0,0,0,0.95),0_0_0_1px_rgba(245,166,35,0.06),inset_0_1px_0_rgba(245,240,232,0.06)] backdrop-blur-xl scrollbar-none sm:p-7 [&::-webkit-scrollbar]:hidden"
             initial={{ opacity: 0, scale: reduced ? 1 : 0.96, y: reduced ? 0 : 14 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: reduced ? 1 : 0.97, y: reduced ? 0 : 8 }}
