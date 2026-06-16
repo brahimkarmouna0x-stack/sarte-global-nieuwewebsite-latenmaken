@@ -3,6 +3,7 @@ import type {
   HeroContent,
   NavItem,
   NavLink,
+  NavMenuSection,
   SiteMeta
 } from "@/types";
 
@@ -46,27 +47,48 @@ export const SERVICE_LINKS: readonly NavLink[] = [
 ];
 
 /**
- * The nine service offerings (mapped from SERVICES) for the "Services" nav
- * dropdown — links to the /services/[slug] detail pages.
+ * Service offerings (from SERVICES) that link to the /services/[slug] detail
+ * pages — shown as the second "Onze diensten" column of the mega-menu.
+ *
+ * Offerings that already have a dedicated keyword landing page in SERVICE_LINKS
+ * (web development, e-commerce, landing pages and SEO) are excluded here, so the
+ * two columns never list the same service twice. Only the offerings without a
+ * keyword-page equivalent remain (UX/UI, mobile, AI, brand strategy, ads).
  */
-export const SERVICES_NAV: readonly NavLink[] = SERVICES.map((service) => ({
+const SERVICE_SLUGS_WITH_LANDING_PAGE: ReadonlySet<string> = new Set([
+  "web-development",
+  "ecommerce",
+  "landing-page-optimization",
+  "seo",
+]);
+
+export const SERVICES_NAV: readonly NavLink[] = SERVICES.filter(
+  (service) => !SERVICE_SLUGS_WITH_LANDING_PAGE.has(service.slug),
+).map((service) => ({
   label: service.name,
   href: service.href,
 }));
 
 /**
- * Primary nav (explicit, user-defined order). Two simple dropdowns:
- * "Diensten" (the 10 SEO keyword pages, SERVICE_LINKS) and "Services" (the 9
- * service offerings, SERVICES_NAV). Each dropdown needs a unique `menuId`.
+ * The two titled columns inside the single "Diensten" mega-menu: the keyword
+ * landing pages (SERVICE_LINKS) and the broader service catalogue (SERVICES_NAV).
+ */
+export const NAV_SERVICE_SECTIONS: readonly NavMenuSection[] = [
+  { title: "Websites & webshops", items: SERVICE_LINKS },
+  { title: "Onze diensten", items: SERVICES_NAV },
+];
+
+/**
+ * Primary nav (explicit, user-defined order). One "Diensten" dropdown that
+ * opens a wide mega-menu combining both service lists (see NAV_SERVICE_SECTIONS).
  */
 export const NAV_ITEMS: readonly NavItem[] = [
   { kind: "link", label: "Nieuwe website", href: "/" },
   { kind: "link", label: "Prijzen", href: "#pakketten" },
   { kind: "link", label: "Website laten maken", href: "/website-laten-maken", shortLabel: "Website laten maken" },
-  { kind: "dropdown", label: "Diensten", menuId: "nav-diensten-menu", items: SERVICE_LINKS },
+  { kind: "dropdown", label: "Diensten", menuId: "nav-diensten-menu", sections: NAV_SERVICE_SECTIONS },
   { kind: "link", label: "WordPress laten maken", href: "/wordpress-website-laten-maken", shortLabel: "WordPress laten maken" },
   { kind: "link", label: "Webshop laten maken", href: "/webshop-laten-maken", shortLabel: "Webshop laten maken" },
-  { kind: "dropdown", label: "Services", menuId: "nav-services-menu", items: SERVICES_NAV },
   { kind: "link", label: "Contact", href: "/contact" },
 ];
 

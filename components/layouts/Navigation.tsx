@@ -96,7 +96,7 @@ export function Navigation() {
                   key={item.menuId}
                   label={item.label}
                   menuId={item.menuId}
-                  items={item.items}
+                  sections={item.sections}
                 />
               ) : (
                 renderNavLink(item)

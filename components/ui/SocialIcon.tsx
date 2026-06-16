@@ -1,17 +1,35 @@
-import type { SocialLink } from "@/types";
+import type { SocialIconName, SocialLink } from "@/types";
 
 export interface SocialIconProps {
   readonly icon: SocialLink["icon"];
 }
 
+/**
+ * Icon names this component can actually draw a glyph for. Used by the footer
+ * and team section to skip any social link whose icon can't be rendered, so a
+ * configured-but-unsupported icon never produces an empty, icon-less link.
+ */
+export const SUPPORTED_SOCIAL_ICONS: ReadonlySet<SocialIconName> = new Set([
+  "linkedin",
+  "x",
+  "dribbble",
+  "instagram",
+  "facebook",
+]);
+
+/** True when this icon renders a visible glyph (i.e. is safe to show as a link). */
+export function hasSocialIcon(icon: SocialIconName): boolean {
+  return SUPPORTED_SOCIAL_ICONS.has(icon);
+}
+
 export function SocialIcon({ icon }: SocialIconProps) {
   switch (icon) {
-    // case "linkedin":
-    //   return (
-    //     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    //       <path d="M4 4h4v4H4zm0 6h4v10H4zm6 0h4v2c1-1.4 2.6-2.2 4-2.2 3 0 5 2 5 5.2V20h-4v-6c0-1.6-.8-2.4-2-2.4s-2 .8-2 2.4v6h-4V10z" />
-    //     </svg>
-    //   );
+    case "linkedin":
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M4 4h4v4H4zm0 6h4v10H4zm6 0h4v2c1-1.4 2.6-2.2 4-2.2 3 0 5 2 5 5.2V20h-4v-6c0-1.6-.8-2.4-2-2.4s-2 .8-2 2.4v6h-4V10z" />
+        </svg>
+      );
     case "x":
       return (
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

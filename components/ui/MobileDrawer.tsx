@@ -106,23 +106,30 @@ export function MobileDrawer({
               <li key={item.menuId} className="drawer-services">
                 <details>
                   <summary>{item.label}</summary>
-                  <ul className="drawer-services__list">
-                    {item.items.map((link) => {
-                      const active = pathname === link.href;
-                      return (
-                        <li key={link.href}>
-                          <Link
-                            href={link.href}
-                            className={active ? "active" : ""}
-                            aria-current={active ? "page" : undefined}
-                            onClick={onClose}
-                          >
-                            {link.label}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  {item.sections.map((section) => (
+                    <div className="drawer-services__group" key={section.title}>
+                      <p className="drawer-services__group-title">
+                        {section.title}
+                      </p>
+                      <ul className="drawer-services__list">
+                        {section.items.map((link) => {
+                          const active = pathname === link.href;
+                          return (
+                            <li key={link.href}>
+                              <Link
+                                href={link.href}
+                                className={active ? "active" : ""}
+                                aria-current={active ? "page" : undefined}
+                                onClick={onClose}
+                              >
+                                {link.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))}
                 </details>
               </li>
             ) : (

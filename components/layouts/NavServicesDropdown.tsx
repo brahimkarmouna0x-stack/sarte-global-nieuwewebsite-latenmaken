@@ -4,30 +4,30 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { SERVICE_LINKS } from "@/constants";
-import type { NavLink } from "@/types";
+import { NAV_SERVICE_SECTIONS } from "@/constants";
+import type { NavMenuSection } from "@/types";
 
 interface NavServicesDropdownProps {
-  /** Trigger label (e.g. "Diensten" or "Services"). */
+  /** Trigger label (e.g. "Diensten"). */
   readonly label?: string;
   /** Unique panel id — required when more than one dropdown is in the bar. */
   readonly menuId?: string;
-  /** Links shown inside the dropdown (page names only). */
-  readonly items?: readonly NavLink[];
+  /** Titled link groups shown as columns inside the mega-menu. */
+  readonly sections?: readonly NavMenuSection[];
 }
 
 /**
- * Desktop services dropdown — a simple list of links (page names only, no icons
- * or descriptions). Reused for both the "Diensten" (keyword pages) and "Services"
- * (service offerings) menus by passing different `items`. Opens on hover (pointer)
- * and on click/keyboard (touch + a11y fallback); closes on outside-click + Escape.
- * Lives inside `.nav-links`, so the responsive rule that hides the desktop bar
- * collapses it automatically (the mobile drawer renders the same lists).
+ * Desktop "Diensten" mega-menu — a wide panel with titled columns of links (no
+ * icons or descriptions). Combines the keyword landing pages and the service
+ * catalogue into one menu. Opens on hover (pointer) and on click/keyboard
+ * (touch + a11y fallback); closes on outside-click + Escape. Lives inside
+ * `.nav-links`, so the responsive rule that hides the desktop bar collapses it
+ * automatically (the mobile drawer renders the same lists).
  */
 export function NavServicesDropdown({
-  label = "Services",
+  label = "Diensten",
   menuId = "nav-diensten-menu",
-  items = SERVICE_LINKS,
+  sections = NAV_SERVICE_SECTIONS,
 }: NavServicesDropdownProps = {}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
@@ -56,7 +56,9 @@ export function NavServicesDropdown({
     };
   }, [open]);
 
-  const serviceActive = items.some((link) => link.href === pathname);
+  const serviceActive = sections.some((section) =>
+    section.items.some((link) => link.href === pathname),
+  );
 
   return (
     <li
@@ -89,25 +91,43 @@ export function NavServicesDropdown({
         </svg>
       </button>
 
-      <div className="nav-dropdown__panel" id={menuId} role="menu">
-        <ul className="nav-dropdown__list">
-          {items.map((link) => {
-            const active = pathname === link.href;
-            return (
-              <li key={link.href} role="none">
-                <Link
-                  href={link.href}
-                  role="menuitem"
-                  className={active ? "active" : ""}
-                  aria-current={active ? "page" : undefined}
-                  onClick={() => setOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+      <div
+        className="nav-dropdown__panel nav-dropdown__panel--mega"
+        id={menuId}
+        role="menu"
+      >
+        <div className="nav-dropdown__mega">
+          {sections.map((section) => (
+            <div
+              key={section.title}
+              className="nav-dropdown__section"
+              role="group"
+              aria-label={section.title}
+            >
+              <p className="nav-dropdown__section-title" aria-hidden="true">
+                {section.title}
+              </p>
+              <ul className="nav-dropdown__list">
+                {section.items.map((link) => {
+                  const active = pathname === link.href;
+                  return (
+                    <li key={link.href} role="none">
+                      <Link
+                        href={link.href}
+                        role="menuitem"
+                        className={active ? "active" : ""}
+                        aria-current={active ? "page" : undefined}
+                        onClick={() => setOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </li>
   );

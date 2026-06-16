@@ -10,7 +10,7 @@ import { getSiteSettings } from "@/lib/settings";
 
 import { Container } from "../ui/Container";
 import { PaymentIcon } from "../ui/PaymentIcon";
-import { SocialIcon } from "../ui/SocialIcon";
+import { SocialIcon, hasSocialIcon } from "../ui/SocialIcon";
 import { Logo } from "../shared/Logo";
 
 export async function Footer() {
@@ -20,6 +20,9 @@ export async function Footer() {
   // number would otherwise make React sanitize the link to
   // `about:invalid#zCSafez`, which is what broke the live footer link.
   const telHref = `tel:${settings.phone.replace(/[^\d+]/g, "")}`;
+  // Only show socials that come from a real settings value AND have a drawable
+  // icon — never render an empty, icon-less link.
+  const socialLinks = settings.socialLinks.filter((social) => hasSocialIcon(social.icon));
 
   return (
     <footer aria-label="Sitevoettekst">
@@ -147,9 +150,9 @@ export async function Footer() {
               </a>
             ))}
           </div>
-          {settings.socialLinks.length > 0 ? (
+          {socialLinks.length > 0 ? (
             <div className="socials" aria-label="Social media">
-              {settings.socialLinks.map((social) => (
+              {socialLinks.map((social) => (
                 <a
                   key={social.icon}
                   href={social.href}

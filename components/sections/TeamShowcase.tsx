@@ -7,7 +7,7 @@ import { useSiteSettings } from "@/contexts/SettingsContext";
 import { useTeamShowcase } from "@/hooks/useTeamShowcase";
 
 import { CTAButton } from "../ui/CTAButton";
-import { SocialIcon } from "../ui/SocialIcon";
+import { SocialIcon, hasSocialIcon } from "../ui/SocialIcon";
 import { TeamStage } from "../ui/TeamStage";
 
 function padIndex(value: number): string {
@@ -15,7 +15,9 @@ function padIndex(value: number): string {
 }
 
 export function TeamShowcase() {
-  const { socialLinks } = useSiteSettings();
+  const { socialLinks: allSocialLinks } = useSiteSettings();
+  // Skip any social link without a drawable icon, so no empty link is rendered.
+  const socialLinks = allSocialLinks.filter((social) => hasSocialIcon(social.icon));
   const showcase = useTeamShowcase({
     length: TEAM_MEMBERS.length,
     durationMs: TEAM_SECTION.durationMs,

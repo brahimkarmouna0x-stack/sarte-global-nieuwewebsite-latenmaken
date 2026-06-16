@@ -817,8 +817,35 @@ section {
   color: var(--color-text);
 }
 
-/* The dense primary nav (8 items incl. 2 dropdowns) + CTA needs real width —
-   collapse to the mobile drawer below ~1240px so the desktop bar never crowds. */
+/* ── Wide "Diensten" mega-menu: titled columns combining both service lists ── */
+.nav-dropdown__panel--mega {
+  width: min(640px, calc(100vw - 32px));
+}
+
+.nav-dropdown__mega {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+}
+
+.nav-dropdown__section-title {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* Allow long keyword labels to wrap inside the fixed-width columns instead of
+   overflowing them. */
+.nav-dropdown__panel--mega .nav-dropdown__list a {
+  white-space: normal;
+}
+
+/* The dense primary nav + CTA needs real width — collapse to the mobile drawer
+   below ~1240px so the desktop bar never crowds. */
 @media (max-width: 1240px) {
   .nav-links,
   .nav-cta {
@@ -901,6 +928,26 @@ section {
 .drawer .drawer-services__list a:focus-visible {
   background: var(--color-surface-hover);
   color: var(--color-text);
+}
+
+/* Section heading for each group inside the drawer "Diensten" accordion. */
+.drawer-services__group-title {
+  margin: 8px 0 0;
+  padding: 0 14px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.drawer-services__group:first-of-type .drawer-services__group-title {
+  margin-top: 4px;
+}
+
+.drawer .drawer-services__group .drawer-services__list {
+  padding-bottom: 8px;
 }
 
 /* ── Mobile drawer ── */

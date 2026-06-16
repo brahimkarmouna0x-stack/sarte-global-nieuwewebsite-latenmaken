@@ -30,11 +30,18 @@ export interface NavLink {
   readonly shortLabel?: string;
 }
 
+/** A titled group of links shown as one column inside a nav mega-menu. */
+export interface NavMenuSection {
+  /** Column heading shown above the links (e.g. "Onze diensten"). */
+  readonly title: string;
+  readonly items: readonly NavLink[];
+}
+
 /**
- * A primary-nav entry: either a normal link or a hover-dropdown trigger (the
- * dropdown lists the full SERVICE_LINKS catalogue). `menuId` must be unique per
- * dropdown instance so the panel's `id` / `aria-controls` stay valid when more
- * than one dropdown is rendered in the bar.
+ * A primary-nav entry: either a normal link or a hover-dropdown trigger. The
+ * dropdown renders a wide mega-menu of titled `sections` (columns). `menuId`
+ * must be unique per dropdown instance so the panel's `id` / `aria-controls`
+ * stay valid when more than one dropdown is rendered in the bar.
  */
 export type NavItem =
   | { readonly kind: "link"; readonly label: string; readonly href: string; readonly shortLabel?: string }
@@ -42,8 +49,8 @@ export type NavItem =
       readonly kind: "dropdown";
       readonly label: string;
       readonly menuId: string;
-      /** Links shown inside this dropdown (page names only). */
-      readonly items: readonly NavLink[];
+      /** Titled link groups shown as columns inside the mega-menu. */
+      readonly sections: readonly NavMenuSection[];
     };
 
 export interface HeroStat {

@@ -2,25 +2,33 @@ import { LANDING_HERO, type LandingHeroContent } from "@/constants";
 import type { CSSVarStyle } from "@/types";
 
 import { Container } from "../ui/Container";
-import { CTAButton } from "../ui/CTAButton";
 
 const CHART_BARS = [38, 56, 47, 72, 64, 88, 100] as const;
 
 interface LandingHeroProps {
   readonly content?: LandingHeroContent;
+  /**
+   * Accepted for backward compatibility with existing call sites. The primary
+   * CTA now scrolls to the on-page pricing section instead of opening WhatsApp,
+   * so the project type is no longer read here (the bottom-of-page final CTA
+   * and the floating button still drive the WhatsApp flow).
+   */
   readonly projectType?: string;
+  /** Anchor the primary CTA scrolls to. Defaults to the pricing section. */
+  readonly primaryCtaHref?: string;
 }
 
 /**
  * Premium split hero: persuasive copy on the left, an animated browser/dashboard
  * mockup with floating UI pills on the right. Pure-CSS motion (reuses the brand
  * hero keyframes); server component so it stays in the static payload. Defaults
- * to the "nieuwe website" copy; pass `content`/`projectType` to reuse it for the
- * WordPress and webshop service pages.
+ * to the "nieuwe website" copy; pass `content` to reuse it for the WordPress,
+ * webshop and other service pages. The primary CTA scrolls visitors to the
+ * pricing ("Pakketten") section so they choose a package before contacting us.
  */
 export function LandingHero({
   content = LANDING_HERO,
-  projectType = "Nieuwe website laten maken",
+  primaryCtaHref = "#pakketten",
 }: LandingHeroProps = {}) {
   return (
     <section className="wlm-hero" aria-labelledby="lp-hero-h">
@@ -44,12 +52,10 @@ export function LandingHero({
           <p className="sub wlm-hero__sub">{content.sub}</p>
 
           <div className="wlm-hero__cta">
-            <CTAButton
-              label={content.primaryCta}
-              variant="primary"
-              size="large"
-              projectType={projectType}
-            />
+            <a href={primaryCtaHref} className="btn btn-primary btn-large">
+              {content.primaryCta}
+              <span className="arr">→</span>
+            </a>
             <a
               href={content.secondaryCta.href}
               className="btn btn-ghost btn-large"
