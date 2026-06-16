@@ -14,7 +14,11 @@ export function ContactPageBody() {
   const [done, setDone] = useState<boolean>(false);
 
   return (
-    <section className="contact-form-section" aria-labelledby="contact-form-h">
+    <section
+      id="contact-form"
+      className="contact-form-section"
+      aria-labelledby="contact-form-h"
+    >
       <Container>
         <Reveal as="header" className="section-head">
           <div>

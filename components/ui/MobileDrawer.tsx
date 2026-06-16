@@ -41,10 +41,15 @@ export function MobileDrawer({
     const isRoute = link.href.startsWith("/");
     if (isRoute) {
       const active = pathname === link.href;
+      // Mobile-only: send "Contact" straight to the form section so a tap lands
+      // the visitor on the message form instead of the top of the page. The
+      // global scroll-padding-top keeps the heading clear of the fixed navbar.
+      const href =
+        link.href === "/contact" ? "/contact#contact-form" : link.href;
       return (
         <li key={link.href}>
           <Link
-            href={link.href}
+            href={href}
             className={active ? "active" : ""}
             aria-current={active ? "page" : undefined}
             onClick={onClose}

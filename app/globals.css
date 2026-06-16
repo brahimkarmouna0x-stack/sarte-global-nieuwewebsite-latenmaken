@@ -395,9 +395,11 @@ html {
   overflow-x: clip;
 }
 
-/* Legacy fallback: Safari < 16 lacks `overflow: clip`. */
+/* Legacy fallback: Safari < 16 lacks `overflow: clip` (the `body` rule below
+   would be dropped as invalid there, leaving it overflow-x: visible). */
 @supports not (overflow: clip) {
-  html {
+  html,
+  body {
     overflow-x: hidden;
   }
 }
@@ -416,6 +418,14 @@ body {
   font-size: 17px;
   line-height: 1.65;
   overflow-x: clip;
+  /* Never wider than the screen. Without this a single overflowing element can
+     make iOS Safari compute a fractional initial-scale — the page loads
+     "zoomed out" on some phones. */
+  max-width: 100%;
+  /* Long Dutch compound words ("schaalbaarheid", "Next.js-website") hit the
+     clamp() minimum font sizes on 320–360px screens and would otherwise push
+     past the viewport. Break them only when they can't fit. */
+  overflow-wrap: break-word;
 }
 
 ::selection {
@@ -867,7 +877,7 @@ section {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-accent);
 }
 
 /* Lay each section's links top-to-bottom, max 5 per column; a 6th link wraps
