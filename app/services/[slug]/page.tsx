@@ -166,7 +166,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <LandingLocalSeo serviceLabel={service.name} />
 
       {/* 12 — Final CTA */}
-      <ServiceCTA copy={service.cta} projectType={service.name} />
+      <ServiceCTA copy={service.cta} />
 
       {/* Interne links */}
       <section className="lp-related" aria-label="Meer over Sarte Global">

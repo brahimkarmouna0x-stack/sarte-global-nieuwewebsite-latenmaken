@@ -1,7 +1,6 @@
 import type { CSSVarStyle, Service } from "@/types";
 
 import { Container } from "../ui/Container";
-import { CTAButton } from "../ui/CTAButton";
 
 const CHART_BARS = [38, 56, 47, 72, 64, 88, 100] as const;
 
@@ -35,12 +34,10 @@ export function ServicePageHero({ service }: ServicePageHeroProps) {
           <p className="sub svc-page-hero__sub">{service.tagline}</p>
 
           <div className="svc-page-hero__cta">
-            <CTAButton
-              label={service.cta.primaryLabel}
-              variant="primary"
-              size="large"
-              projectType={service.name}
-            />
+            <a href="#pakketten" className="btn btn-primary btn-large">
+              {service.cta.primaryLabel}
+              <span className="arr">→</span>
+            </a>
             <a href={service.cta.secondaryHref} className="btn btn-ghost btn-large">
               {service.cta.secondaryLabel}
             </a>

@@ -1,15 +1,13 @@
 import type { ServiceCTACopy } from "@/types";
 
-import { CTAButton } from "../ui/CTAButton";
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 
 interface ServiceCTAProps {
   copy: ServiceCTACopy;
-  projectType?: string;
 }
 
-export function ServiceCTA({ copy, projectType }: ServiceCTAProps) {
+export function ServiceCTA({ copy }: ServiceCTAProps) {
   return (
     <section className="svc-cta" aria-label="Neem contact op">
       <Container>
@@ -24,12 +22,10 @@ export function ServiceCTA({ copy, projectType }: ServiceCTAProps) {
             <p className="sub svc-cta-card__sub">{copy.sub}</p>
 
             <div className="svc-cta-card__actions">
-              <CTAButton
-                label={copy.primaryLabel}
-                variant="primary"
-                size="large"
-                projectType={projectType}
-              />
+              <a href="#pakketten" className="btn btn-primary btn-large">
+                {copy.primaryLabel}
+                <span className="arr">→</span>
+              </a>
               <a href={copy.secondaryHref} className="btn btn-ghost">
                 {copy.secondaryLabel}
               </a>
