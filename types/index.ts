@@ -23,7 +23,28 @@ export type ServiceIconName =
 export interface NavLink {
   readonly label: string;
   readonly href: string;
+  /**
+   * Optional condensed label for the desktop nav bar, where the full
+   * keyword-rich `label` (kept for the mobile drawer + a11y) would be too wide.
+   */
+  readonly shortLabel?: string;
 }
+
+/**
+ * A primary-nav entry: either a normal link or a hover-dropdown trigger (the
+ * dropdown lists the full SERVICE_LINKS catalogue). `menuId` must be unique per
+ * dropdown instance so the panel's `id` / `aria-controls` stay valid when more
+ * than one dropdown is rendered in the bar.
+ */
+export type NavItem =
+  | { readonly kind: "link"; readonly label: string; readonly href: string; readonly shortLabel?: string }
+  | {
+      readonly kind: "dropdown";
+      readonly label: string;
+      readonly menuId: string;
+      /** Links shown inside this dropdown (page names only). */
+      readonly items: readonly NavLink[];
+    };
 
 export interface HeroStat {
   readonly label: string;
@@ -341,6 +362,7 @@ export interface RevealProps {
   readonly as?: "div" | "section" | "article" | "header" | "span" | "aside";
   readonly className?: string;
   readonly index?: number;
+  readonly role?: string;
   readonly style?: CSSProperties;
   readonly id?: string;
   readonly ariaLabelledby?: string;

@@ -1,10 +1,12 @@
 import type {
   FooterColumn,
   HeroContent,
+  NavItem,
   NavLink,
-  SiteMeta,
-  SocialLink
+  SiteMeta
 } from "@/types";
+
+import { SERVICES } from "./services";
 
 export const SITE = {
   title: "Nieuwe website laten maken | Professionele Websites - Sarte Global",
@@ -16,22 +18,57 @@ export const SITE = {
   url: "https://nieuwewebsite-latenmaken.nl",
   name: "Sarte Global",
   email: "info@sarteglobal.com",
-  // TODO: vervang door definitief Nederlands telefoonnummer
-  phone: "+212766269594",
+  // Online-only / nationaal: geen telefoonnummer getoond. Contact loopt via
+  // e-mail en WhatsApp. Vul hier pas een nummer in als er een geldig
+  // Nederlands telefoonnummer is — leeg laten betekent: geen telefoon in UI/schema.
+  phone: "",
 } as const satisfies SiteMeta;
 
 export const TRUST_LINE =
   "Nieuwe website laten maken is een dienst van Sarte Global." as const;
 
-export const NAV_LINKS = [
-  { label: "Nieuwe website", href: "/" },
-  { label: "Diensten", href: "#services" },
-  { label: "Pakketten", href: "#pakketten" },
+/**
+ * The 10 service pages — single source for the "Services" nav dropdown, the
+ * mobile drawer group and the footer "Diensten" column. Keyword-rich labels +
+ * canonical routes (all pages exist), so every Diensten link is SEO-relevant.
+ */
+export const SERVICE_LINKS: readonly NavLink[] = [
   { label: "Website laten maken", href: "/website-laten-maken" },
-  { label: "Proces", href: "#process" },
-  { label: "Over ons", href: "#about" },
-  { label: "Journal", href: "#journal" },
-] as const satisfies readonly NavLink[];
+  { label: "WordPress website laten maken", href: "/wordpress-website-laten-maken" },
+  { label: "Next.js website laten maken", href: "/nextjs-website-laten-maken" },
+  { label: "Webshop laten maken", href: "/webshop-laten-maken" },
+  { label: "WooCommerce webshop laten maken", href: "/woocommerce-webshop-laten-maken" },
+  { label: "Shopify webshop laten maken", href: "/shopify-webshop-laten-maken" },
+  { label: "Landing page laten maken", href: "/landing-page-laten-maken" },
+  { label: "Webapp laten maken", href: "/webapp-laten-maken" },
+  { label: "SEO optimalisatie", href: "/seo-optimalisatie" },
+  { label: "Website onderhoud", href: "/website-onderhoud" },
+];
+
+/**
+ * The nine service offerings (mapped from SERVICES) for the "Services" nav
+ * dropdown — links to the /services/[slug] detail pages.
+ */
+export const SERVICES_NAV: readonly NavLink[] = SERVICES.map((service) => ({
+  label: service.name,
+  href: service.href,
+}));
+
+/**
+ * Primary nav (explicit, user-defined order). Two simple dropdowns:
+ * "Diensten" (the 10 SEO keyword pages, SERVICE_LINKS) and "Services" (the 9
+ * service offerings, SERVICES_NAV). Each dropdown needs a unique `menuId`.
+ */
+export const NAV_ITEMS: readonly NavItem[] = [
+  { kind: "link", label: "Nieuwe website", href: "/" },
+  { kind: "link", label: "Prijzen", href: "#pakketten" },
+  { kind: "link", label: "Website laten maken", href: "/website-laten-maken", shortLabel: "Website laten maken" },
+  { kind: "dropdown", label: "Diensten", menuId: "nav-diensten-menu", items: SERVICE_LINKS },
+  { kind: "link", label: "WordPress laten maken", href: "/wordpress-website-laten-maken", shortLabel: "WordPress laten maken" },
+  { kind: "link", label: "Webshop laten maken", href: "/webshop-laten-maken", shortLabel: "Webshop laten maken" },
+  { kind: "dropdown", label: "Services", menuId: "nav-services-menu", items: SERVICES_NAV },
+  { kind: "link", label: "Contact", href: "/contact" },
+];
 
 export const NAV_CTA = {
   label: "Offerte aanvragen",
@@ -89,18 +126,12 @@ export const FOOTER_MISSION =
 export const FOOTER_COLUMNS = [
   {
     title: "Diensten",
-    links: [
-      { label: "Website laten maken", href: "/services/web-development" },
-      { label: "Webshop laten maken", href: "/services/ecommerce" },
-      { label: "Landingspagina", href: "/services/landing-page-optimization" },
-      { label: "UX / UI design", href: "/services/ui-ux-design" },
-      { label: "SEO & content", href: "/services/seo" },
-    ],
+    links: SERVICE_LINKS,
   },
   {
     title: "Bedrijf",
     links: [
-      { label: "Over ons", href: "/about" },
+      { label: "Over ons", href: "/over-ons" },
       { label: "Werk", href: "/work" },
       { label: "Journal", href: "/journal" },
       { label: "Vacatures", href: "/careers" },
@@ -141,13 +172,6 @@ export const PAYMENT_METHODS = [
 
 export type PaymentMethodId = (typeof PAYMENT_METHODS)[number]["id"];
 
-export const SOCIAL_LINKS = [
-  { label: "LinkedIn", href: "#", icon: "linkedin" },
-  { label: "X", href: "#", icon: "x" },
-  { label: "Dribbble", href: "#", icon: "dribbble" },
-  { label: "Instagram", href: "#", icon: "instagram" },
-] as const satisfies readonly SocialLink[];
-
 export const COOKIE_COPY = {
   message:
     "We gebruiken een klein aantal cookies om verkeer te begrijpen en deze website te verbeteren.",
@@ -162,6 +186,15 @@ export const COOKIE_COPY = {
 export * from "./about";
 export * from "./new-website";
 export * from "./landing-nieuwe-website";
+export * from "./wordpress";
+export * from "./webshop";
+export * from "./woocommerce";
+export * from "./shopify";
+export * from "./landing-page";
+export * from "./webapp";
+export * from "./seo-optimalisatie";
+export * from "./website-onderhoud";
+export * from "./nextjs";
 export * from "./pricing";
 export * from "./journal";
 export * from "./services";

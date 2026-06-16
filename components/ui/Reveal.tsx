@@ -12,6 +12,7 @@ export function Reveal({
   index,
   style,
   id,
+  role,
   ariaLabelledby,
   ariaLabel,
 }: RevealProps) {
@@ -38,6 +39,7 @@ export function Reveal({
       id,
       "aria-labelledby": ariaLabelledby,
       "aria-label": ariaLabel,
+      role,
     },
     children
   );

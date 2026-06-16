@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
+import { LandingCases } from "@/components/landing/LandingCases";
+import { LandingLocalSeo } from "@/components/landing/LandingLocalSeo";
+import { LandingWhyStats } from "@/components/landing/LandingWhyStats";
 import { LandingFinalCTA } from "@/components/landing/LandingFinalCTA";
 import { LandingFeaturesSlider } from "@/components/landing/LandingFeaturesSlider";
 import { LandingHero } from "@/components/landing/LandingHero";
@@ -14,10 +17,15 @@ import { PricingSchema } from "@/components/pricing/PricingSchema";
 import { PricingSection } from "@/components/pricing/PricingSection";
 import { TrustedMarquee } from "@/components/sections/TrustedMarquee";
 import { Container } from "@/components/ui/Container";
-import { LANDING_BENEFITS, LANDING_FAQ, SITE } from "@/constants";
+import { LANDING_BENEFITS, LANDING_FAQ } from "@/constants";
 import { ProjectsSection } from "@/components/projects/projects-section";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Services } from "@/components/sections/Services";
+import {
+  buildBreadcrumbSchema,
+  buildFaqSchema,
+  buildServiceSchema,
+} from "@/lib/seo";
 
 const PATH = "/website-laten-maken";
 const PAGE_TITLE = "website laten maken | Sarte Global";
@@ -66,55 +74,16 @@ export const metadata: Metadata = {
   },
 };
 
-const PAGE_URL = `${SITE.url}${PATH}`;
-
-const SERVICE_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "@id": `${PAGE_URL}/#service`,
+const SERVICE_JSON_LD = buildServiceSchema({
+  path: PATH,
   name: "website laten maken",
-  serviceType: "website laten maken",
-  url: PAGE_URL,
   description: PAGE_DESC,
-  provider: { "@id": `${SITE.url}/#organization` },
-  areaServed: { "@type": "Country", name: "Netherlands" },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Voordelen van een nieuwe website",
-    itemListElement: LANDING_BENEFITS.map((benefit) => ({
-      "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        name: benefit.title,
-        description: benefit.description,
-      },
-    })),
-  },
-};
+  offerCatalogName: "Voordelen van een nieuwe website",
+  offers: LANDING_BENEFITS,
+});
 
-const BREADCRUMB_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Nieuwe website laten maken",
-      item: PAGE_URL,
-    },
-  ],
-};
-
-const FAQ_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: LANDING_FAQ.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: { "@type": "Answer", text: item.answer },
-  })),
-};
+const BREADCRUMB_JSON_LD = buildBreadcrumbSchema("Nieuwe website laten maken", PATH);
+const FAQ_JSON_LD = buildFaqSchema(LANDING_FAQ);
 
 export default function NieuweWebsiteLatenMakenPage() {
   return (
@@ -141,6 +110,9 @@ export default function NieuweWebsiteLatenMakenPage() {
       <TrustedMarquee />
       <LandingTrustStats />
 
+      {/* 02b — Waarom kiezen voor ons */}
+      <LandingWhyStats />
+
       {/* 03 — Waarom Sarte Global */}
       <LandingWhy />
 
@@ -152,8 +124,10 @@ export default function NieuweWebsiteLatenMakenPage() {
 
       <Services />
 
-      {/* 06 — Inspiratie: succesvolle Nederlandse merken */}
-      {/* <LandingInspiration /> */}
+      {/* 06 — Resultaten voor onze klanten */}
+      <LandingCases />
+
+      {/* 07 — Portfolio */}
       <ProjectsSection />
 
       {/* 07 — Branches */}
@@ -169,6 +143,9 @@ export default function NieuweWebsiteLatenMakenPage() {
       {/* 09 — Veelgestelde vragen */}
       <FAQAccordion items={LANDING_FAQ} />
 
+      {/* Werkzaam in heel Nederland */}
+      <LandingLocalSeo serviceLabel="Website laten maken" />
+
       {/* 10 — Final CTA met formulier */}
       <LandingFinalCTA />
 
@@ -177,10 +154,12 @@ export default function NieuweWebsiteLatenMakenPage() {
         <Container>
           <nav className="lp-related__nav" aria-label="Gerelateerde pagina's">
             <Link href="/">Home</Link>
+            <Link href="/nextjs-website-laten-maken">Next.js website laten maken</Link>
+            <Link href="/wordpress-website-laten-maken">WordPress website laten maken</Link>
+            <Link href="/webshop-laten-maken">Webshop laten maken</Link>
+            <Link href="/landing-page-laten-maken">Landing page laten maken</Link>
+            <Link href="/seo-optimalisatie">SEO optimalisatie</Link>
             <Link href="/work">Portfolio</Link>
-            <Link href="/about">Over ons</Link>
-            <Link href="/services/web-development">Website laten maken</Link>
-            <Link href="/services/seo">SEO &amp; groei</Link>
             <Link href="/contact">Contact</Link>
           </nav>
         </Container>

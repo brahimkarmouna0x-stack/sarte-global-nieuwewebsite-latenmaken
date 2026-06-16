@@ -16,6 +16,14 @@ export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESC,
   alternates: { canonical: "/contact" },
+  keywords: [
+    "contact",
+    "website laten maken offerte",
+    "webdesign bureau contact",
+    "offerte website",
+    "gratis kennismaking website",
+    "Sarte Global contact",
+  ],
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESC,
@@ -34,23 +42,28 @@ const SITE_URL = SITE.url;
 
 /** Merges the static channel copy (labels, notes, icons) with live settings values from Supabase. */
 function buildContactChannels(settings: SiteSettings): readonly ContactChannel[] {
-  return CONTACT_CHANNELS.map((channel) => {
+  return CONTACT_CHANNELS.flatMap((channel) => {
     switch (channel.icon) {
       case "mail":
-        return { ...channel, value: settings.email, href: `mailto:${settings.email}` };
+        return [{ ...channel, value: settings.email, href: `mailto:${settings.email}` }];
       case "phone":
-        return {
-          ...channel,
-          value: settings.phone,
-          // Keep only digits and a leading "+" so the result is always a valid
-          // `tel:` URL (mirrors the footer; avoids React's `about:invalid` href
-          // sanitization on numbers containing spaces or punctuation).
-          href: `tel:${settings.phone.replace(/[^\d+]/g, "")}`,
-        };
+        // Online-only/national: hide the phone channel entirely when no valid
+        // number is configured, rather than showing an empty `tel:` link.
+        if (!settings.phone) return [];
+        return [
+          {
+            ...channel,
+            value: settings.phone,
+            // Keep only digits and a leading "+" so the result is always a valid
+            // `tel:` URL (mirrors the footer; avoids React's `about:invalid` href
+            // sanitization on numbers containing spaces or punctuation).
+            href: `tel:${settings.phone.replace(/[^\d+]/g, "")}`,
+          },
+        ];
       case "chat":
-        return { ...channel, href: `https://wa.me/${settings.whatsapp}` };
+        return [{ ...channel, href: `https://wa.me/${settings.whatsapp}` }];
       default:
-        return channel;
+        return [channel];
     }
   });
 }
@@ -66,11 +79,11 @@ function buildContactJsonLd(settings: SiteSettings) {
       "@type": "Organization",
       name: "Sarte Global",
       email: settings.email,
-      telephone: settings.phone,
+      ...(settings.phone ? { telephone: settings.phone } : {}),
       address: {
+        // Online-only / nationaal: alleen land, geen (fictief) vestigingsadres.
         "@type": "PostalAddress",
         addressCountry: "NL",
-        // TODO: vul echte vestigingsgegevens in (straat, postcode, plaats)
       },
     },
   };

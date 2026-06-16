@@ -1,5 +1,8 @@
 import "server-only";
 
+import { unstable_cache } from "next/cache";
+import { cache } from "react";
+
 import { FOOTER_MISSION, SITE } from "@/constants";
 import { WHATSAPP_NUMBER } from "@/constants/contact";
 import type { SettingsRecord, SiteSettings, SocialLink } from "@/types";
@@ -32,10 +35,11 @@ const FALLBACK: SiteSettings = {
   phone: SITE.phone,
   email: SITE.email,
   whatsapp: WHATSAPP_NUMBER,
+  // Online-only / nationaal: geen fysiek vestigingsadres, wel landelijke dekking.
   address: {
-    line: "30 N Gould St Ste R",
-    city: "Sheridan, WY 82801",
-    country: "United States",
+    line: "Werkzaam door heel Nederland",
+    city: "Online & op afspraak",
+    country: "Nederland",
   },
   footerMission: FOOTER_MISSION,
   // Fall back to the default profiles so social icons always show, even before
@@ -93,11 +97,12 @@ function mapRecord(record: SettingsRecord): SiteSettings {
 }
 
 /**
- * Fetches the singleton site settings from Supabase (server-side, cached via
- * ISR + the "settings" tag). Always resolves: on any error or missing record it
- * returns the constants-based fallback so the UI never breaks.
+ * Reads the singleton settings row from Supabase. Resilient — never throws: on
+ * any error or a missing row it logs a warning (so the cause is visible instead
+ * of silently swallowed) and returns the constants-based fallback, so the UI
+ * never breaks.
  */
-export async function getSiteSettings(): Promise<SiteSettings> {
+async function readSiteSettings(): Promise<SiteSettings> {
   try {
     const { data, error } = await supabase
       .from(SETTINGS_TABLE)
@@ -106,14 +111,43 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       .limit(1)
       .maybeSingle<SettingsRecord>();
 
-    if (error || !data) {
-      // Supabase down, record absent, or network error → graceful fallback.
+    if (error) {
+      // Supabase unreachable, RLS blocking, bad column, etc. — surface it.
+      console.warn(`[settings] Supabase read failed — using fallback: ${error.message}`);
+      return FALLBACK;
+    }
+
+    if (!data) {
+      // The query succeeded but the table is empty. This is the usual reason the
+      // footer/socials/WhatsApp show the constants instead of the database.
+      console.warn(
+        `[settings] No row in "${SETTINGS_TABLE}" — using fallback. Insert one row ` +
+          `so the footer, social links and WhatsApp reflect the database.`,
+      );
       return FALLBACK;
     }
 
     return mapRecord(data);
-  } catch {
-    // Supabase down, record absent, or network error → graceful fallback.
+  } catch (err) {
+    console.warn("[settings] Supabase read threw — using fallback:", err);
     return FALLBACK;
   }
 }
+
+/**
+ * Site settings for the app.
+ *
+ * - **Production:** the result is cached and tagged `"settings"`, so
+ *   `POST /api/revalidate-settings` (revalidateTag) refreshes it instantly after
+ *   an edit, with an hourly ISR window as a safety net. Without this the static
+ *   pages would bake the settings at build time and never update.
+ * - **Development:** reads live on every request, so edits made in the Supabase
+ *   table show on the next refresh (deduped per render via React `cache`).
+ */
+export const getSiteSettings: () => Promise<SiteSettings> =
+  process.env.NODE_ENV === "production"
+    ? unstable_cache(readSiteSettings, ["site-settings"], {
+        tags: ["settings"],
+        revalidate: REVALIDATE_SECONDS,
+      })
+    : cache(readSiteSettings);

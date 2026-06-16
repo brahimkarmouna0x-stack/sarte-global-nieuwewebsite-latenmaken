@@ -11,6 +11,7 @@ import { ContactDialogProvider } from "@/contexts/ContactDialogContext";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import { SITE } from "@/constants";
 import { getSiteSettings } from "@/lib/settings";
+import { areaServedNL } from "@/lib/seo";
 import { dmSans, playfair } from "@/lib/fonts";
 import type { SiteSettings } from "@/types";
 
@@ -134,11 +135,14 @@ interface RootLayoutProps {
   readonly children: ReactNode;
 }
 
-/** Used when no real social links are configured in the database yet. */
+/**
+ * Used when no real social links are configured in the database yet. Kept in
+ * sync with DEFAULT_SOCIAL_LINKS in lib/settings.ts — only real, working
+ * profiles, so we never emit broken `sameAs` URLs.
+ */
 const FALLBACK_SAME_AS = [
-  "https://linkedin.com/company/sarteglobal",
-  "https://twitter.com/sarteglobal",
   "https://www.instagram.com/sarte_global_llc?igsh=OGVkc2phOGFzeTNv&utm_source=qr",
+  "https://x.com/sarteglobal",
 ];
 
 /** Builds the Organization JSON-LD from dynamic settings (email, phone, socials). */
@@ -147,11 +151,14 @@ function buildOrganizationJsonLd(settings: SiteSettings) {
     .map((link) => link.href)
     .filter((href) => href.startsWith("http"));
 
+  // Phone is optional (online-only/national): omit `telephone` entirely when no
+  // valid number is configured, rather than emitting an empty/placeholder value.
+  const phone = settings.phone || CONTACT_PHONE;
   const contactPoint = (contactType: string) => ({
     "@type": "ContactPoint",
     contactType,
     email: settings.email || CONTACT_EMAIL,
-    telephone: settings.phone || CONTACT_PHONE,
+    ...(phone ? { telephone: phone } : {}),
     availableLanguage: ["Dutch", "English"],
     areaServed: "NL",
   });
@@ -174,22 +181,22 @@ function buildOrganizationJsonLd(settings: SiteSettings) {
     knowsAbout: [
       "Nieuwe website laten maken",
       "Website laten maken",
+      "WordPress website laten maken",
+      "WooCommerce webshop laten maken",
       "Webshop laten maken",
       "Landingspagina laten maken",
       "Webdesign",
+      "WordPress specialist",
       "SEO",
       "Webhosting",
       "Online marketing",
       "AI oplossingen",
     ],
-    areaServed: {
-      "@type": "Country",
-      name: "Netherlands",
-    },
+    areaServed: areaServedNL(),
     address: {
+      // Online-only / nationaal: alleen land, geen (fictief) vestigingsadres.
       "@type": "PostalAddress",
       addressCountry: "NL",
-      // TODO: vul echte vestigingsgegevens aan (straat, postcode, plaats)
     },
     contactPoint: [contactPoint("customer support"), contactPoint("sales")],
   };
@@ -202,10 +209,7 @@ const SERVICE_JSON_LD = {
   name: SERVICE_NAME,
   serviceType: "Nieuwe website laten maken",
   provider: { "@id": `${SITE_URL}/#organization` },
-  areaServed: {
-    "@type": "Country",
-    name: "Netherlands",
-  },
+  areaServed: areaServedNL(),
   description:
     "Nieuwe website laten maken voor ondernemers en bedrijven in Nederland. Professionele, moderne en responsive websites met sterke SEO, snelle oplevering en focus op conversie.",
 };

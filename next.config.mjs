@@ -33,6 +33,17 @@ const nextConfig = {
       { protocol: "https", hostname: "randomuser.me" },
     ],
   },
+  async redirects() {
+    return [
+      {
+        // The about page now lives at the Dutch /over-ons URL. Permanent (308)
+        // redirect preserves SEO equity and any existing inbound links.
+        source: "/about",
+        destination: "/over-ons",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

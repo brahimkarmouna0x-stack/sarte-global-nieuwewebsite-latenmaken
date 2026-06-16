@@ -1,18 +1,27 @@
-import { LANDING_HERO } from "@/constants";
+import { LANDING_HERO, type LandingHeroContent } from "@/constants";
 import type { CSSVarStyle } from "@/types";
 
 import { Container } from "../ui/Container";
 import { CTAButton } from "../ui/CTAButton";
 
-const PROJECT_TYPE = "Nieuwe website laten maken";
 const CHART_BARS = [38, 56, 47, 72, 64, 88, 100] as const;
+
+interface LandingHeroProps {
+  readonly content?: LandingHeroContent;
+  readonly projectType?: string;
+}
 
 /**
  * Premium split hero: persuasive copy on the left, an animated browser/dashboard
  * mockup with floating UI pills on the right. Pure-CSS motion (reuses the brand
- * hero keyframes); server component so it stays in the static payload.
+ * hero keyframes); server component so it stays in the static payload. Defaults
+ * to the "nieuwe website" copy; pass `content`/`projectType` to reuse it for the
+ * WordPress and webshop service pages.
  */
-export function LandingHero() {
+export function LandingHero({
+  content = LANDING_HERO,
+  projectType = "Nieuwe website laten maken",
+}: LandingHeroProps = {}) {
   return (
     <section className="wlm-hero" aria-labelledby="lp-hero-h">
       <span className="wlm-hero__orb wlm-hero__orb--a" aria-hidden="true" />
@@ -23,34 +32,34 @@ export function LandingHero() {
         <div className="wlm-hero__copy">
           <span className="wlm-hero__badge">
             <span className="wlm-hero__badge-dot" aria-hidden="true" />
-            {LANDING_HERO.badge}
+            {content.badge}
           </span>
 
-          <p className="eyebrow wlm-hero__eyebrow">{LANDING_HERO.eyebrow}</p>
+          <p className="eyebrow wlm-hero__eyebrow">{content.eyebrow}</p>
 
           <h1 className="h2 wlm-hero__title" id="lp-hero-h">
-            {LANDING_HERO.titleLead} <em>{LANDING_HERO.titleEm}</em>
+            {content.titleLead} <em>{content.titleEm}</em>
           </h1>
 
-          <p className="sub wlm-hero__sub">{LANDING_HERO.sub}</p>
+          <p className="sub wlm-hero__sub">{content.sub}</p>
 
           <div className="wlm-hero__cta">
             <CTAButton
-              label={LANDING_HERO.primaryCta}
+              label={content.primaryCta}
               variant="primary"
               size="large"
-              projectType={PROJECT_TYPE}
+              projectType={projectType}
             />
             <a
-              href={LANDING_HERO.secondaryCta.href}
+              href={content.secondaryCta.href}
               className="btn btn-ghost btn-large"
             >
-              {LANDING_HERO.secondaryCta.label}
+              {content.secondaryCta.label}
             </a>
           </div>
 
           <ul className="wlm-hero__benefits" aria-label="Inbegrepen">
-            {LANDING_HERO.benefits.map((benefit) => (
+            {content.benefits.map((benefit) => (
               <li key={benefit} className="wlm-hero__benefit">
                 <CheckIcon />
                 {benefit}
@@ -63,10 +72,10 @@ export function LandingHero() {
               {"★★★★★"}
             </span>
             <span className="wlm-hero__rating-score">
-              {LANDING_HERO.rating.score}
+              {content.rating.score}
             </span>
             <span className="wlm-hero__rating-label">
-              {LANDING_HERO.rating.label}
+              {content.rating.label}
             </span>
           </div>
         </div>
@@ -126,7 +135,7 @@ export function LandingHero() {
             </div>
           </div>
 
-          {LANDING_HERO.pills.map((pill, index) => (
+          {content.pills.map((pill, index) => (
             <span
               key={pill.label}
               className={`wlm-hero__pill wlm-hero__pill--${index}`}

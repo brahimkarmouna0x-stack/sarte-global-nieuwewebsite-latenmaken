@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
+import { Container } from "@/components/ui/Container";
+import { FAQAccordion } from "@/components/landing/FAQAccordion";
+import { LandingLocalSeo } from "@/components/landing/LandingLocalSeo";
 import { PricingSchema } from "@/components/pricing/PricingSchema";
 import { PricingSection } from "@/components/pricing/PricingSection";
 import { ServiceCTA } from "@/components/services/ServiceCTA";
 import { ServiceFeatures } from "@/components/services/ServiceFeatures";
 import { ServicePageHero } from "@/components/services/ServicePageHero";
 import { ServiceProcess } from "@/components/services/ServiceProcess";
-import { NewWebsiteSeo } from "@/components/sections/NewWebsiteSeo";
 import { ServiceRelatedProjects } from "@/components/services/ServiceRelatedProjects";
+import { ServiceResults } from "@/components/services/ServiceResults";
 import { ServiceTech } from "@/components/services/ServiceTech";
-import { SERVICES, SITE } from "@/constants";
+import { ServiceWhyUs } from "@/components/services/ServiceWhyUs";
+import { Testimonials } from "@/components/sections/Testimonials";
+import { SERVICE_FAQ, SERVICES, SITE } from "@/constants";
 
 const SITE_URL = SITE.url;
 
@@ -123,17 +129,63 @@ export default async function ServicePage({ params }: ServicePageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <PricingSchema serviceSlug={service.slug} />
+      {/* 01 — Premium Hero */}
       <ServicePageHero service={service} />
+
+      {/* 02 — Features / Wat je krijgt */}
       <ServiceFeatures features={service.features} />
+
+      {/* 03 — Waarom kiezen bedrijven voor ons */}
+      <ServiceWhyUs />
+
+      {/* 04 — Ons Proces (timeline) */}
       <ServiceProcess steps={service.process} />
+
+      {/* 05 — Technologieën */}
       <ServiceTech techIds={service.techIds} />
+
+      {/* 06 — Resultaten voor klanten */}
+      <ServiceResults />
+
+      {/* 07 — Portfolio / Recente projecten */}
       <ServiceRelatedProjects
         categories={service.relatedCategories}
         serviceName={service.name}
       />
+
+      {/* 08 — Pakketten & Prijzen */}
       <PricingSection defaultServiceSlug={service.slug} />
-      <NewWebsiteSeo serviceName={service.name} />
+
+      {/* 09 — Testimonials */}
+      <Testimonials />
+
+      {/* 10 — Veelgestelde vragen */}
+      <FAQAccordion items={SERVICE_FAQ} />
+
+      {/* 11 — Werkzaam in heel Nederland */}
+      <LandingLocalSeo serviceLabel={service.name} />
+
+      {/* 12 — Final CTA */}
       <ServiceCTA copy={service.cta} projectType={service.name} />
+
+      {/* Interne links */}
+      <section className="lp-related" aria-label="Meer over Sarte Global">
+        <Container>
+          <nav className="lp-related__nav" aria-label="Gerelateerde pagina's">
+            <Link href="/">Home</Link>
+            <Link href="/website-laten-maken">Website laten maken</Link>
+            <Link href="/nextjs-website-laten-maken">Next.js website laten maken</Link>
+            <Link href="/wordpress-website-laten-maken">WordPress website laten maken</Link>
+            <Link href="/webshop-laten-maken">Webshop laten maken</Link>
+            <Link href="/landing-page-laten-maken">Landing page laten maken</Link>
+            <Link href="/webapp-laten-maken">Webapp laten maken</Link>
+            <Link href="/seo-optimalisatie">SEO optimalisatie</Link>
+            <Link href="/website-onderhoud">Website onderhoud</Link>
+            <Link href="/work">Portfolio</Link>
+            <Link href="/contact">Contact</Link>
+          </nav>
+        </Container>
+      </section>
     </main>
   );
 }

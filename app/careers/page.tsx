@@ -16,6 +16,14 @@ export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESC,
   alternates: { canonical: "/careers" },
+  keywords: [
+    "vacatures",
+    "werken bij Sarte Global",
+    "webdesign vacatures",
+    "developer vacature remote",
+    "baan webdevelopment nederland",
+    "Sarte Global vacatures",
+  ],
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESC,

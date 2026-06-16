@@ -16,8 +16,13 @@ import { TeamShowcase } from "@/components/sections/TeamShowcase";
 import { TechStack } from "@/components/sections/TechStack";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { TrustedMarquee } from "@/components/sections/TrustedMarquee";
+import { HashScrollOnLoad } from "@/components/ui/HashScrollOnLoad";
 import { SITE } from "@/constants";
+import { areaServedNL } from "@/lib/seo";
 
+// Title + description are intentionally inherited from the root layout's
+// `title.default` (SITE.title) and `description` — setting a plain `title` here
+// would re-apply the "%s · Sarte Global" template and duplicate the brand.
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
@@ -32,10 +37,7 @@ const HOMEPAGE_JSON_LD = {
   url: SITE_URL,
   description:
     "Sarte Global bouwt nieuwe, professionele en moderne websites voor ondernemers en bedrijven in Nederland. Sterke SEO, snelle oplevering en focus op conversie.",
-  areaServed: {
-    "@type": "Country",
-    name: "Netherlands",
-  },
+  areaServed: areaServedNL(),
   serviceType: [
     "Website laten maken",
     "Webshop laten maken",
@@ -54,6 +56,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(HOMEPAGE_JSON_LD) }}
       />
+      <HashScrollOnLoad />
       <PricingSchema serviceSlug="web-development" />
       <Hero />
       <TrustedMarquee />

@@ -1,3 +1,4 @@
+import type { LandingFAQItem } from "@/constants";
 import type { Service } from "@/types";
 
 export const SERVICES_SECTION = {
@@ -525,3 +526,37 @@ export const SERVICES = [
     },
   },
 ] as const satisfies readonly Service[];
+
+/** Generic FAQ items for any service page. */
+export const SERVICE_FAQ = [
+  {
+    question: "Hoe lang duurt het om een website te laten maken?",
+    answer:
+      "Gemiddeld duren projecten 2 tot 4 weken. Dit hangt af van de complexiteit, het aantal pagina's en eventuele specifieke wensen zoals maatwerk functionaliteiten of integraties.",
+  },
+  {
+    question: "Wat kost een website laten maken?",
+    answer:
+      "De kosten zijn afhankelijk van jouw wensen. Onze pakketten starten bij een voordelig instapmoment. Neem vrijblijvend contact op voor een offerte op maat — we denken graag met je mee.",
+  },
+  {
+    question: "Krijg ik ook hosting en een domeinnaam?",
+    answer:
+      "Ja, wij zorgen voor een snelle en veilige hostingomgeving. Ook helpen we je met het kiezen en registreren van een passende domeinnaam, zodat je volledig ontzorgd wordt.",
+  },
+  {
+    question: "Is de website geschikt voor mobiel (responsive)?",
+    answer:
+      "Zeker. Alle websites die wij bouwen zijn volledig responsive en getest op alle gangbare apparaten en browsers. Een optimale gebruikerservaring op mobiel, tablet en desktop staat bij ons centraal.",
+  },
+  {
+    question: "Kan ik zelf teksten en afbeeldingen aanpassen?",
+    answer:
+      "Ja, wij leveren een gebruiksvriendelijk CMS waarmee je zelf eenvoudig teksten, afbeeldingen en andere content kunt bijwerken. Denk aan WordPress, Sanity of een ander headless CMS.",
+  },
+  {
+    question: "Wordt de website gevonden in Google?",
+    answer:
+      "Ja, alle websites worden technisch SEO-geoptimaliseerd opgeleverd. Denk aan metadata, laadsnelheid, gestructureerde data en een logische sitestructuur. Wil je nog meer uit je vindbaarheid halen? Dan is onze SEO-optimalisatie dienst een aanrader.",
+  },
+] as const satisfies readonly LandingFAQItem[];

@@ -92,7 +92,7 @@ export function buildMessage(input: WhatsAppMessageInput): string {
  * international digit string that wa.me expects (country code + number, without
  * "+", spaces or punctuation). It is intentionally forgiving: admins often
  * paste a full share link (https://wa.me/… or
- * https://api.whatsapp.com/send?phone=…) or a "+212 766 269 594"-style number
+ * https://api.whatsapp.com/send?phone=…) or a "+31 6 12 34 56 78"-style number
  * into the settings field, all of which would otherwise break the deep link.
  */
 export function normalizeWhatsAppNumber(raw: string | undefined | null): string {

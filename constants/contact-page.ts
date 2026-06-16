@@ -23,24 +23,28 @@ export const CONTACT_CHANNELS: readonly ContactChannel[] = [
     note: "Het beste voor offertes en uitgebreide briefings.",
   },
   {
+    // Telefoon wordt alleen getoond zodra er een geldig nummer in de
+    // instellingen staat (online-only/national); value/href hier zijn
+    // placeholders die runtime worden overschreven.
     icon: "phone",
     label: "Telefoon",
-    value: "+212766269594",
-    href: "tel:+212766269594",
+    value: "",
+    href: "#",
     note: "Maandag–vrijdag · 9:00–18:00.",
   },
   {
     icon: "map",
-    label: "Vestiging",
-    value: "Nederland · Op afspraak",
+    label: "Werkgebied",
+    value: "Heel Nederland · op afspraak",
     href: "#",
-    note: "Bezoek alleen op afspraak. Stuur ons een e-mail voor een afspraak.",
+    note: "Werkzaam door heel Nederland, van Amsterdam tot Eindhoven. Op afspraak.",
   },
   {
+    // href wordt runtime gevuld met het WhatsApp-nummer uit de instellingen.
     icon: "chat",
     label: "WhatsApp",
     value: "Chat met ons team",
-    href: "https://wa.me/31000000000",
+    href: "#",
     note: "De snelste manier om iemand te spreken.",
   },
 ];

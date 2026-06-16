@@ -3,13 +3,23 @@ import type { MetadataRoute } from "next";
 import { SERVICES, SITE } from "@/constants";
 
 const SITE_URL = SITE.url;
-const LAST_MODIFIED = "2026-06-04";
+// Regenerated on each build so the sitemap stays fresh without manual edits.
+const LAST_MODIFIED = new Date();
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 1.0 },
     { url: `${SITE_URL}/website-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${SITE_URL}/about`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/wordpress-website-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${SITE_URL}/nextjs-website-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/webshop-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${SITE_URL}/woocommerce-webshop-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/shopify-webshop-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/landing-page-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/webapp-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/seo-optimalisatie`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/website-onderhoud`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/over-ons`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/work`, lastModified: LAST_MODIFIED, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/journal`, lastModified: LAST_MODIFIED, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/careers`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.5 },

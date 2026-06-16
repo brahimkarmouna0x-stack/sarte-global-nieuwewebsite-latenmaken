@@ -42,11 +42,11 @@ export const ABOUT_COMPANY = {
     { value: "150+", label: "Projecten opgeleverd" },
     { value: "98%", label: "Tevreden klanten" },
     { value: "2 wk", label: "Gemiddelde oplevertijd" },
-    { value: "NL", label: "30 N Gould St Ste R" },
+    { value: "NL", label: "Werkzaam in heel Nederland" },
   ],
   badge: "SARTE GLOBAL · NIEUWE WEBSITE LATEN MAKEN · NEDERLAND",
   ctaLabel: "Plan kennismaking",
   ctaHref: "#cta",
   secondaryLabel: "Lees ons verhaal",
-  secondaryHref: "/about",
+  secondaryHref: "/over-ons",
 } as const satisfies AboutCompanyContent;

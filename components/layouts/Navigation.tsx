@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type MouseEvent } from "react";
 
-import { NAV_CTA, NAV_LINKS } from "@/constants";
+import { NAV_CTA, NAV_ITEMS } from "@/constants";
+import type { NavItem } from "@/types";
 import { useMobileDrawer } from "@/hooks/useMobileDrawer";
 import { useScrolled } from "@/hooks/useScrolled";
 
@@ -12,11 +13,15 @@ import { Logo } from "../shared/Logo";
 import { Container } from "../ui/Container";
 import { CTAButton } from "../ui/CTAButton";
 import { MobileDrawer } from "../ui/MobileDrawer";
+import { NavServicesDropdown } from "./NavServicesDropdown";
+
+type NavLinkItem = Extract<NavItem, { kind: "link" }>;
 
 const SCROLL_THRESHOLD = 40;
+const DEFAULT_ACTIVE = "/";
 
 export function Navigation() {
-  const [isActive, setIsActive] = useState<string>(NAV_LINKS[0].href);
+  const [isActive, setIsActive] = useState<string>(DEFAULT_ACTIVE);
   const scrolled = useScrolled(SCROLL_THRESHOLD);
   const drawer = useMobileDrawer();
   const pathname = usePathname();
@@ -24,7 +29,7 @@ export function Navigation() {
 
   useEffect(() => {
     const syncHash = () => {
-      setIsActive(window.location.hash || NAV_LINKS[0].href);
+      setIsActive(window.location.hash || DEFAULT_ACTIVE);
     };
     syncHash();
     window.addEventListener("hashchange", syncHash);
@@ -44,6 +49,38 @@ export function Navigation() {
     window.history.replaceState(null, "", hash);
   };
 
+  const renderNavLink = (link: NavLinkItem) => {
+    const isRoute = link.href.startsWith("/");
+    if (isRoute) {
+      const active = pathname === link.href;
+      return (
+        <li key={link.href}>
+          <Link
+            href={link.href}
+            className={active ? "active" : ""}
+            aria-current={active ? "page" : undefined}
+          >
+            {link.shortLabel ?? link.label}
+          </Link>
+        </li>
+      );
+    }
+    const active = isActive === link.href;
+    const href = isHome ? link.href : `/${link.href}`;
+    return (
+      <li key={link.href}>
+        <Link
+          href={href}
+          className={active ? "active" : ""}
+          aria-current={active ? "page" : undefined}
+          onClick={(event) => handleHashClick(event, link.href)}
+        >
+          {link.shortLabel ?? link.label}
+        </Link>
+      </li>
+    );
+  };
+
   return (
     <>
       <nav
@@ -53,37 +90,18 @@ export function Navigation() {
         <Container className="nav-inner">
           <Logo onClick={(event) => handleHashClick(event, "#hero")} />
           <ul className="nav-links">
-            {NAV_LINKS.map((link) => {
-              const isRoute = link.href.startsWith("/");
-              if (isRoute) {
-                const active = pathname === link.href;
-                return (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className={active ? "active" : ""}
-                      aria-current={active ? "page" : undefined}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                );
-              }
-              const active = isActive === link.href;
-              const href = isHome ? link.href : `/${link.href}`;
-              return (
-                <li key={link.href}>
-                  <Link
-                    href={href}
-                    className={active ? "active" : ""}
-                    aria-current={active ? "page" : undefined}
-                    onClick={(event) => handleHashClick(event, link.href)}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              );
-            })}
+            {NAV_ITEMS.map((item) =>
+              item.kind === "dropdown" ? (
+                <NavServicesDropdown
+                  key={item.menuId}
+                  label={item.label}
+                  menuId={item.menuId}
+                  items={item.items}
+                />
+              ) : (
+                renderNavLink(item)
+              ),
+            )}
           </ul>
           <CTAButton
             label={NAV_CTA.label}

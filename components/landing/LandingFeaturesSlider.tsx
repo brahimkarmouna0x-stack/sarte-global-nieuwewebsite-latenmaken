@@ -6,22 +6,37 @@ import {
   LANDING_FEATURES,
   LANDING_FEATURES_SECTION,
   type LandingFeatureItem,
+  type LandingFeaturesContent,
 } from "@/constants";
 
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 import { ServiceIcon } from "../ui/ServiceIcon";
 
+const DEFAULT_CONTENT: LandingFeaturesContent = {
+  ...LANDING_FEATURES_SECTION,
+  features: LANDING_FEATURES,
+};
+
+interface LandingFeaturesSliderProps {
+  readonly content?: LandingFeaturesContent;
+}
+
 /**
  * Section 05 — interactive feature showcase. A vertical tablist on the left drives
  * a tailored CSS mockup on the right. Fully keyboard-operable (arrow/Home/End).
+ * Defaults to the website feature set; pass `content` (re-using the same feature
+ * keys, which drive the mock visuals) to retarget it per service page.
  */
-export function LandingFeaturesSlider() {
+export function LandingFeaturesSlider({
+  content = DEFAULT_CONTENT,
+}: LandingFeaturesSliderProps = {}) {
+  const features = content.features;
   const [active, setActive] = useState(0);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   function focusTab(index: number) {
-    const clamped = (index + LANDING_FEATURES.length) % LANDING_FEATURES.length;
+    const clamped = (index + features.length) % features.length;
     setActive(clamped);
     tabRefs.current[clamped]?.focus();
   }
@@ -44,26 +59,25 @@ export function LandingFeaturesSlider() {
         break;
       case "End":
         event.preventDefault();
-        focusTab(LANDING_FEATURES.length - 1);
+        focusTab(features.length - 1);
         break;
       default:
         break;
     }
   }
 
-  const activeFeature = LANDING_FEATURES[active];
+  const activeFeature = features[active];
   if (!activeFeature) return null;
 
   return (
     <section className="wlm-feat" aria-labelledby="wlm-feat-h">
       <Container>
         <Reveal as="header" className="section-head centered">
-          <span className="eyebrow">{LANDING_FEATURES_SECTION.eyebrow}</span>
+          <span className="eyebrow">{content.eyebrow}</span>
           <h2 className="h2" id="wlm-feat-h">
-            {LANDING_FEATURES_SECTION.titleLead}{" "}
-            <em>{LANDING_FEATURES_SECTION.titleEm}</em>
+            {content.titleLead} <em>{content.titleEm}</em>
           </h2>
-          <p className="sub wlm-feat__sub">{LANDING_FEATURES_SECTION.sub}</p>
+          <p className="sub wlm-feat__sub">{content.sub}</p>
         </Reveal>
 
         <Reveal as="div" className="wlm-feat__layout">
@@ -74,7 +88,7 @@ export function LandingFeaturesSlider() {
             aria-label="Website-onderdelen"
             onKeyDown={handleKeyDown}
           >
-            {LANDING_FEATURES.map((feature, index) => {
+            {features.map((feature, index) => {
               const isActive = index === active;
               return (
                 <button

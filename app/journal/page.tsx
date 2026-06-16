@@ -16,6 +16,14 @@ export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESC,
   alternates: { canonical: "/journal" },
+  keywords: [
+    "website tips",
+    "seo tips",
+    "online groei ondernemers",
+    "webdesign blog",
+    "tips website laten maken",
+    "Sarte Global journal",
+  ],
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESC,

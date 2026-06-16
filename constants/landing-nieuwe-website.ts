@@ -16,6 +16,104 @@ export interface LandingFAQItem {
   readonly answer: string;
 }
 
+/** A single "Waarom kiezen voor ons" card: icon + headline figure + reason. */
+export interface LandingStatCard {
+  readonly iconName: ServiceIconName;
+  readonly value: string;
+  readonly title: string;
+  readonly description: string;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Content-prop interfaces — let the premium `Landing*` components be
+   reused across service pages (website / WordPress / webshop). Each
+   component defaults to its original constant, so existing pages are
+   untouched; new pages pass their own typed content object.
+   ────────────────────────────────────────────────────────────── */
+
+export interface LandingHeroContent {
+  readonly eyebrow: string;
+  readonly badge: string;
+  readonly titleLead: string;
+  readonly titleEm: string;
+  readonly sub: string;
+  readonly primaryCta: string;
+  readonly secondaryCta: { readonly label: string; readonly href: string };
+  readonly rating: { readonly score: string; readonly label: string };
+  readonly pills: readonly { readonly label: string }[];
+  readonly trust: readonly string[];
+  readonly benefits: readonly string[];
+}
+
+export interface LandingWhyContent {
+  readonly eyebrow: string;
+  readonly titleLead: string;
+  readonly titleEm: string;
+  readonly lead: string;
+  readonly media: {
+    readonly image: string;
+    readonly alt: string;
+    readonly caption: string;
+    readonly tag: string;
+  };
+  readonly proof: readonly string[];
+  readonly pillars: readonly LandingPillar[];
+  readonly paragraphs: readonly string[];
+}
+
+export interface LandingFeaturesContent {
+  readonly eyebrow: string;
+  readonly titleLead: string;
+  readonly titleEm: string;
+  readonly sub: string;
+  readonly features: readonly LandingFeatureItem[];
+}
+
+export interface LandingFinalCtaContent {
+  readonly eyebrow: string;
+  readonly titleLead: string;
+  readonly titleEm: string;
+  readonly sub: string;
+  readonly urgency: string;
+  readonly points: readonly string[];
+  readonly projectType: string;
+}
+
+/** A single row of the WordPress-vs-website-builders comparison table. */
+export interface LandingComparisonRow {
+  readonly label: string;
+  /** Value in the "Sarte Global" column. */
+  readonly us: string;
+  /** Value in the "DIY / website builders" column. */
+  readonly them: string;
+  /** Render the "us" cell as a positive (✓) check. Default: true. */
+  readonly usPositive?: boolean;
+  /** Render the "them" cell as a positive (✓) check. Default: false. */
+  readonly themPositive?: boolean;
+}
+
+export interface LandingComparisonContent {
+  readonly eyebrow: string;
+  readonly titleLead: string;
+  readonly titleEm: string;
+  readonly sub: string;
+  readonly usLabel: string;
+  readonly themLabel: string;
+  readonly rows: readonly LandingComparisonRow[];
+  readonly footnote?: string;
+}
+
+export interface LandingPaymentsContent {
+  readonly eyebrow: string;
+  readonly titleLead: string;
+  readonly titleEm: string;
+  readonly sub: string;
+  /** Extra payment/integration names shown as text badges (no brand icon). */
+  readonly extra: readonly string[];
+  /** Supporting integration highlights rendered as icon cards. */
+  readonly features: readonly ServiceFeature[];
+}
+
 export const LANDING_HERO = {
   eyebrow: "Nieuwe website laten maken · Sarte Global",
   badge: "Nu beschikbaar voor 3 nieuwe projecten",
@@ -35,7 +133,7 @@ export const LANDING_HERO = {
     "150+ websites opgeleverd",
     "98% tevreden klanten",
     "Binnen 2 weken online",
-    "30 N Gould St Ste R",
+    "Werkzaam in heel Nederland",
   ],
   benefits: [
     "Modern & responsive design",
@@ -43,7 +141,7 @@ export const LANDING_HERO = {
     "Razendsnel",
     "Conversiegericht",
   ],
-} as const;
+} as const satisfies LandingHeroContent;
 
 export const LANDING_MEANING = {
   eyebrow: "Wat het betekent",
@@ -261,12 +359,12 @@ export const LANDING_WHY = {
   eyebrow: "Waarom Sarte Global",
   titleLead: "Eén team voor strategie, design",
   titleEm: "én development.",
-  lead: "Geen losse freelancers of doorverkochte uren. Bij Sarte Global werkt één senior team aan jouw nieuwe website — van het eerste strategiegesprek tot ruim na de livegang.",
+  lead: "Geen losse freelancers of doorverkochte uren. Bij Sarte Global werkt één senior team aan jouw nieuwe website — van het eerste strategiegesprek tot ruim na de livegang. We werken voor ondernemers door heel Nederland, van Amsterdam en Rotterdam tot Utrecht, Eindhoven en Den Haag.",
   media: {
     image: "/images/company-img.png",
     alt: "Het team van Sarte Global aan het werk in de studio.",
     caption: "Sarte Global · studio",
-    tag: "30 N Gould St Ste R",
+    tag: "Werkzaam in heel Nederland",
   },
   proof: [
     "Senior designers & developers",
@@ -697,6 +795,60 @@ export const LANDING_CASES: readonly LandingCaseItem[] = [
   },
 ];
 
+/* 02b — "Waarom kiezen voor ons": 6 stat-cards (icon + cijfer + reden) */
+export const LANDING_WHY_STATS_SECTION = {
+  eyebrow: "Waarom Sarte Global",
+  titleLead: "Waarom ondernemers",
+  titleEm: "voor ons kiezen.",
+  sub: "Geen loze beloftes — meetbare resultaten, snelle oplevering en websites die converteren.",
+} as const;
+
+export const LANDING_WHY_STATS: readonly LandingStatCard[] = [
+  {
+    iconName: "rocket",
+    value: "150+",
+    title: "Websites opgeleverd",
+    description: "Bewezen ervaring met ondernemers door heel Nederland.",
+  },
+  {
+    iconName: "spark",
+    value: "4,9/5",
+    title: "Klantbeoordeling",
+    description: "Gemiddeld uit 100+ reviews — klanten bevelen ons aan.",
+  },
+  {
+    iconName: "lightning",
+    value: "0,8s",
+    title: "Gemiddelde laadtijd",
+    description: "Razendsnelle websites die bezoekers vasthouden.",
+  },
+  {
+    iconName: "search",
+    value: "100/100",
+    title: "SEO-score",
+    description: "Technisch geoptimaliseerd om gevonden te worden in Google.",
+  },
+  {
+    iconName: "gauge",
+    value: "98%",
+    title: "Tevreden klanten",
+    description: "Langdurige samenwerkingen en terugkerende opdrachten.",
+  },
+  {
+    iconName: "shield",
+    value: "2 wk",
+    title: "Snel live",
+    description: "Van kickoff tot livegang — zonder in te leveren op kwaliteit.",
+  },
+];
+
+/* 09b — Lokale SEO: "Werkzaam in heel Nederland" (steden komen uit SERVICE_CITIES) */
+export const LANDING_LOCAL_SEO = {
+  eyebrow: "Werkzaam in heel Nederland",
+  lead: "Of je nu onderneemt in Amsterdam, Rotterdam, Den Haag, Utrecht, Eindhoven, Haarlem of Amersfoort — Sarte Global ontwerpt en bouwt je website volledig op afstand, met persoonlijk contact en een vast aanspreekpunt. Geen reisafstand die in de weg zit, wél een partner die je lokale én landelijke groei begrijpt.",
+  note: "Online-first webdesignbureau — actief in heel Nederland.",
+} as const;
+
 /* 10 — Final CTA (emotionele kop + inline formulier + urgentie) */
 export const LANDING_FINAL_CTA = {
   eyebrow: "Klaar om te starten",
@@ -710,4 +862,4 @@ export const LANDING_FINAL_CTA = {
     "Eén vaste contactpersoon",
   ],
   projectType: "Nieuwe website laten maken",
-} as const;
+} as const satisfies LandingFinalCtaContent;

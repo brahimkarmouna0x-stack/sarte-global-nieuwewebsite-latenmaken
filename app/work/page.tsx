@@ -14,6 +14,15 @@ export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESC,
   alternates: { canonical: "/work" },
+  keywords: [
+    "portfolio",
+    "website voorbeelden",
+    "webdesign portfolio",
+    "webshop voorbeelden",
+    "projecten website laten maken",
+    "cases webdesign nederland",
+    "Sarte Global werk",
+  ],
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESC,

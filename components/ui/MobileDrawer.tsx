@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
 
-import { NAV_CTA, NAV_LINKS, SITE } from "@/constants";
+import { NAV_CTA, NAV_ITEMS, SITE } from "@/constants";
+import type { NavItem } from "@/types";
 
 import { Logo } from "../shared/Logo";
 import { CTAButton } from "./CTAButton";
@@ -13,6 +14,8 @@ export interface MobileDrawerProps {
   readonly isOpen: boolean;
   readonly onClose: () => void;
 }
+
+type NavLinkItem = Extract<NavItem, { kind: "link" }>;
 
 export function MobileDrawer({
   isOpen,
@@ -32,6 +35,36 @@ export function MobileDrawer({
     if (!target) return;
     target.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.replaceState(null, "", hash);
+  };
+
+  const renderLink = (link: NavLinkItem) => {
+    const isRoute = link.href.startsWith("/");
+    if (isRoute) {
+      const active = pathname === link.href;
+      return (
+        <li key={link.href}>
+          <Link
+            href={link.href}
+            className={active ? "active" : ""}
+            aria-current={active ? "page" : undefined}
+            onClick={onClose}
+          >
+            {link.label}
+          </Link>
+        </li>
+      );
+    }
+    const href = isHome ? link.href : `/${link.href}`;
+    return (
+      <li key={link.href}>
+        <Link
+          href={href}
+          onClick={(event) => handleHashClick(event, link.href)}
+        >
+          {link.label}
+        </Link>
+      </li>
+    );
   };
 
   return (
@@ -68,29 +101,34 @@ export function MobileDrawer({
           </button>
         </div>
         <ul>
-          {NAV_LINKS.map((link) => {
-            const isRoute = link.href.startsWith("/");
-            if (isRoute) {
-              return (
-                <li key={link.href}>
-                  <Link href={link.href} onClick={onClose}>
-                    {link.label}
-                  </Link>
-                </li>
-              );
-            }
-            const href = isHome ? link.href : `/${link.href}`;
-            return (
-              <li key={link.href}>
-                <Link
-                  href={href}
-                  onClick={(event) => handleHashClick(event, link.href)}
-                >
-                  {link.label}
-                </Link>
+          {NAV_ITEMS.map((item) =>
+            item.kind === "dropdown" ? (
+              <li key={item.menuId} className="drawer-services">
+                <details>
+                  <summary>{item.label}</summary>
+                  <ul className="drawer-services__list">
+                    {item.items.map((link) => {
+                      const active = pathname === link.href;
+                      return (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            className={active ? "active" : ""}
+                            aria-current={active ? "page" : undefined}
+                            onClick={onClose}
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </details>
               </li>
-            );
-          })}
+            ) : (
+              renderLink(item)
+            ),
+          )}
         </ul>
         <CTAButton
           label={NAV_CTA.label}
