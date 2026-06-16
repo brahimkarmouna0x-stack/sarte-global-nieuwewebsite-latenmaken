@@ -36,6 +36,40 @@ export function Navigation() {
     return () => window.removeEventListener("hashchange", syncHash);
   }, []);
 
+  // Scroll-spy for the "Prijzen" (#pakketten) link: it should only read as
+  // active while the pricing section is actually on screen. Without this the
+  // hash-based state sticks after the visitor scrolls past it. Re-runs per
+  // route so it reattaches after navigation — and clears the stale active
+  // state on pages that have no pricing section.
+  useEffect(() => {
+    const pricing = document.getElementById("pakketten");
+    if (!pricing) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        setIsActive((prev) =>
+          entry.isIntersecting
+            ? "#pakketten"
+            : prev === "#pakketten"
+              ? DEFAULT_ACTIVE
+              : prev,
+        );
+      },
+      // Activate only while the section crosses the middle band of the viewport,
+      // so it lights up when you're on pricing and clears as the next section
+      // takes over.
+      { rootMargin: "-40% 0px -40% 0px" },
+    );
+    observer.observe(pricing);
+    // On unmount / route change, drop a stale "#pakketten" active state so the
+    // link never stays lit on a page that has no pricing section.
+    return () => {
+      observer.disconnect();
+      setIsActive((prev) => (prev === "#pakketten" ? DEFAULT_ACTIVE : prev));
+    };
+  }, [pathname]);
+
   const handleHashClick = (
     event: MouseEvent<HTMLAnchorElement>,
     hash: string,

@@ -817,15 +817,17 @@ section {
   color: var(--color-text);
 }
 
-/* ── Wide "Diensten" mega-menu: titled columns combining both service lists ── */
+/* ── Wide "Diensten" mega-menu: titled sections, max 5 links per column ── */
 .nav-dropdown__panel--mega {
-  width: min(640px, calc(100vw - 32px));
+  /* Hug the content so the panel grows/shrinks with the number of columns. */
+  width: max-content;
+  max-width: calc(100vw - 24px);
 }
 
 .nav-dropdown__mega {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0 24px;
 }
 
 .nav-dropdown__section-title {
@@ -838,10 +840,14 @@ section {
   color: var(--color-text-muted);
 }
 
-/* Allow long keyword labels to wrap inside the fixed-width columns instead of
-   overflowing them. */
-.nav-dropdown__panel--mega .nav-dropdown__list a {
-  white-space: normal;
+/* Lay each section's links top-to-bottom, max 5 per column; a 6th link wraps
+   into a new column of up to 5 — so a long list never becomes one tall column. */
+.nav-dropdown__panel--mega .nav-dropdown__list {
+  display: grid;
+  grid-template-rows: repeat(5, auto);
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 2px 14px;
 }
 
 /* The dense primary nav + CTA needs real width — collapse to the mobile drawer
