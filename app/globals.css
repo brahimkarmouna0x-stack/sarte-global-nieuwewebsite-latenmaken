@@ -423,6 +423,36 @@ body {
   color: var(--color-text-on-accent);
 }
 
+/* ── Page scrollbar — themed to match the site (dark track, amber thumb) ──
+   Bare selectors so it applies to the whole page + any scroll area that
+   doesn't explicitly hide its bar. Components that hide their scrollbar use
+   more specific `.foo::-webkit-scrollbar { display: none }` rules, so they
+   still win. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent-muted) var(--color-background);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent-muted);
+  border-radius: 999px;
+  /* Inset the thumb with a page-colored border so it reads as a slim pill. */
+  border: 3px solid var(--color-background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
 a {
   color: inherit;
   text-decoration: none;
