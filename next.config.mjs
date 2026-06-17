@@ -30,6 +30,8 @@ const nextConfig = {
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "loremflickr.com" },
       { protocol: "https", hostname: "api.microlink.io" },
+      // Placeholder testimonial avatars (constants/testimonials.ts). Replace
+      // with real customer photos before launch and drop this host.
       { protocol: "https", hostname: "randomuser.me" },
     ],
   },

@@ -47,9 +47,7 @@ export const NEXTJS_HERO = {
   titleEm: "razendsnel en vindbaar is.",
   sub: "Sarte Global bouwt websites op Next.js — de modernste React-techniek voor maximale snelheid, topscores op Core Web Vitals en sterke SEO. Een toekomstvaste basis die moeiteloos meegroeit met je bedrijf.",
   primaryCta: "Next.js-website aanvragen",
-  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },
-  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
-  pills: [
+  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },  pills: [
     { label: "0,8s laadtijd" },
     { label: "100/100 Core Web Vitals" },
     { label: "Schaalbaar" },

@@ -47,9 +47,7 @@ export const WEBAPP_HERO = {
   titleEm: "met je bedrijf meegroeit.",
   sub: "Sarte Global bouwt maatwerk webapplicaties — SaaS, dashboards, klantportalen en interne tools — op een moderne, schaalbare stack. Snel, veilig en gebouwd als echt product, niet als demo.",
   primaryCta: "Webapp aanvragen",
-  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },
-  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
-  pills: [
+  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },  pills: [
     { label: "Maatwerk op je proces" },
     { label: "Schaalbaar" },
     { label: "Veilig & getest" },

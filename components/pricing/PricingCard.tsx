@@ -77,10 +77,6 @@ export function PricingCard({ tier, projectType, onSelect }: PricingCardProps) {
 
       {/* Timeline + CTA pinned to the bottom */}
       <div className="relative z-10 mt-auto flex flex-col gap-3 pt-1">
-        <span className="inline-flex w-fit items-center gap-1.5 self-start rounded-full border border-(--color-border-strong) px-2.5 py-1 text-[11.5px] font-medium text-(--color-accent)">
-          <ClockIcon />
-          {tier.timeline}
-        </span>
         <CTAButton
           label={tier.ctaLabel}
           variant={featured ? "primary" : "outline"}

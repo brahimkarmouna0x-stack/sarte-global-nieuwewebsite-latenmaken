@@ -13,6 +13,10 @@ interface LandingCasesSection {
   readonly titleLead: string;
   readonly titleEm: string;
   readonly sub: string;
+  /** Per-card badge text (e.g. "Voorbeeldcase") marking these as illustrative. */
+  readonly label?: string;
+  /** Visible disclaimer so the figures are never read as real client results. */
+  readonly disclaimer?: string;
 }
 
 interface LandingCasesProps {
@@ -38,6 +42,9 @@ export function LandingCases({
             {section.titleLead} <em>{section.titleEm}</em>
           </h2>
           <p className="sub">{section.sub}</p>
+          {section.disclaimer ? (
+            <p className="wlm-cases__disclaimer">{section.disclaimer}</p>
+          ) : null}
         </Reveal>
 
         <div className="wlm-cases__grid">
@@ -49,13 +56,18 @@ export function LandingCases({
               index={index}
               style={{ "--case-accent": item.accent } as CSSVarStyle}
             >
-              <div className="wlm-cases__bar" aria-hidden="true">
-                <span className="wlm-cases__dots">
+              <div className="wlm-cases__bar">
+                <span className="wlm-cases__dots" aria-hidden="true">
                   <i />
                   <i />
                   <i />
                 </span>
-                <span className="wlm-cases__url">{item.domain}</span>
+                <span className="wlm-cases__url" aria-hidden="true">
+                  {item.domain}
+                </span>
+                {section.label ? (
+                  <span className="wlm-cases__badge">{section.label}</span>
+                ) : null}
               </div>
 
               <div className="wlm-cases__body">

@@ -43,24 +43,20 @@ export function ServicePageHero({ service }: ServicePageHeroProps) {
             </a>
           </div>
 
+          {/* Honest capability signals — no fabricated reviews/track record. */}
           <div className="svc-page-hero__trust">
-            <div className="svc-page-hero__rating">
-              <span className="svc-page-hero__stars" aria-hidden="true">★★★★★</span>
-              <span className="svc-page-hero__rating-score">4,9</span>
-              <span className="svc-page-hero__rating-label">/ 5 uit 100+ reviews</span>
-            </div>
-            <ul className="svc-page-hero__stats" aria-label="Statistieken">
+            <ul className="svc-page-hero__stats" aria-label="Kenmerken">
               <li className="svc-page-hero__stat">
-                <span className="svc-page-hero__stat-val">150+</span>
-                <span className="svc-page-hero__stat-lbl">projecten opgeleverd</span>
+                <span className="svc-page-hero__stat-val">±2 wkn</span>
+                <span className="svc-page-hero__stat-lbl">snelle oplevering</span>
               </li>
               <li className="svc-page-hero__stat">
-                <span className="svc-page-hero__stat-val">98%</span>
-                <span className="svc-page-hero__stat-lbl">klanttevredenheid</span>
+                <span className="svc-page-hero__stat-val">100%</span>
+                <span className="svc-page-hero__stat-lbl">responsive design</span>
               </li>
               <li className="svc-page-hero__stat">
-                <span className="svc-page-hero__stat-val">4,9</span>
-                <span className="svc-page-hero__stat-lbl">gem. beoordeling</span>
+                <span className="svc-page-hero__stat-val">NL</span>
+                <span className="svc-page-hero__stat-lbl">werkzaam in heel Nederland</span>
               </li>
             </ul>
           </div>

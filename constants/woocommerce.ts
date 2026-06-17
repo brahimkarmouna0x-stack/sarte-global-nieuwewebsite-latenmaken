@@ -48,9 +48,7 @@ export const WOOCOMMERCE_HERO = {
   titleEm: "volledig van jou is.",
   sub: "Sarte Global bouwt snelle, schaalbare WooCommerce-webshops op WordPress. Geen maandelijkse omzetafdracht, geen platform-lock-in — wel volledige controle over je shop, je data en je groei.",
   primaryCta: "WooCommerce-webshop aanvragen",
-  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },
-  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
-  pills: [
+  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },  pills: [
     { label: "0% transactiekosten" },
     { label: "iDEAL & meer" },
     { label: "Onbeperkt producten" },

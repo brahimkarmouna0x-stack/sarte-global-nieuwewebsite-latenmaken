@@ -46,9 +46,7 @@ export const ONDERHOUD_HERO = {
   titleEm: "veilig en snel blijft.",
   sub: "Sarte Global houdt je website veilig, snel en up-to-date. Updates, beveiliging, dagelijkse back-ups en doorlopende verbeteringen — zodat jij je op je bedrijf richt en wij op je site.",
   primaryCta: "Onderhoudsplan aanvragen",
-  secondaryCta: { label: "Bekijk wat we doen", href: "#proces" },
-  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
-  pills: [
+  secondaryCta: { label: "Bekijk wat we doen", href: "#proces" },  pills: [
     { label: "Dagelijkse back-ups" },
     { label: "Updates & beveiliging" },
     { label: "Snelle support" },

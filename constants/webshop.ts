@@ -46,9 +46,7 @@ export const WEBSHOP_HERO = {
   titleEm: "verkoopt, niet alleen toont.",
   sub: "Sarte Global bouwt snelle, conversiegerichte webshops met WooCommerce. Een vlekkeloze checkout, iDEAL en alle betaalmethoden, sterke SEO en een beheeromgeving waarin je zelf eenvoudig producten beheert.",
   primaryCta: "Webshop aanvragen",
-  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },
-  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
-  pills: [
+  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },  pills: [
     { label: "+120% omzet" },
     { label: "iDEAL & meer" },
     { label: "Mobiel afrekenen" },
