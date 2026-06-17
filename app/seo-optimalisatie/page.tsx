@@ -113,7 +113,7 @@ export default function SeoOptimalisatiePage() {
             <Link href="/">Home</Link>
             <Link href="/website-laten-maken">Website laten maken</Link>
             <Link href="/landing-page-laten-maken">Landing page laten maken</Link>
-            <Link href="/services/seo">SEO &amp; groei</Link>
+            <Link href="/wordpress-website-laten-maken">WordPress website laten maken</Link>
             <Link href="/work">Portfolio</Link>
             <Link href="/contact">Contact</Link>
           </nav>

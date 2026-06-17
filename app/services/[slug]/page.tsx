@@ -16,7 +16,7 @@ import { ServiceResults } from "@/components/services/ServiceResults";
 import { ServiceTech } from "@/components/services/ServiceTech";
 import { ServiceWhyUs } from "@/components/services/ServiceWhyUs";
 import { Testimonials } from "@/components/sections/Testimonials";
-import { SERVICE_FAQ, SERVICES, SITE } from "@/constants";
+import { SERVICE_FAQ, SERVICE_LANDING_PAGE_BY_SLUG, SERVICES, SITE } from "@/constants";
 
 const SITE_URL = SITE.url;
 
@@ -39,7 +39,12 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
 
   const title = service.name;
   const description = service.tagline;
-  const canonical = `/services/${service.slug}`;
+  // Slugs with a dedicated keyword landing page 308-redirect there (see
+  // next.config.mjs). Point their canonical at the landing page too, so any
+  // pre-redirect crawl consolidates to one URL instead of cannibalising.
+  const landingPage =
+    SERVICE_LANDING_PAGE_BY_SLUG[slug as keyof typeof SERVICE_LANDING_PAGE_BY_SLUG];
+  const canonical = landingPage ?? `/services/${service.slug}`;
 
   return {
     title,

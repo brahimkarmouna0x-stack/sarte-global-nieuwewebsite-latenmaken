@@ -47,20 +47,28 @@ export const SERVICE_LINKS: readonly NavLink[] = [
 ];
 
 /**
- * Service offerings (from SERVICES) that link to the /services/[slug] detail
- * pages — shown as the second "Onze diensten" column of the mega-menu.
- *
- * Offerings that already have a dedicated keyword landing page in SERVICE_LINKS
- * (web development, e-commerce, landing pages and SEO) are excluded here, so the
- * two columns never list the same service twice. Only the offerings without a
- * keyword-page equivalent remain (UX/UI, mobile, AI, brand strategy, ads).
+ * Service offerings that already have a dedicated keyword landing page. Their
+ * /services/[slug] twin would target the exact same primary keyword, so it is
+ * 301-redirected (next.config.mjs) and canonicalised to the landing page — one
+ * indexable URL per keyword, no cannibalisation. Single source of truth for the
+ * redirect targets, the sitemap exclusion, the canonical override on the dynamic
+ * service route and the nav de-duplication below.
  */
-const SERVICE_SLUGS_WITH_LANDING_PAGE: ReadonlySet<string> = new Set([
-  "web-development",
-  "ecommerce",
-  "landing-page-optimization",
-  "seo",
-]);
+export const SERVICE_LANDING_PAGE_BY_SLUG = {
+  "web-development": "/website-laten-maken",
+  "ecommerce": "/webshop-laten-maken",
+  "landing-page-optimization": "/landing-page-laten-maken",
+  "seo": "/seo-optimalisatie",
+} as const;
+
+/**
+ * Slugs from SERVICE_LANDING_PAGE_BY_SLUG as a Set. Used to exclude the four
+ * keyword-page duplicates from the mega-menu's "Onze diensten" column (so the
+ * two columns never list the same service twice) and from the sitemap.
+ */
+export const SERVICE_SLUGS_WITH_LANDING_PAGE: ReadonlySet<string> = new Set(
+  Object.keys(SERVICE_LANDING_PAGE_BY_SLUG),
+);
 
 export const SERVICES_NAV: readonly NavLink[] = SERVICES.filter(
   (service) => !SERVICE_SLUGS_WITH_LANDING_PAGE.has(service.slug),

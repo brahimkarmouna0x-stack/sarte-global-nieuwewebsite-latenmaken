@@ -112,7 +112,7 @@ export default function LandingPageLatenMakenPage() {
           <nav className="lp-related__nav" aria-label="Gerelateerde pagina's">
             <Link href="/">Home</Link>
             <Link href="/website-laten-maken">Website laten maken</Link>
-            <Link href="/services/landing-page-optimization">Landingspagina optimaliseren</Link>
+            <Link href="/webshop-laten-maken">Webshop laten maken</Link>
             <Link href="/seo-optimalisatie">SEO optimalisatie</Link>
             <Link href="/work">Portfolio</Link>
             <Link href="/contact">Contact</Link>

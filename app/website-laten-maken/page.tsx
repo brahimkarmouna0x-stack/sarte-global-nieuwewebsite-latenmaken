@@ -28,7 +28,7 @@ import {
 } from "@/lib/seo";
 
 const PATH = "/website-laten-maken";
-const PAGE_TITLE = "website laten maken | Sarte Global";
+const PAGE_TITLE = "Website laten maken voor ondernemers | Sarte Global";
 const PAGE_DESC =
   "Website laten maken bij Sarte Global. Professionele, moderne en responsive websites voor ondernemers in Nederland — sterk in SEO en gemaakt om te converteren. Vraag vrijblijvend een voorstel aan.";
 
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
         url: "/images/company-img.png",
         width: 1200,
         height: 800,
-        alt: "website laten maken · Sarte Global",
+        alt: "Website laten maken · Sarte Global",
       },
     ],
   },
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
 
 const SERVICE_JSON_LD = buildServiceSchema({
   path: PATH,
-  name: "website laten maken",
+  name: "Website laten maken",
   description: PAGE_DESC,
   offerCatalogName: "Voordelen van een nieuwe website",
   offers: LANDING_BENEFITS,

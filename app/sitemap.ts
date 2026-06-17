@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { SERVICES, SITE } from "@/constants";
+import { SERVICES, SERVICE_SLUGS_WITH_LANDING_PAGE, SITE } from "@/constants";
 
 const SITE_URL = SITE.url;
 // Regenerated on each build so the sitemap stays fresh without manual edits.
@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/webapp-laten-maken`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
     { url: `${SITE_URL}/seo-optimalisatie`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
     { url: `${SITE_URL}/website-onderhoud`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/services`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/over-ons`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/work`, lastModified: LAST_MODIFIED, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/journal`, lastModified: LAST_MODIFIED, changeFrequency: "weekly", priority: 0.7 },
@@ -29,7 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/cookies`, lastModified: LAST_MODIFIED, changeFrequency: "yearly", priority: 0.3 },
   ];
 
-  const servicePages: MetadataRoute.Sitemap = SERVICES.map((service) => ({
+  // Exclude the four offerings that redirect/canonicalise to a dedicated keyword
+  // landing page — those landing pages are already listed above, so emitting the
+  // /services/[slug] twin here would put a redirecting URL in the sitemap.
+  const servicePages: MetadataRoute.Sitemap = SERVICES.filter(
+    (service) => !SERVICE_SLUGS_WITH_LANDING_PAGE.has(service.slug),
+  ).map((service) => ({
     url: `${SITE_URL}/services/${service.slug}`,
     lastModified: LAST_MODIFIED,
     changeFrequency: "monthly",

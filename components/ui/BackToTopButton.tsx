@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useScrolled } from "@/hooks/useScrolled";
 
@@ -7,10 +9,28 @@ import { useScrolled } from "@/hooks/useScrolled";
  * Fixed button in the bottom-left corner that fades in once the visitor has
  * scrolled past the first viewport and smooth-scrolls back to the top on click.
  * Rendered globally from the root layout, so it appears on every page.
+ *
+ * It hides as soon as the footer bar enters the viewport, so it never overlaps
+ * the footer's social icons / legal links in the bottom-left corner on mobile.
  */
 export function BackToTopButton() {
-  const visible = useScrolled(600);
+  const scrolled = useScrolled(600);
   const reduced = useReducedMotion();
+  const [atFooter, setAtFooter] = useState<boolean>(false);
+
+  useEffect(() => {
+    const target =
+      document.querySelector(".foot-bar") ?? document.querySelector("footer");
+    if (!target) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      setAtFooter(entries[0]?.isIntersecting ?? false);
+    });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  const visible = scrolled && !atFooter;
 
   function handleClick() {
     window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });

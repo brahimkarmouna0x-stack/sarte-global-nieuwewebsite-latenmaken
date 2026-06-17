@@ -20,7 +20,9 @@ export const SERVICES = [
       "Een nieuwe, professionele website voor ondernemers en bedrijven in Nederland.",
     description:
       "Snelle, veilige en moderne websites — gebouwd op Next.js, WordPress of een platform dat past bij jouw bedrijf.",
-    href: "/services/web-development",
+    // Links to the dedicated keyword landing page; the /services/web-development
+    // twin 301-redirects + canonicalises here (see SERVICE_LANDING_PAGE_BY_SLUG).
+    href: "/website-laten-maken",
     icon: "code",
     heroEyebrow: "Dienst · Website laten maken",
     heroTitleLead: "Een professionele website",
@@ -77,7 +79,7 @@ export const SERVICES = [
       "Webshops die verkopen — modern, snel en gebouwd om te converteren.",
     description:
       "Shopify, WooCommerce of maatwerk: een webshop die past bij jouw producten, klanten en groeiplannen.",
-    href: "/services/ecommerce",
+    href: "/webshop-laten-maken",
     icon: "cart",
     heroEyebrow: "Dienst · Webshop laten maken",
     heroTitleLead: "Een webshop die",
@@ -134,7 +136,7 @@ export const SERVICES = [
       "Krachtige landingspagina's die bezoekers omzetten in leads en klanten.",
     description:
       "Een snelle, conversiegerichte landingspagina voor jouw campagne, dienst of product — gebouwd om te scoren.",
-    href: "/services/landing-page-optimization",
+    href: "/landing-page-laten-maken",
     icon: "rocket",
     heroEyebrow: "Dienst · Landingspagina",
     heroTitleLead: "Een landingspagina die",
@@ -248,7 +250,7 @@ export const SERVICES = [
       "Technische SEO, content en analyses die jouw site structureel beter laten scoren.",
     description:
       "Een sterke technische basis, content die rankt en analyses die laten zien wat er écht werkt.",
-    href: "/services/seo",
+    href: "/seo-optimalisatie",
     icon: "search",
     heroEyebrow: "Dienst · SEO & groei",
     heroTitleLead: "Organische groei die",

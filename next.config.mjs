@@ -42,6 +42,14 @@ const nextConfig = {
         destination: "/over-ons",
         permanent: true,
       },
+      // Four /services/[slug] offerings duplicate a dedicated keyword landing
+      // page (same primary keyword). To avoid duplicate content / cannibalisation
+      // they 308-redirect to the canonical landing page. Keep in sync with
+      // SERVICE_LANDING_PAGE_BY_SLUG in constants/index.ts.
+      { source: "/services/web-development", destination: "/website-laten-maken", permanent: true },
+      { source: "/services/ecommerce", destination: "/webshop-laten-maken", permanent: true },
+      { source: "/services/landing-page-optimization", destination: "/landing-page-laten-maken", permanent: true },
+      { source: "/services/seo", destination: "/seo-optimalisatie", permanent: true },
     ];
   },
   async headers() {

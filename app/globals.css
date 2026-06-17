@@ -3572,8 +3572,11 @@ footer {
 /* Lists longer than 5 links flow top-to-bottom, max 5 per column, then wrap
    into a second column — keeps the footer compact without dropping any
    keyword-rich internal link (good for SEO crawl + UX). minmax(0, 1fr) lets a
-   long label wrap inside its column instead of forcing horizontal scroll. */
-.foot-links--split {
+   long label wrap inside its column instead of forcing horizontal scroll.
+   The `ul.` qualifier raises specificity above `.foot-col ul` (which sets
+   display: flex) so the grid actually wins — otherwise every link stacks in
+   one tall column. */
+.foot-col ul.foot-links--split {
   display: grid;
   grid-template-rows: repeat(5, auto);
   grid-auto-flow: column;
@@ -4481,8 +4484,10 @@ footer {
   }
 
   /* Not enough room for two sub-columns once the footer collapses — fall back
-     to a single list (display: flex keeps .foot-col ul's column direction). */
-  .foot-links--split {
+     to a single list (display: flex keeps .foot-col ul's column direction).
+     Matches the desktop rule's specificity so this later rule wins inside the
+     media query. */
+  .foot-col ul.foot-links--split {
     display: flex;
   }
 }
