@@ -45,7 +45,9 @@ export const SEO_HERO = {
   titleEm: "structureel meer klanten oplevert.",
   sub: "Sarte Global verbetert je vindbaarheid in Google met technische SEO, sterke content en lokale SEO. Geen trucjes, maar een bewezen aanpak die zorgt voor blijvende, organische groei.",
   primaryCta: "SEO-analyse aanvragen",
-  secondaryCta: { label: "Bekijk onze aanpak", href: "#proces" },  pills: [
+  secondaryCta: { label: "Bekijk onze aanpak", href: "#proces" },
+  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
+  pills: [
     { label: "Meer organisch verkeer" },
     { label: "100/100 techniek" },
     { label: "Lokale SEO" },

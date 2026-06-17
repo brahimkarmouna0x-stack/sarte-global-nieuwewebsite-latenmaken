@@ -48,7 +48,9 @@ export const SHOPIFY_HERO = {
   titleEm: "snel live is en verkoopt.",
   sub: "Sarte Global bouwt snelle, conversiegerichte Shopify-webshops met een maatwerk thema. Betrouwbaar gehost, weinig onderhoud en klaar om te schalen — zodat jij je op verkopen kunt richten.",
   primaryCta: "Shopify-webshop aanvragen",
-  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },  pills: [
+  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },
+  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
+  pills: [
     { label: "Snel live" },
     { label: "iDEAL & meer" },
     { label: "Weinig onderhoud" },

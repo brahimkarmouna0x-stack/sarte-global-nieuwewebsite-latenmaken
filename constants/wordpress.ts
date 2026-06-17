@@ -47,7 +47,9 @@ export const WORDPRESS_HERO = {
   titleEm: "je zelf eenvoudig beheert.",
   sub: "Sarte Global bouwt professionele WordPress-websites op maat — modern, snel en SEO-sterk. Je past teksten en beelden zelf moeiteloos aan via een overzichtelijk CMS, zonder technische kennis.",
   primaryCta: "WordPress website aanvragen",
-  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },  pills: [
+  secondaryCta: { label: "Bekijk ons proces", href: "#proces" },
+  rating: { score: "4,9", label: "Gemiddeld 4,9 / 5 uit 100+ reviews" },
+  pills: [
     { label: "Zelf te beheren" },
     { label: "SEO-klaar" },
     { label: "Snel & veilig" },
