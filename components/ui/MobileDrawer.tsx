@@ -73,7 +73,11 @@ export function MobileDrawer({
   };
 
   return (
-    <>
+    // Fixed, viewport-sized containment layer. The drawer is parked off-screen
+    // to the right while closed; this layer clips it so it can never add
+    // horizontal scroll on mobile (root overflow-x: clip doesn't reliably clip
+    // fixed descendants on iOS). pointer-events are re-enabled per child.
+    <div className="drawer-layer">
       <div
         className={isOpen ? "scrim is-open" : "scrim"}
         id="scrim"
@@ -154,6 +158,6 @@ export function MobileDrawer({
           </a>
         </div>
       </aside>
-    </>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 
 import { WhatsAppFloatingButton } from "@/components/contact/WhatsAppFloatingButton";
+import { BackToTopButton } from "@/components/ui/BackToTopButton";
 import { CookieBar } from "@/components/ui/CookieBar";
 import { Footer } from "@/components/layouts/Footer";
 import { Navigation } from "@/components/layouts/Navigation";
@@ -263,6 +264,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               <Footer />
               <CookieBar />
               <WhatsAppFloatingButton />
+              <BackToTopButton />
               <ContactDialog />
               <ArticleDialog />
             </ArticleDialogProvider>

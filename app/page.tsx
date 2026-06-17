@@ -59,6 +59,7 @@ export default function HomePage() {
       <HashScrollOnLoad />
       <PricingSchema serviceSlug="web-development" />
       <Hero />
+      <Testimonials />
       <TrustedMarquee />
       <AboutCompany />
       <NewWebsiteSeo />
@@ -69,7 +70,6 @@ export default function HomePage() {
       <ProjectsSection />
       <Process />
       <ImpactStats />
-      <Testimonials />
       <TeamShowcase />
       <Journal />
       <CallToAction />

@@ -105,16 +105,22 @@ export async function Footer() {
             </div>
           </div>
           {FOOTER_COLUMNS.map((column) => (
-            <div key={column.title} className="foot-col">
+            <nav
+              key={column.title}
+              className="foot-col"
+              aria-label={column.title}
+            >
               <h4>{column.title}</h4>
-              <ul>
+              {/* Columns with more than 5 links flow into a second column of 5
+                  (capped row count) instead of one very long list. */}
+              <ul className={column.links.length > 5 ? "foot-links foot-links--split" : "foot-links"}>
                 {column.links.map((link) => (
                   <li key={`${column.title}-${link.label}`}>
                     <a href={link.href}>{link.label}</a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           ))}
           <div className="foot-col">
             <h4>{NEWSLETTER.title}</h4>
