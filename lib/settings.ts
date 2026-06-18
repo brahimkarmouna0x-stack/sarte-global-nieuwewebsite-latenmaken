@@ -34,7 +34,10 @@ const DEFAULT_SOCIAL_LINKS: readonly SocialLink[] = [
 const FALLBACK: SiteSettings = {
   phone: SITE.phone,
   email: SITE.email,
-  whatsapp: WHATSAPP_NUMBER,
+  // Normalized to bare digits (no "+"/spaces) so every consumer — incl. the
+  // contact page's direct `https://wa.me/${whatsapp}` link — gets a valid deep
+  // link, exactly like the Supabase-sourced value in mapRecord().
+  whatsapp: normalizeWhatsAppNumber(WHATSAPP_NUMBER),
   // Online-only / nationaal: geen fysiek vestigingsadres, wel landelijke dekking.
   address: {
     line: "Werkzaam door heel Nederland",

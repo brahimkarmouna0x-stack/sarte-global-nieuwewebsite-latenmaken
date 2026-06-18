@@ -1,10 +1,32 @@
-import { JOURNAL_ARTICLES, JOURNAL_SECTION } from "@/constants";
+import { JOURNAL_SECTION } from "@/constants";
+import { formatPostDate, getAllPosts } from "@/lib/blog";
+import type { Article } from "@/types";
 
 import { ArticleCard } from "../ui/ArticleCard";
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 
-export function Journal() {
+/**
+ * Journal listing — driven by the MDX posts in `content/journal`. Each card
+ * links to its real `/journal/[slug]` page. `limit` lets the homepage show a
+ * teaser (e.g. the three latest) while the /journal page shows everything.
+ */
+export function Journal({ limit }: { readonly limit?: number } = {}) {
+  const posts = getAllPosts().slice(0, limit ?? Infinity);
+
+  const articles: readonly Article[] = posts.map((post) => ({
+    tag: post.tag,
+    title: post.title,
+    date: formatPostDate(post.date),
+    readLabel: `${post.readMinutes} min lezen`,
+    href: `/journal/${post.slug}`,
+    artwork: post.artwork,
+    slug: post.slug,
+    excerpt: post.excerpt,
+    readMinutes: post.readMinutes,
+    author: post.author,
+  }));
+
   return (
     <section id="journal" aria-labelledby="journal-h">
       <Container>
@@ -19,12 +41,8 @@ export function Journal() {
         </Reveal>
 
         <div className="journal-grid">
-          {JOURNAL_ARTICLES.map((article, index) => (
-            <ArticleCard
-              key={article.title}
-              article={article}
-              index={index}
-            />
+          {articles.map((article, index) => (
+            <ArticleCard key={article.slug} article={article} index={index} />
           ))}
         </div>
       </Container>

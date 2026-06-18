@@ -10242,6 +10242,18 @@ footer {
   background: var(--color-accent-soft);
 }
 
+.wlm-local__city-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.wlm-local__city:hover .wlm-local__city-link {
+  color: var(--color-accent);
+}
+
 .wlm-local__pin {
   display: inline-flex;
   color: var(--color-accent);
@@ -12190,5 +12202,257 @@ footer {
   .svc-process__step-card:hover {
     transform: none !important;
   }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Journal article page (/journal/[slug]) — readable long-form prose
+   ────────────────────────────────────────────────────────────── */
+.post {
+  padding: 8rem 0 6rem;
+}
+
+.post__inner {
+  max-width: 760px;
+}
+
+.post__crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2.5rem;
+}
+
+.post__crumbs a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.post__crumbs a:hover {
+  color: var(--color-accent);
+}
+
+.post__head {
+  margin-bottom: 2.5rem;
+}
+
+.post__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0.75rem 0 1.25rem;
+}
+
+.post__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.post__excerpt {
+  margin-top: 1.5rem;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.post__art {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  margin-bottom: 3rem;
+  aspect-ratio: 16 / 7;
+}
+
+.post__art > * {
+  width: 100%;
+  height: 100%;
+}
+
+.post-body {
+  font-size: 1.075rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+.post-body > * + * {
+  margin-top: 1.4rem;
+}
+
+.post-body h2 {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin-top: 2.75rem;
+}
+
+.post-body h3 {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin-top: 2rem;
+}
+
+.post-body h2 a,
+.post-body h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-body a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.post-body a:hover {
+  color: var(--color-accent-hover);
+}
+
+.post-body strong {
+  color: var(--color-text);
+}
+
+.post-body ul,
+.post-body ol {
+  padding-left: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.post-body li {
+  list-style: disc;
+}
+
+.post-body ol li {
+  list-style: decimal;
+}
+
+.post__cta {
+  margin-top: 4rem;
+  padding: 2.5rem;
+  border-radius: 18px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+}
+
+.post__cta-title {
+  font-size: 1.4rem;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+}
+
+.post__cta-sub {
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.post__cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.post__related {
+  margin-top: 4rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 2.5rem;
+}
+
+.post__related-h {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+}
+
+.post__related-list {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.post__related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  text-decoration: none;
+  height: 100%;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.post__related-card:hover {
+  border-color: var(--color-border-strong);
+  transform: translateY(-2px);
+}
+
+.post__related-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.post__related-title {
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+.post__related-excerpt {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Programmatic city page (/website-laten-maken-[stad]) — intro block
+   ────────────────────────────────────────────────────────────── */
+.lp-intro {
+  padding: 5rem 0;
+}
+
+.lp-intro__p {
+  max-width: 760px;
+  margin-top: 1.25rem;
+}
+
+.lp-intro__benefits-h {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin: 2.75rem 0 1.25rem;
+}
+
+.lp-intro__benefits {
+  display: grid;
+  gap: 0.85rem 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  max-width: 900px;
+}
+
+.lp-intro__benefits li {
+  position: relative;
+  padding-left: 1.75rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.lp-intro__benefits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--color-accent);
 }
 

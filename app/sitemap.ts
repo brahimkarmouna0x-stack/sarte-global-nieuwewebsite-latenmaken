@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
 import { SERVICES, SERVICE_SLUGS_WITH_LANDING_PAGE, SITE } from "@/constants";
+import { getAllPosts } from "@/lib/blog";
+import { getLocationSlugs } from "@/lib/programmatic";
 
 const SITE_URL = SITE.url;
 // Regenerated on each build so the sitemap stays fresh without manual edits.
@@ -42,8 +44,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  // No individual journal article pages exist yet — only the journal listing page.
-  // Add journal/[slug] entries here when individual article pages are created.
+  // Individual journal articles (MDX in content/journal) — driven by the same
+  // source as the listing + the JSON-LD, so the sitemap can never drift.
+  const journalPages: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
+    url: `${SITE_URL}/journal/${post.slug}`,
+    lastModified: new Date(post.updated ?? post.date),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
 
-  return [...staticPages, ...servicePages];
+  // Programmatic city × service pages (e.g. /website-laten-maken-amsterdam),
+  // generated from constants/locations.ts.
+  const locationPages: MetadataRoute.Sitemap = getLocationSlugs().map((slug) => ({
+    url: `${SITE_URL}/${slug}`,
+    lastModified: LAST_MODIFIED,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...servicePages, ...journalPages, ...locationPages];
 }

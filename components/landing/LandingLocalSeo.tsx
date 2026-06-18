@@ -1,5 +1,7 @@
+import Link from "next/link";
+
 import { LANDING_LOCAL_SEO } from "@/constants";
-import { SERVICE_CITIES } from "@/lib/seo";
+import { CITIES, LOCATION_SERVICES } from "@/constants/locations";
 
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
@@ -14,18 +16,19 @@ interface LandingLocalSeoProps {
   /** Service name used in the heading, e.g. "Webshop laten maken". */
   readonly serviceLabel?: string;
   readonly content?: LandingLocalSeoContent;
-  readonly cities?: readonly string[];
 }
 
+// The keyword dimension the city badges link to (e.g. website-laten-maken-[stad]).
+const LOCATION_PREFIX = LOCATION_SERVICES[0]!.prefix;
+
 /**
- * Section — "Werkzaam in heel Nederland": a local-SEO block that names the key
- * cities (single source: SERVICE_CITIES, shared with the Service schema). Cities
- * render as non-clickable badges for now; wire links once city pages exist.
+ * Section — "Werkzaam in heel Nederland": a local-SEO block that links to the
+ * programmatic city pages (single source: constants/locations.ts). Doubles as an
+ * internal-link hub from every landing page to the city × service pages.
  */
 export function LandingLocalSeo({
   serviceLabel = "Nieuwe website laten maken",
   content = LANDING_LOCAL_SEO,
-  cities = SERVICE_CITIES,
 }: LandingLocalSeoProps = {}) {
   return (
     <section className="wlm-local" aria-labelledby="wlm-local-h">
@@ -44,12 +47,17 @@ export function LandingLocalSeo({
               className="wlm-local__cities"
               aria-label="Steden waar we actief zijn"
             >
-              {cities.map((city) => (
-                <li key={city} className="wlm-local__city">
-                  <span className="wlm-local__pin" aria-hidden="true">
-                    <PinIcon />
-                  </span>
-                  {city}
+              {CITIES.map((city) => (
+                <li key={city.slug} className="wlm-local__city">
+                  <Link
+                    href={`/${LOCATION_PREFIX}-${city.slug}`}
+                    className="wlm-local__city-link"
+                  >
+                    <span className="wlm-local__pin" aria-hidden="true">
+                      <PinIcon />
+                    </span>
+                    {city.name}
+                  </Link>
                 </li>
               ))}
             </ul>

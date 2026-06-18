@@ -738,7 +738,13 @@ export const LANDING_CASES_SECTION = {
   eyebrow: "Ons werk",
   titleLead: "Resultaten die",
   titleEm: "voor zich spreken.",
-  sub: "Een greep uit projecten waar we trots op zijn — met meetbare resultaten en een helder voor/na-verschil.",
+  sub: "Voorbeelden van het soort resultaat dat we voor ondernemers nastreven — met een helder voor/na-verschil.",
+  // Badge + disclaimer so the figures are clearly illustrative and never read as
+  // verified client metrics (the domains are placeholders). Replace with real,
+  // named cases — and remove these two lines — zodra echte cijfers beschikbaar zijn.
+  label: "Voorbeeldcase",
+  disclaimer:
+    "Bovenstaande cases zijn illustratieve voorbeelden. De getoonde cijfers en domeinnamen dienen ter illustratie en zijn geen geverifieerde klantresultaten.",
 } as const;
 
 export const LANDING_CASES: readonly LandingCaseItem[] = [

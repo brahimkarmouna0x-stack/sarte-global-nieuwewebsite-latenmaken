@@ -1,21 +1,24 @@
-"use client";
+import Link from "next/link";
 
-import { useArticleDialog } from "@/contexts/ArticleDialogContext";
 import type { ArticleCardProps } from "@/types";
 
 import { ArticleArtwork } from "./ArticleArtwork";
 import { Reveal } from "./Reveal";
 
+/**
+ * Journal listing card. Links to the real article route (`/journal/[slug]`) so
+ * the post is a crawlable, indexable page — the old modal-only version exposed
+ * no URL to Google. Falls back to `href` when a slug is absent.
+ */
 export function ArticleCard({ article, index }: ArticleCardProps) {
-  const { openArticle } = useArticleDialog();
+  const href = article.slug ? `/journal/${article.slug}` : article.href;
 
   return (
     <Reveal as="article" className="article" index={index}>
-      <button
-        type="button"
+      <Link
+        href={href}
         className="article-trigger"
-        onClick={() => openArticle(article)}
-        aria-label={`Open article: ${article.title}`}
+        aria-label={`Lees artikel: ${article.title}`}
       >
         <div className="article-head">
           <ArticleArtwork id={article.artwork} />
@@ -41,7 +44,7 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
             </span>
           </div>
         </div>
-      </button>
+      </Link>
     </Reveal>
   );
 }

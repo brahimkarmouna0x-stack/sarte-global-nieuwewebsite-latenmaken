@@ -71,7 +71,7 @@ export default function HomePage() {
       <Process />
       <ImpactStats />
       <TeamShowcase />
-      <Journal />
+      <Journal limit={3} />
       <CallToAction />
     </main>
   );
