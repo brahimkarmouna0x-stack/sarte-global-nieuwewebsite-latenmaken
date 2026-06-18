@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useCallback, useRef, type CSSProperties, type KeyboardEvent } from "react";
 
 import { TEAM_MEMBERS, TEAM_SECTION } from "@/constants";
 import { useSiteSettings } from "@/contexts/SettingsContext";
@@ -23,6 +23,47 @@ export function TeamShowcase() {
     durationMs: TEAM_SECTION.durationMs,
   });
 
+  // Roving-tabindex refs so arrow-key navigation can move focus between tabs.
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  const focusTab = useCallback(
+    (raw: number): void => {
+      const len = TEAM_MEMBERS.length;
+      const target = ((raw % len) + len) % len;
+      // Selection-follows-focus: the panel is always in the DOM, so activating
+      // on arrow keeps the visible content in sync with the focused tab.
+      showcase.goTo(target);
+      tabRefs.current[target]?.focus();
+    },
+    [showcase],
+  );
+
+  const handleTabsKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>): void => {
+      switch (event.key) {
+        case "ArrowLeft":
+          event.preventDefault();
+          focusTab(showcase.index - 1);
+          break;
+        case "ArrowRight":
+          event.preventDefault();
+          focusTab(showcase.index + 1);
+          break;
+        case "Home":
+          event.preventDefault();
+          focusTab(0);
+          break;
+        case "End":
+          event.preventDefault();
+          focusTab(TEAM_MEMBERS.length - 1);
+          break;
+        default:
+          break;
+      }
+    },
+    [focusTab, showcase.index],
+  );
+
   const current = TEAM_MEMBERS[showcase.displayIndex];
   if (!current) {
     throw new Error("Team showcase index out of range");
@@ -37,10 +78,10 @@ export function TeamShowcase() {
 
   const progressStyle: CSSProperties = showcase.progressActive
     ? {
-      width: "100%",
-      transition: `width ${TEAM_SECTION.durationMs}ms linear`,
+      transform: "scaleX(1)",
+      transition: `transform ${TEAM_SECTION.durationMs}ms linear`,
     }
-    : { width: "0%", transition: "none" };
+    : { transform: "scaleX(0)", transition: "none" };
 
   return (
     <section
@@ -78,7 +119,15 @@ export function TeamShowcase() {
             <span className="ts-tot">{padIndex(TEAM_MEMBERS.length)}</span>
           </div>
 
-          <div className={infoClass}>
+          <div
+            className={infoClass}
+            role="tabpanel"
+            id="team-panel"
+            aria-labelledby={`team-tab-${showcase.index}`}
+            // tabindex=0 only when the panel has no focusable child (no socials),
+            // so keyboard users can still reach the panel content per APG.
+            tabIndex={socialLinks.length > 0 ? undefined : 0}
+          >
             <h2 className="ts-name" id="team-h">
               {current.name}
             </h2>
@@ -130,16 +179,28 @@ export function TeamShowcase() {
               className="ts-dots"
               role="tablist"
               aria-label="Teamleden navigatie"
+              onKeyDown={handleTabsKeyDown}
             >
-              {TEAM_MEMBERS.map((member, index) => (
-                <button
-                  key={member.scene}
-                  className={index === showcase.index ? "is-active" : ""}
-                  aria-label={member.name}
-                  onClick={(): void => showcase.goTo(index)}
-                  type="button"
-                />
-              ))}
+              {TEAM_MEMBERS.map((member, index) => {
+                const isActive = index === showcase.index;
+                return (
+                  <button
+                    key={member.scene}
+                    ref={(node): void => {
+                      tabRefs.current[index] = node;
+                    }}
+                    type="button"
+                    role="tab"
+                    id={`team-tab-${index}`}
+                    aria-controls="team-panel"
+                    aria-selected={isActive}
+                    tabIndex={isActive ? 0 : -1}
+                    className={isActive ? "is-active" : ""}
+                    aria-label={member.name}
+                    onClick={(): void => showcase.goTo(index)}
+                  />
+                );
+              })}
             </div>
             <button
               className="ts-arrow"

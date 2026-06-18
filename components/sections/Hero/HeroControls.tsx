@@ -1,23 +1,52 @@
 "use client";
 
-import { useCallback, type KeyboardEvent } from "react";
+import { useCallback, useRef, type KeyboardEvent } from "react";
 
 import { useHeroStage } from "./HeroStage";
 
 export function HeroControls() {
   const { slides, index, setIndex, goNext, goPrev } = useHeroStage();
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        goPrev();
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        goNext();
+  // Roving-tabindex refs so arrow keys can move focus between the slide tabs.
+  const dotRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  const focusDot = useCallback(
+    (raw: number): void => {
+      const len = slides.length;
+      if (len === 0) return;
+      const target = ((raw % len) + len) % len;
+      // Selection-follows-focus: the slide panel is always in the DOM, so we
+      // activate the slide as focus moves between tabs (WAI-ARIA APG tabs).
+      setIndex(target);
+      dotRefs.current[target]?.focus();
+    },
+    [slides.length, setIndex],
+  );
+
+  const handleDotsKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>): void => {
+      switch (e.key) {
+        case "ArrowLeft":
+          e.preventDefault();
+          focusDot(index - 1);
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          focusDot(index + 1);
+          break;
+        case "Home":
+          e.preventDefault();
+          focusDot(0);
+          break;
+        case "End":
+          e.preventDefault();
+          focusDot(slides.length - 1);
+          break;
+        default:
+          break;
       }
     },
-    [goNext, goPrev],
+    [focusDot, index, slides.length],
   );
 
   if (slides.length <= 1) return null;
@@ -27,7 +56,6 @@ export function HeroControls() {
       className="hero-controls"
       role="group"
       aria-label="Showcase-bediening"
-      onKeyDown={handleKeyDown}
     >
       <button
         type="button"
@@ -54,15 +82,22 @@ export function HeroControls() {
         className="hero-controls__dots"
         role="tablist"
         aria-label="Showcase-beelden"
+        onKeyDown={handleDotsKeyDown}
       >
         {slides.map((slide, i) => {
           const isActive = i === index;
           return (
             <button
               key={slide.id}
+              ref={(node): void => {
+                dotRefs.current[i] = node;
+              }}
               type="button"
               role="tab"
+              id={`hero-dot-${i}`}
+              aria-controls="hero-showcase-panel"
               aria-selected={isActive}
+              tabIndex={isActive ? 0 : -1}
               aria-label={`Toon ${slide.label}`}
               className={`hero-controls__dot${isActive ? " hero-controls__dot--active" : ""}`}
               onClick={() => setIndex(i)}

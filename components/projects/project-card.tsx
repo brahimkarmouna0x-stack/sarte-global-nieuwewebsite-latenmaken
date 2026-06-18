@@ -121,8 +121,10 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="proj-img"
-            priority={index < 3}
-            loading={index < 3 ? undefined : "lazy"}
+            // Always lazy: the projects grid sits well below the fold on every
+            // page that renders it, so eager/priority preloads here would only
+            // compete with the hero's LCP image on slow connections.
+            loading="lazy"
             quality={75}
             // thum.io cold-renders are slow; the Next image optimizer times out
             // on them and the card falls back. Loading thum.io directly lets the

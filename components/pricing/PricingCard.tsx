@@ -45,9 +45,9 @@ export function PricingCard({ tier, projectType, onSelect }: PricingCardProps) {
 
       {/* Header: Name + Tagline */}
       <header className="relative z-10 pr-12">
-        <h4 className="font-[family-name:var(--font-display)] text-lg font-semibold leading-tight text-(--color-text) sm:text-xl">
+        <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold leading-tight text-(--color-text) sm:text-xl">
           {tier.name}
-        </h4>
+        </h3>
         <p className="mt-1 text-sm leading-snug text-(--color-text-secondary)">
           {tier.tagline}
         </p>

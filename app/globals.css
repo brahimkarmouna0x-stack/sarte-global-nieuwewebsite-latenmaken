@@ -108,7 +108,11 @@
   --color-hero-card-gradient-end: rgba(13, 13, 13, 0.88);
 
   /* ── Color · marquee/process ── */
-  --color-marquee-text: rgba(245, 240, 232, 0.32);
+  /* Solid warm grey (cream-tinted) ≈ 4.9:1 against the #0D0D0D background, so
+     the brand wordmarks pass WCAG AA for normal text at any size. A flat colour
+     (not an opacity) keeps the ratio deterministic regardless of what shows
+     through behind the marquee. Was rgba(245,240,232,0.32) ≈ 2.6:1 (failing). */
+  --color-marquee-text: #827F7A;
 
   /* ── Color · cards (work artwork) ── */
   --color-art-volta-start: #1F1810;
@@ -690,6 +694,7 @@ section {
 @media (max-width: 768px) {
   .brand-logo {
     height: 30px;
+    width: auto;
   }
 }
 
@@ -1595,7 +1600,11 @@ section {
 .hero-showcase__bar-fill {
   position: absolute;
   inset: 0;
-  width: 0;
+  width: 100%;
+  /* Composited progress: scaleX from the left edge instead of animating width
+     (which forces layout every frame). */
+  transform: scaleX(0);
+  transform-origin: left;
   background: var(--color-accent);
   box-shadow: 0 0 12px rgba(245, 166, 35, 0.5);
 }
@@ -1606,16 +1615,16 @@ section {
 
 @keyframes hero-shine {
   0% {
-    background-position: 200% 0;
+    transform: translateX(-120%);
   }
   100% {
-    background-position: -200% 0;
+    transform: translateX(120%);
   }
 }
 
 @keyframes hero-progress {
-  from { width: 0; }
-  to { width: 100%; }
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 @keyframes hero-glow-pulse {
@@ -1763,7 +1772,9 @@ section {
   pointer-events: auto;
   display: flex;
   align-items: center;
-  gap: 8px;
+  /* Spread the dots so adjacent 24px hit areas (the ::before below) never
+     overlap: centre-to-centre = dot width + gap ≥ 24px (WCAG 2.5.8). */
+  gap: 18px;
 }
 
 .hero-controls__dot {
@@ -1781,6 +1792,18 @@ section {
   transition:
     border-color 0.3s var(--ease),
     transform 0.3s var(--ease);
+}
+
+/* Invisible 24×24 hit area centred on the (visually small) dot so the tap
+   target meets WCAG 2.5.8 without changing the dot's appearance. */
+.hero-controls__dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
 }
 
 .hero-controls__dot:hover {
@@ -1822,7 +1845,7 @@ section {
   }
   .hero-showcase__bar--active .hero-showcase__bar-fill {
     animation: none;
-    width: 100%;
+    transform: scaleX(1);
   }
   .hero-controls__arrow:hover {
     transform: none;
@@ -3309,18 +3332,33 @@ section {
 
 .ts-dots {
   display: flex;
-  gap: 8px;
+  /* Wider gap so adjacent 24px hit areas (::before) don't overlap:
+     centre-to-centre = 6px dot + 18px gap = 24px (WCAG 2.5.8). */
+  gap: 18px;
   align-items: center;
 }
 
 .ts-dots button {
+  position: relative;
   width: 6px;
   height: 6px;
   border-radius: 999px;
   background: var(--color-border-strong);
   padding: 0;
-  transition: all 0.4s var(--ease);
+  transition: background 0.4s var(--ease), width 0.4s var(--ease);
   flex-shrink: 0;
+}
+
+/* Invisible 24×24 tap target centred on each (visually tiny) dot. Keeps the
+   dot size untouched while satisfying WCAG 2.5.8 target-size on mobile. */
+.ts-dots button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
 }
 
 .ts-dots button.is-active {
@@ -3340,10 +3378,13 @@ section {
 
 .ts-prog {
   height: 100%;
+  width: 100%;
   background: var(--color-accent);
   border-radius: 2px;
-  width: 0;
-  transition: width 0.08s linear;
+  /* Composited fill: animate scaleX (transform) rather than width. */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.08s linear;
 }
 
 @media (max-width: 768px) {
@@ -3550,7 +3591,7 @@ footer {
   max-width: 30ch;
 }
 
-.foot-col h4 {
+.foot-col h3 {
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 12px;
@@ -8229,8 +8270,11 @@ footer {
     transparent 70%
   );
   background-size: 240% 100%;
-  background-position: 200% 0;
+  background-position: center;
   mix-blend-mode: overlay;
+  /* Composited sweep: translateX the whole layer (clipped by the frame's
+     overflow:hidden) instead of animating background-position every frame. */
+  will-change: transform;
   animation: hero-shine 8s linear infinite;
 }
 
@@ -8300,8 +8344,11 @@ footer {
 
 .hero-showcase__bar-fill {
   display: block;
-  width: 0;
+  width: 100%;
   height: 100%;
+  /* Composited progress: scaleX from the left edge instead of animating width. */
+  transform: scaleX(0);
+  transform-origin: left;
   border-radius: inherit;
   background: var(--hero-accent);
   box-shadow: 0 0 16px color-mix(in srgb, var(--hero-accent) 62%, transparent);
@@ -8430,7 +8477,7 @@ footer {
   }
 
   .hero-showcase__bar--active .hero-showcase__bar-fill {
-    width: 100%;
+    transform: scaleX(1);
     animation: none;
   }
 }

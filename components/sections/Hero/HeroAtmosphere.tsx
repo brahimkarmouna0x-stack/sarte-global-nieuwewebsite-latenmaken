@@ -26,15 +26,16 @@ export function HeroAtmosphere() {
           alt=""
           fill
           // LCP backdrop: preload it (priority + high fetch priority) so it
-          // starts downloading immediately.
+          // starts downloading immediately. This full-bleed image is the
+          // largest element in the hero, so it is the LCP candidate on mobile.
           priority
           fetchPriority="high"
-          // The backdrop is always veiled (wash + grain + veil, plus a heavy
-          // dark gradient on phones), so a smaller source on mobile is visually
-          // identical while cutting the network payload. Desktop keeps the
-          // vivid full-resolution image. A flat `100vw` made phones fetch a
-          // ~1920px variant; this drops them to the ~1080px bucket.
-          sizes="(max-width: 768px) 75vw, (max-width: 1200px) 90vw, 100vw"
+          // `100vw` + quality 70 deliberately match the showcase image's mobile
+          // settings (≤980px → 100vw, q70). Because both reference the same
+          // slide src, they resolve to one optimised URL on phones and share a
+          // single download — the showcase reuses these preloaded bytes.
+          // (70 is one of next.config `images.qualities`, so it isn't coerced.)
+          sizes="100vw"
           quality={70}
           className="hero-backdrop__image"
         />

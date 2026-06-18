@@ -110,7 +110,7 @@ export async function Footer() {
               className="foot-col"
               aria-label={column.title}
             >
-              <h4>{column.title}</h4>
+              <h3>{column.title}</h3>
               {/* Columns with more than 5 links flow into a second column of 5
                   (capped row count) instead of one very long list. */}
               <ul className={column.links.length > 5 ? "foot-links foot-links--split" : "foot-links"}>
@@ -123,7 +123,7 @@ export async function Footer() {
             </nav>
           ))}
           <div className="foot-col">
-            <h4>{NEWSLETTER.title}</h4>
+            <h3>{NEWSLETTER.title}</h3>
             <p className="foot-news-desc">{NEWSLETTER.description}</p>
           </div>
         </div>

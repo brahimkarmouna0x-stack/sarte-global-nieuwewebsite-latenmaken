@@ -92,6 +92,9 @@ export function HeroShowcase() {
           <motion.div
             key={current.id}
             className="hero-showcase__media"
+            role="tabpanel"
+            id="hero-showcase-panel"
+            aria-labelledby={`hero-dot-${index}`}
             initial={{ opacity: 0, scale: 0.99, filter: "blur(6px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, scale: 1.01, filter: "blur(4px)" }}
@@ -101,14 +104,18 @@ export function HeroShowcase() {
               filter: { duration: 0.3, ease: EASE },
             }}
           >
+            {/* Not `priority`: on mobile (≤980px → 100vw, q70) this resolves to
+                the same optimised URL as the full-bleed backdrop
+                (HeroAtmosphere) — identical src, width bucket and quality — so
+                the browser serves both from a single download. The backdrop
+                carries `priority`/fetchpriority=high (it is the LCP element) and
+                this image reuses those bytes. */}
             <Image
               src={current.image}
               alt={current.imageAlt}
               fill
-              priority
-              fetchPriority="high"
-              sizes="(max-width: 980px) 92vw, 560px"
-              quality={78}
+              sizes="(max-width: 980px) 100vw, 680px"
+              quality={70}
               className="hero-showcase__image"
             />
           </motion.div>
