@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import { ArticleArtwork } from "@/components/ui/ArticleArtwork";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { getAuthorByName } from "@/lib/authors";
 import {
   formatPostDate,
   getAllPosts,
@@ -74,6 +75,9 @@ export default async function JournalArticlePage({
 
   const path = `/journal/${post.slug}`;
   const related = getRelatedPosts(post.slug);
+  // Match the byline to a real team member so the BlogPosting links to the
+  // author's Person node (/team/[slug]); editorial bylines fall back to a name.
+  const author = getAuthorByName(post.author);
 
   const articleJsonLd = buildArticleSchema({
     path,
@@ -81,7 +85,9 @@ export default async function JournalArticlePage({
     description: post.description,
     datePublished: post.date,
     dateModified: post.updated,
-    author: post.author,
+    author: author
+      ? { name: author.name, slug: author.slug, jobTitle: author.role }
+      : post.author,
     image: post.cover,
   });
   const breadcrumbJsonLd = buildBreadcrumbSchema(post.title, path);
@@ -119,7 +125,13 @@ export default async function JournalArticlePage({
           <div className="post__meta">
             <time dateTime={post.date}>{formatPostDate(post.date)}</time>
             <span>{post.readMinutes} min leestijd</span>
-            <span>{post.author}</span>
+            {author ? (
+              <Link href={`/team/${author.slug}`} className="post__author">
+                {author.name}
+              </Link>
+            ) : (
+              <span>{post.author}</span>
+            )}
           </div>
           <p className="post__excerpt">{post.excerpt}</p>
         </Reveal>

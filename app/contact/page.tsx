@@ -13,7 +13,8 @@ const PAGE_DESC =
   "Neem contact op met Sarte Global, het team achter nieuwewebsite-latenmaken. E-mail, telefoon of WhatsApp — we reageren binnen één werkdag.";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  // `absolute`: PAGE_TITLE already carries the brand; skip the root title template.
+  title: { absolute: PAGE_TITLE },
   description: PAGE_DESC,
   alternates: { canonical: "/contact" },
   keywords: [

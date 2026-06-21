@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { SERVICES, SERVICE_SLUGS_WITH_LANDING_PAGE, SITE } from "@/constants";
+import { getAuthorSlugs } from "@/lib/authors";
 import { getAllPosts } from "@/lib/blog";
 import { getLocationSlugs } from "@/lib/programmatic";
 
@@ -62,5 +63,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...servicePages, ...journalPages, ...locationPages];
+  // Author / team profile pages (e.g. /team/alex-chen) — drive E-E-A-T and link
+  // to each author's articles. Same source as the BlogPosting author linkage.
+  const authorPages: MetadataRoute.Sitemap = getAuthorSlugs().map((slug) => ({
+    url: `${SITE_URL}/team/${slug}`,
+    lastModified: LAST_MODIFIED,
+    changeFrequency: "monthly",
+    priority: 0.4,
+  }));
+
+  return [
+    ...staticPages,
+    ...servicePages,
+    ...journalPages,
+    ...locationPages,
+    ...authorPages,
+  ];
 }

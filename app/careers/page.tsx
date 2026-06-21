@@ -13,7 +13,8 @@ const PAGE_DESC =
   "Werk bij Sarte Global. Remote-first, kleine teams met volledige eigenaarschap. Bekijk onze openstaande vacatures en hoe we werken.";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  // `absolute`: PAGE_TITLE already carries the brand; skip the root title template.
+  title: { absolute: PAGE_TITLE },
   description: PAGE_DESC,
   alternates: { canonical: "/careers" },
   keywords: [

@@ -274,6 +274,13 @@ export interface TeamMember {
   readonly role: string;
   readonly bio: string;
   readonly scene: TeamSceneId;
+  /** URL fragment for the author/team profile page, e.g. "alex-chen". */
+  readonly slug: string;
+  /**
+   * Real, public professional profiles (LinkedIn, X, …) for `Person.sameAs`.
+   * Leave empty/omit when none exist — we never emit placeholder profile URLs.
+   */
+  readonly sameAs?: readonly string[];
 }
 
 export type ArticleArtwork = "rings" | "lines" | "curves";

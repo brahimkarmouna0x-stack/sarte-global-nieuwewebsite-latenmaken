@@ -54,6 +54,19 @@ export const LOCATION_SERVICES: readonly LocationService[] = [
     parentLabel: "Website laten maken",
     projectType: "Nieuwe website",
   },
+  {
+    // Second keyword dimension: targets "webdesign [stad]" / "webdesigner [stad]".
+    // Same deliverable (a website) but a distinct head term, so titles/H1/keywords
+    // diverge from the website-laten-maken dimension. The two dimensions
+    // cross-link per city (see `crossLinks` in lib/programmatic.ts) so neither set
+    // is orphaned. Watch GSC for cannibalisation between the paired city pages.
+    prefix: "webdesign",
+    label: "Webdesign",
+    noun: "website",
+    parentPath: "/website-laten-maken",
+    parentLabel: "Website laten maken",
+    projectType: "Webdesign",
+  },
 ];
 
 export const CITIES: readonly City[] = [
@@ -83,6 +96,24 @@ export const CITIES: readonly City[] = [
     nearby: ["rotterdam", "delft", "leiden"],
     angle:
       "Met overheid, juridische dienstverlening en internationale organisaties verwacht het publiek in Den Haag een professionele, betrouwbare uitstraling online.",
+  },
+  {
+    slug: "leiden",
+    name: "Leiden",
+    province: "Zuid-Holland",
+    region: "de Randstad",
+    nearby: ["den-haag", "delft", "haarlem"],
+    angle:
+      "Leiden combineert de oudste universiteit van het land met het Bio Science Park — kennisintensieve bedrijven en zorg verwachten hier een website die deskundigheid en betrouwbaarheid uitstraalt.",
+  },
+  {
+    slug: "delft",
+    name: "Delft",
+    province: "Zuid-Holland",
+    region: "de Randstad",
+    nearby: ["den-haag", "rotterdam", "leiden"],
+    angle:
+      "Met de TU Delft als motor zit Delft vol tech-, engineering- en designbedrijven en innovatieve startups — een snelle, modern vormgegeven website past hier bij de hoge lat van het publiek.",
   },
   {
     slug: "utrecht",

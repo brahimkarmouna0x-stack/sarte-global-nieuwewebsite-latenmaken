@@ -3260,6 +3260,25 @@ section {
   max-width: 38ch;
 }
 
+.ts-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin: 0 0 32px;
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+
+.ts-profile:hover {
+  color: var(--color-accent);
+  gap: 12px;
+}
+
 .ts-socials {
   display: flex;
   gap: 10px;

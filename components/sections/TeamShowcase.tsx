@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useRef, type CSSProperties, type KeyboardEvent } from "react";
 
 import { TEAM_MEMBERS, TEAM_SECTION } from "@/constants";
@@ -124,15 +125,17 @@ export function TeamShowcase() {
             role="tabpanel"
             id="team-panel"
             aria-labelledby={`team-tab-${showcase.index}`}
-            // tabindex=0 only when the panel has no focusable child (no socials),
-            // so keyboard users can still reach the panel content per APG.
-            tabIndex={socialLinks.length > 0 ? undefined : 0}
+            // The panel always has a focusable child (the profile link below), so
+            // it never needs its own tabindex to be reachable per APG.
           >
             <h2 className="ts-name" id="team-h">
               {current.name}
             </h2>
             <p className="ts-role">{current.role}</p>
             <p className="ts-bio">{current.bio}</p>
+            <Link href={`/team/${current.slug}`} className="ts-profile">
+              Bekijk profiel <span className="arr" aria-hidden="true">→</span>
+            </Link>
             {socialLinks.length > 0 ? (
               <div className="ts-socials">
                 {socialLinks.map((social) => (

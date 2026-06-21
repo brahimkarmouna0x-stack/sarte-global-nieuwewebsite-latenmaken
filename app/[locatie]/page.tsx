@@ -38,7 +38,9 @@ export async function generateMetadata({
   if (!page) return {};
 
   return {
-    title: page.metaTitle,
+    // `absolute`: page.metaTitle already ends in "| Sarte Global"; opt out of the
+    // root title template so the brand isn't duplicated.
+    title: { absolute: page.metaTitle },
     description: page.metaDescription,
     alternates: { canonical: page.path },
     keywords: [...page.keywords],
@@ -154,6 +156,11 @@ export default async function LocationPage({
             {page.nearby.map((city) => (
               <Link key={city.href} href={city.href}>
                 {page.service.label} {city.name}
+              </Link>
+            ))}
+            {page.crossLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.name}
               </Link>
             ))}
             <Link href="/webshop-laten-maken">Webshop laten maken</Link>

@@ -8,7 +8,7 @@ current branch. Re-run after deploy against the live domain.
 | # | Check | Status | Notes |
 |---|-------|--------|-------|
 | 1 | `robots.txt` exists and is valid | ✅ PASS | `app/robots.ts` → allows `/`, disallows `/api/`, references sitemap. Returns 200. |
-| 2 | `sitemap.xml` is dynamic and complete | ✅ PASS | `app/sitemap.ts` returns 200 with 46 URLs — static pages, services, **6 journal posts**, **15 city pages**. No redirecting URLs included. |
+| 2 | `sitemap.xml` is dynamic and complete | ✅ PASS | `app/sitemap.ts` returns 200 with 71 URLs — static pages, services, **6 journal posts**, **34 city pages** (17 cities × 2 dimensions), **6 author pages**. No redirecting URLs included. |
 | 3 | No accidental `noindex` | ✅ PASS | Only `app/not-found.tsx` is `noindex` (correct). Root layout = `index,follow` + googleBot directives. |
 | 4 | All pages return 200 | ✅ PASS | Spot-checked home, landing, `/journal`, `/journal/[slug]`, `/[locatie]`. Unknown city slug → 404 (intended; `dynamicParams=false`). |
 | 5 | Canonical URLs correct | ✅ PASS | Every page sets `alternates.canonical`; landing twins 308-redirect to one canonical keyword URL. |

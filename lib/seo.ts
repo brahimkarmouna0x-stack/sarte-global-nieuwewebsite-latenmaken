@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { SITE } from "@/constants";
 import type { LandingFAQItem } from "@/constants/landing-nieuwe-website";
+import type { TeamMember } from "@/types";
 
 /**
  * Shared SEO helpers — keep the per-page metadata + JSON-LD boilerplate in one
@@ -48,7 +49,10 @@ export interface LandingMetaInput {
 /** Builds the full Metadata object (canonical + OG + Twitter) for a landing page. */
 export function buildLandingMetadata(meta: LandingMetaInput): Metadata {
   return {
-    title: meta.title,
+    // `absolute` opts out of the root `%s · Sarte Global` template: these titles
+    // already carry their own "| Sarte Global" brand, so the template would
+    // otherwise double-brand them (e.g. "… | Sarte Global · Sarte Global").
+    title: { absolute: meta.title },
     description: meta.description,
     alternates: { canonical: meta.path },
     keywords: [...meta.keywords],
@@ -153,6 +157,17 @@ export function buildFaqSchema(items: readonly LandingFAQItem[]) {
   };
 }
 
+/**
+ * A resolved article author that links to a real profile page. Emitting the
+ * `@id` ties the BlogPosting to the Person node on `/team/[slug]` so Google can
+ * build the author entity (E-E-A-T). Use a plain string for editorial bylines.
+ */
+export interface ArticleAuthor {
+  readonly name: string;
+  readonly slug: string;
+  readonly jobTitle?: string;
+}
+
 export interface ArticleSchemaInput {
   /** Canonical path, e.g. "/journal/wat-kost-een-website". */
   readonly path: string;
@@ -162,10 +177,50 @@ export interface ArticleSchemaInput {
   readonly datePublished: string;
   /** ISO date (YYYY-MM-DD); falls back to datePublished. */
   readonly dateModified?: string;
-  /** Author display name; defaults to the organisation. */
-  readonly author?: string;
+  /**
+   * Article author. An {@link ArticleAuthor} links to the author's profile
+   * (`@id` + url + jobTitle); a plain string emits a bare Person; omitted falls
+   * back to the Organization.
+   */
+  readonly author?: string | ArticleAuthor;
   /** Optional cover image path (defaults to the share image). */
   readonly image?: string;
+}
+
+/** Resolves the BlogPosting `author` node (Person profile, bare Person, or Org). */
+function resolveArticleAuthor(author?: string | ArticleAuthor) {
+  if (!author) return { "@id": `${SITE.url}/#organization` };
+  if (typeof author === "string") return { "@type": "Person", name: author };
+
+  const url = `${SITE.url}/team/${author.slug}`;
+  return {
+    "@type": "Person",
+    "@id": `${url}/#person`,
+    name: author.name,
+    ...(author.jobTitle ? { jobTitle: author.jobTitle } : {}),
+    url,
+  };
+}
+
+/**
+ * Person JSON-LD for an author/team profile page. `worksFor` references the
+ * single Organization node from the root layout. `sameAs` is only emitted when
+ * real public profiles exist — never placeholder URLs.
+ */
+export function buildPersonSchema(member: TeamMember) {
+  const url = `${SITE.url}/team/${member.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${url}/#person`,
+    name: member.name,
+    jobTitle: member.role,
+    description: member.bio,
+    url,
+    image: `${SITE.url}${OG_IMAGE}`,
+    worksFor: { "@id": `${SITE.url}/#organization` },
+    ...(member.sameAs && member.sameAs.length > 0 ? { sameAs: [...member.sameAs] } : {}),
+  };
 }
 
 /**
@@ -185,9 +240,7 @@ export function buildArticleSchema(input: ArticleSchemaInput) {
     datePublished: input.datePublished,
     dateModified: input.dateModified ?? input.datePublished,
     inLanguage: "nl-NL",
-    author: input.author
-      ? { "@type": "Person", name: input.author }
-      : { "@id": `${SITE.url}/#organization` },
+    author: resolveArticleAuthor(input.author),
     publisher: { "@id": `${SITE.url}/#organization` },
     image: [`${SITE.url}${input.image ?? OG_IMAGE}`],
     url: pageUrl,
@@ -211,7 +264,9 @@ export function buildArticleMetadata(input: {
 }): Metadata {
   const image = input.image ?? OG_IMAGE;
   return {
-    title: input.title,
+    // `absolute`: the caller already appends "| Sarte Global"; skip the root
+    // title template so the brand is not repeated in the <title>.
+    title: { absolute: input.title },
     description: input.description,
     alternates: { canonical: input.path },
     keywords: [...input.keywords],

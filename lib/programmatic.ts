@@ -7,6 +7,11 @@ import {
   type LocationService,
 } from "@/constants/locations";
 
+interface InternalLink {
+  readonly name: string;
+  readonly href: string;
+}
+
 /**
  * Composition engine for the programmatic city × service pages. Every page is
  * generated from `City` + `LocationService` tokens, but the prose is selected
@@ -30,7 +35,9 @@ export interface LocationPage {
   readonly benefits: readonly string[];
   readonly faqHeading: string;
   readonly faq: readonly LandingFAQItem[];
-  readonly nearby: readonly { readonly name: string; readonly href: string }[];
+  readonly nearby: readonly InternalLink[];
+  /** Same city in the other keyword dimension(s), e.g. Webdesign ↔ Website. */
+  readonly crossLinks: readonly InternalLink[];
   readonly serviceDescription: string;
 }
 
@@ -169,6 +176,16 @@ export function getLocationPage(slug: string): LocationPage | null {
     .filter((c): c is City => Boolean(c))
     .map((c) => ({ name: c.name, href: `/${service.prefix}-${c.slug}` }));
 
+  // Cross-link this city's page to the same city in every other keyword
+  // dimension (e.g. /website-laten-maken-amsterdam ↔ /webdesign-amsterdam), so
+  // the dimensions pass authority to each other instead of being orphaned silos.
+  const crossLinks: readonly InternalLink[] = LOCATION_SERVICES.filter(
+    (other) => other.prefix !== service.prefix,
+  ).map((other) => ({
+    name: `${other.label} ${city.name}`,
+    href: `/${other.prefix}-${city.slug}`,
+  }));
+
   const hero: LandingHeroContent = {
     ...LANDING_HERO,
     eyebrow: `${service.label} · ${city.name}`,
@@ -185,11 +202,11 @@ export function getLocationPage(slug: string): LocationPage | null {
     metaTitle: pick(TITLE_TEMPLATES, seed)(city, service),
     metaDescription: pick(DESCRIPTION_TEMPLATES, seed, 1)(city, service),
     keywords: [
+      `${service.label.toLowerCase()} ${city.name}`,
       `${service.noun} laten maken ${city.name}`,
-      `website laten maken ${city.name}`,
       `webdesign ${city.name}`,
-      `website bouwen ${city.name}`,
       `webdesigner ${city.name}`,
+      `website laten maken ${city.name}`,
       `professionele website ${city.name}`,
     ],
     hero,
@@ -200,6 +217,7 @@ export function getLocationPage(slug: string): LocationPage | null {
     faqHeading: `Veelgestelde vragen — ${service.label.toLowerCase()} in ${city.name}`,
     faq: FAQ_BUILDERS.map((build) => build(city, service)),
     nearby,
+    crossLinks,
     serviceDescription: pick(DESCRIPTION_TEMPLATES, seed, 2)(city, service),
   };
 }

@@ -9,7 +9,7 @@ instead. Semantic SEO over keyword stuffing.
 | # | Cluster | Search intent | Target page(s) | Supporting blog | Internal-link strategy |
 |---|---------|---------------|----------------|-----------------|------------------------|
 | 1 | **Commercial (core)** | High-intent commercial: ready to hire | `/website-laten-maken`, `/wordpress-website-laten-maken`, `/nextjs-website-laten-maken`, `/webshop-laten-maken` (+ 6 more) | `website-laten-maken-stappenplan`, `wordpress-of-maatwerk-website`, `waarom-de-meeste-bureausites-falen` | Landing pages cross-link via the related-links nav; blog posts link up to the matching landing page |
-| 2 | **Location (programmatic)** | Commercial + local: "in mijn stad" | `/website-laten-maken-amsterdam`, `/website-laten-maken-rotterdam`, … (15 cities, scalable to 100+) | — (city pages carry their own city FAQ) | `LandingLocalSeo` block on every landing page links to all city pages; each city page links to its parent service + 3 nearby cities |
+| 2 | **Location (programmatic)** | Commercial + local: "in mijn stad" | `/website-laten-maken-amsterdam`, `/webdesign-amsterdam`, … (17 cities × 2 keyword dimensions = 34 pages, scalable to 100+) | — (city pages carry their own city FAQ) | `LandingLocalSeo` block on every landing page links to the website-laten-maken city pages; each city page links to its parent service, 3 nearby cities, and the same city in the other dimension (Webdesign ↔ Website) |
 | 3 | **Business type** | Commercial + segment: "voor mijn type bedrijf" | `/webshop-laten-maken`, `/landing-page-laten-maken`; future programmatic dimension from `constants/local-businesses.ts` (60+ types) | future: "website voor ZZP", "website voor [branche]" | Add `{ prefix: "website-voor", ... }` to `LOCATION_SERVICES` to scale; link from services hub |
 | 4 | **Price (premium reframe)** | Commercial research: budgeting | `/website-laten-maken#pakketten` (transparent tiers + price JSON-LD) | `wat-kost-een-website-laten-maken` | Price post links to Pakketten + landing; landing FAQ answers price questions |
 
@@ -25,10 +25,10 @@ instead. Semantic SEO over keyword stuffing.
 - **Action:** keep one indexable URL per primary keyword (already enforced via 308 redirects + canonicals).
 
 ### 2. Location (programmatic) — scale engine
-- **Pattern:** `/{service-prefix}-{city}` e.g. `website-laten-maken-amsterdam`, generated from `constants/locations.ts` (`CITIES` × `LOCATION_SERVICES`).
-- **Live now:** 15 cities × 1 service = 15 pages. Each has unique H1, title, meta, intro (city economic angle), 4 city-specific FAQ items, city-narrowed `areaServed` schema, and nearby-city internal links.
-- **Scale to 100+:** add cities to `CITIES`, and/or add `{ prefix: "webdesign", … }` / `{ prefix: "webshop-laten-maken", … }` to `LOCATION_SERVICES`. Routes, sitemap and internal links update automatically.
-- **Duplicate-content guard:** slug-seeded deterministic variation in `lib/programmatic.ts` selects from intro/title/description/FAQ pools, so no two pages share copy.
+- **Pattern:** `/{service-prefix}-{city}` e.g. `website-laten-maken-amsterdam`, `webdesign-amsterdam`, generated from `constants/locations.ts` (`CITIES` × `LOCATION_SERVICES`).
+- **Live now:** 17 cities × 2 dimensions (`website-laten-maken` + `webdesign`) = 34 pages. Each has unique H1, title, meta, intro (city economic angle), 4 city-specific FAQ items, city-narrowed `areaServed` schema, nearby-city links and a cross-dimension link to the same city.
+- **Scale to 100+:** add cities to `CITIES`, and/or add `{ prefix: "webshop-laten-maken", … }` to `LOCATION_SERVICES`. Routes, sitemap and internal links update automatically.
+- **Duplicate-content guard:** slug-seeded deterministic variation in `lib/programmatic.ts` selects from intro/title/description/FAQ pools, so no two pages share copy. The `website` and `webdesign` page for the same city differ via a different slug seed **and** a different head term (label/keywords). **Cannibalisation watch:** monitor the paired city pages in GSC; if they compete, narrow one dimension's intent or consolidate.
 
 ### 3. Business type
 - **Keywords:** website laten maken voor ZZP, website voor kleine bedrijven, website voor [branche] (kapper, restaurant, …), webshop laten maken.

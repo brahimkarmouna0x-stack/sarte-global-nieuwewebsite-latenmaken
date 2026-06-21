@@ -12,7 +12,8 @@ const PAGE_DESC =
   "Ontdek alle diensten van Sarte Global: een nieuwe website of webshop laten maken, landingspagina's, SEO, UX/UI-design, mobiele apps en online advertising — één partner voor digitale groei.";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  // `absolute`: PAGE_TITLE already carries the brand; skip the root title template.
+  title: { absolute: PAGE_TITLE },
   description: PAGE_DESC,
   alternates: { canonical: PATH },
   keywords: [

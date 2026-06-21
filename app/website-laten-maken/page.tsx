@@ -33,7 +33,8 @@ const PAGE_DESC =
   "Website laten maken bij Sarte Global. Professionele, moderne en responsive websites voor ondernemers in Nederland — sterk in SEO en gemaakt om te converteren. Vraag vrijblijvend een voorstel aan.";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  // `absolute`: PAGE_TITLE already carries the brand; skip the root title template.
+  title: { absolute: PAGE_TITLE },
   description: PAGE_DESC,
   alternates: { canonical: PATH },
   keywords: [
