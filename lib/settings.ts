@@ -39,10 +39,10 @@ const FALLBACK: SiteSettings = {
   // link, exactly like the Supabase-sourced value in mapRecord().
   whatsapp: normalizeWhatsAppNumber(WHATSAPP_NUMBER),
   // Online-only / nationaal: geen fysiek vestigingsadres, wel landelijke dekking.
-  address: {
-    line: "Werkzaam door heel Nederland",
-    city: "Online & op afspraak",
-    country: "Nederland",
+    address: {
+    line: "30 N Gould St Ste R",
+    city: "Sheridan, WY 82801",
+    country: "United States",
   },
   footerMission: FOOTER_MISSION,
   // Fall back to the default profiles so social icons always show, even before
