@@ -8,7 +8,21 @@ const CONTACT_EMAIL = "info@sarteglobal.com";
 const LAST_UPDATED = "26 mei 2026";
 const BRAND = "Sarte Global";
 const SERVICE_DOMAIN = "nieuwewebsite-latenmaken.nl";
-const COMPANY_DETAILS = `${BRAND} — verantwoordelijke voor ${SERVICE_DOMAIN} // TODO: vul KvK- en BTW-nummer in`;
+
+// Officiële registratiegegevens. Vul `kvk` en `btw` in zodra bekend — lege velden
+// worden automatisch weggelaten, zodat er nooit een placeholder naar de pagina lekt.
+const COMPANY_REGISTRATION = {
+  kvk: "", // KvK-nummer, bv. "12345678"
+  btw: "", // BTW-identificatienummer, bv. "NL001234567B01"
+};
+
+const COMPANY_DETAILS = [
+  `${BRAND} — verantwoordelijke voor ${SERVICE_DOMAIN}`,
+  COMPANY_REGISTRATION.kvk ? `KvK-nummer: ${COMPANY_REGISTRATION.kvk}` : null,
+  COMPANY_REGISTRATION.btw ? `BTW-id: ${COMPANY_REGISTRATION.btw}` : null,
+]
+  .filter(Boolean)
+  .join(" · ");
 
 export const LEGAL_PRIVACY: LegalDocument = {
   slug: "privacy",
