@@ -8,9 +8,9 @@ import { CallToAction } from "@/components/sections/CallToAction";
 import { TeamShowcase } from "@/components/sections/TeamShowcase";
 import { CAREERS_HERO } from "@/constants/careers";
 
-const PAGE_TITLE = "Vacatures — Werken bij Sarte Global";
+const PAGE_TITLE = "Vacatures bij Sarte Global | Remote-first & Groeien";
 const PAGE_DESC =
-  "Werk bij Sarte Global. Remote-first, kleine teams met volledige eigenaarschap. Bekijk onze openstaande vacatures en hoe we werken.";
+  "Remote-first werken met volledige eigenaarschap in een klein, gedreven team. Bekijk onze vacatures en ontdek wat Sarte Global jou biedt.";
 
 export const metadata: Metadata = {
   // `absolute`: PAGE_TITLE already carries the brand; skip the root title template.

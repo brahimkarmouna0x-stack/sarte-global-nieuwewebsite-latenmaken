@@ -6,9 +6,9 @@ import { CallToAction } from "@/components/sections/CallToAction";
 import { ImpactStats } from "@/components/sections/ImpactStats";
 import { Testimonials } from "@/components/sections/Testimonials";
 
-const PAGE_TITLE = "Portfolio — Websites, webshops & design projecten";
+const PAGE_TITLE = "Portfolio — Websites, Webshops & Design";
 const PAGE_DESC =
-  "Geselecteerd werk van Sarte Global. Websites, webshops en design voor ondernemers en bedrijven in Nederland en daarbuiten.";
+  "Bekijk geselecteerd werk van Sarte Global: moderne websites, webshops en design voor ondernemers in Nederland. Laat je inspireren.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,

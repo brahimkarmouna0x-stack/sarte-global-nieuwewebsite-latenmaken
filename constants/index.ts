@@ -10,9 +10,9 @@ import type {
 import { SERVICES } from "./services";
 
 export const SITE = {
-  title: "Nieuwe website laten maken | Professionele Websites - Sarte Global",
+  title: "Nieuwe Website Laten Maken | 14 Dagen Live · Sarte Global",
   description:
-    "Nieuwe website laten maken bij Sarte Global: een professionele, moderne en responsive website voor ondernemers en bedrijven in Nederland. Sterke SEO, snelle oplevering en focus op conversie.",
+    "Professionele website laten maken die bezoekers omzet in klanten. Modern design, sterke SEO en snelle oplevering. Vraag vandaag een gratis offerte aan.",
   themeColor: "#0D0D0D",
   brandName: "SARTE GLOBAL",
   brandAccent: ".",

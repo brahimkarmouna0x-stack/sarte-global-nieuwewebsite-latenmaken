@@ -8,9 +8,9 @@ import { SITE } from "@/constants";
 import { getSiteSettings } from "@/lib/settings";
 import type { ContactChannel, SiteSettings } from "@/types";
 
-const PAGE_TITLE = "Contact — Neem contact op met Sarte Global";
+const PAGE_TITLE = "Contact | Reageren Binnen 1 Werkdag · Sarte Global";
 const PAGE_DESC =
-  "Neem contact op met Sarte Global, het team achter nieuwewebsite-latenmaken. E-mail, telefoon of WhatsApp — we reageren binnen één werkdag.";
+  "Neem vandaag contact op — we reageren binnen één werkdag. Bereik ons via e-mail of WhatsApp voor een vrijblijvend gesprek over jouw website.";
 
 export const metadata: Metadata = {
   // `absolute`: PAGE_TITLE already carries the brand; skip the root title template.

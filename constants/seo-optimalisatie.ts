@@ -18,9 +18,9 @@ export const SEO_PROJECT_TYPE = PROJECT_TYPE;
 
 export const SEO_META = {
   path: "/seo-optimalisatie",
-  title: "SEO optimalisatie | Sarte Global",
+  title: "SEO Optimalisatie | Hoger in Google · Sarte Global",
   description:
-    "SEO optimalisatie die structureel meer bezoekers en klanten oplevert. Technische SEO, sterke content, lokale SEO en heldere rapportage — voor ondernemers en bedrijven in Nederland. Vraag een vrijblijvende SEO-analyse aan.",
+    "Structureel meer bezoekers en klanten via Google. Technische SEO, lokale SEO en duidelijke rapportage. Vraag een gratis SEO-analyse aan.",
   keywords: [
     "seo optimalisatie",
     "seo specialist",

@@ -20,9 +20,9 @@ export const WEBAPP_PROJECT_TYPE = PROJECT_TYPE;
 
 export const WEBAPP_META = {
   path: "/webapp-laten-maken",
-  title: "Webapp laten maken | Sarte Global",
+  title: "Webapp Laten Maken op Maat | SaaS & Dashboards · Sarte Global",
   description:
-    "Webapp laten maken op maat: SaaS, dashboards, klantportalen en interne tools, gebouwd op een moderne, schaalbare stack (Next.js & React). Veilig, snel en klaar voor groei. Vraag vrijblijvend een voorstel aan.",
+    "Maatwerk webapp voor SaaS, dashboards en klantportalen. Gebouwd op Next.js & React: veilig, snel en schaalbaar. Vraag vrijblijvend een voorstel aan.",
   keywords: [
     "webapp laten maken",
     "web applicatie laten maken",

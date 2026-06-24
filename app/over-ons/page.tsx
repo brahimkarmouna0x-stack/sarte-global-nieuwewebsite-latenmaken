@@ -11,9 +11,9 @@ import { SITE } from "@/constants";
 import { buildBreadcrumbSchema } from "@/lib/seo";
 
 const PATH = "/over-ons";
-const PAGE_TITLE = "Over ons — nieuwe websites voor ondernemers";
+const PAGE_TITLE = "Over Ons | Webdesign Bureau voor Ondernemers";
 const PAGE_DESC =
-  "Sarte Global is het bureau achter nieuwewebsite-latenmaken. We bouwen nieuwe, professionele en moderne websites voor ondernemers en bedrijven in Nederland.";
+  "Sarte Global bouwt professionele, converterende websites voor ondernemers in Nederland. Leer ons team kennen en ontdek hoe wij design en conversie combineren.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,

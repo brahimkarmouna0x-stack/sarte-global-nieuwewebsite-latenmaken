@@ -20,9 +20,9 @@ export const NEXTJS_PROJECT_TYPE = PROJECT_TYPE;
 
 export const NEXTJS_META = {
   path: "/nextjs-website-laten-maken",
-  title: "Next.js website laten maken | Sarte Global",
+  title: "Next.js Website Laten Maken | Snel & Vindbaar · Sarte Global",
   description:
-    "Next.js website laten maken voor maximale snelheid en topscores op Core Web Vitals. Een razendsnelle, schaalbare en SEO-sterke website op de modernste React-techniek. Vraag vrijblijvend een voorstel aan.",
+    "Razendsnelle Next.js website met topscores op Core Web Vitals. Gebouwd op de modernste React-stack voor maximale SEO en conversie. Vraag een voorstel aan.",
   keywords: [
     "nextjs website laten maken",
     "next.js website laten maken",

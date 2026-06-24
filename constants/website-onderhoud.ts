@@ -19,9 +19,9 @@ export const ONDERHOUD_PROJECT_TYPE = PROJECT_TYPE;
 
 export const ONDERHOUD_META = {
   path: "/website-onderhoud",
-  title: "Website onderhoud | Sarte Global",
+  title: "Website Onderhoud | Veilig & Altijd Up-to-Date · Sarte Global",
   description:
-    "Website onderhoud waardoor je site veilig, snel en up-to-date blijft. Updates, beveiliging, dagelijkse back-ups, monitoring en doorlopende verbeteringen — zonder zorgen. Vraag een vrijblijvend onderhoudsplan aan.",
+    "Jouw site veilig, snel en up-to-date — zonder zorgen. Updates, beveiliging, dagelijkse back-ups en monitoring. Vraag een vrijblijvend onderhoudsplan aan.",
   keywords: [
     "website onderhoud",
     "wordpress onderhoud",

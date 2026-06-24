@@ -8,9 +8,9 @@ import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { NEWSLETTER } from "@/constants";
 
-const PAGE_TITLE = "Journal — Tips over websites, SEO en online groei";
+const PAGE_TITLE = "Journal | Tips over Websites, SEO & Groei";
 const PAGE_DESC =
-  "Inzichten van Sarte Global: tips over websites, SEO en online groei voor ondernemers — één beknopte e-mail per maand.";
+  "Praktische tips over websites, SEO en online groei voor ondernemers. Maandelijkse inzichten van Sarte Global — schrijf je in voor de nieuwsbrief.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,

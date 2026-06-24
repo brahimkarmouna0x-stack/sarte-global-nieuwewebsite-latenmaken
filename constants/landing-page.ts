@@ -20,9 +20,9 @@ export const LANDINGPAGE_PROJECT_TYPE = PROJECT_TYPE;
 
 export const LANDINGPAGE_META = {
   path: "/landing-page-laten-maken",
-  title: "Landing page laten maken | Sarte Global",
+  title: "Landing Page Laten Maken | Hoge Conversie · Sarte Global",
   description:
-    "Landing page laten maken die bezoekers omzet in leads en klanten. Eén doel, een snelle conversiegerichte pagina voor je campagne, dienst of product. Sterke koppen, heldere CTA's en A/B-testen. Vraag vrijblijvend een voorstel aan.",
+    "Conversiegerichte landingspagina die bezoekers omzet in leads en klanten. Eén doel, sterke koppen en heldere CTA's. Vraag vrijblijvend een voorstel aan.",
   keywords: [
     "landing page laten maken",
     "landingspagina laten maken",

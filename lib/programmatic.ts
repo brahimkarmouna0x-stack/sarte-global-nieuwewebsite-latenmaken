@@ -62,7 +62,7 @@ type Tpl = (city: City, service: LocationService) => string;
 
 const TITLE_TEMPLATES: readonly Tpl[] = [
   (c, s) => `${s.label} in ${c.name} | Sarte Global`,
-  (c, s) => `${s.label} ${c.name} — professioneel & vindbaar | Sarte Global`,
+  (c, s) => `${s.label} in ${c.name} — Meer Klanten | Sarte Global`,
   (c, s) => `${s.label} in ${c.name} voor ondernemers | Sarte Global`,
 ];
 
@@ -70,7 +70,7 @@ const DESCRIPTION_TEMPLATES: readonly Tpl[] = [
   (c, s) =>
     `${s.label} in ${c.name}? Sarte Global bouwt een professionele, snelle en goed vindbare ${s.noun} voor ondernemers in ${c.name} en ${c.region}. Sterke SEO en focus op conversie. Vraag vrijblijvend een voorstel aan.`,
   (c, s) =>
-    `Een ${s.noun} laten maken in ${c.name}? Wij ontwerpen moderne, responsive websites die ondernemers in ${c.province} meer klanten opleveren. Transparante prijzen, snelle oplevering.`,
+    `Een ${s.noun} laten maken in ${c.name}? Wij bouwen snelle, vindbare websites voor ondernemers in ${c.province}. Transparante prijzen, snel online.`,
   (c, s) =>
     `Op zoek naar ${s.label.toLowerCase()} in ${c.name}? Sarte Global levert maatwerk websites met sterke SEO voor bedrijven in ${c.name}. Modern design, gebouwd om te converteren.`,
 ];

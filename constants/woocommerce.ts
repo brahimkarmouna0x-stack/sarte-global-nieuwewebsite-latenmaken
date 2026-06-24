@@ -21,9 +21,9 @@ export const WOOCOMMERCE_PROJECT_TYPE = PROJECT_TYPE;
 
 export const WOOCOMMERCE_META = {
   path: "/woocommerce-webshop-laten-maken",
-  title: "WooCommerce webshop laten maken | Sarte Global",
+  title: "WooCommerce Webshop Laten Maken — Geen Kosten · Sarte Global",
   description:
-    "WooCommerce webshop laten maken door specialisten: een snelle, schaalbare webshop op WordPress, volledig van jou en zonder transactiekosten van het platform. iDEAL en alle betaalmethoden. Vraag vrijblijvend een voorstel aan.",
+    "WooCommerce-specialist bouwt jouw webshop op WordPress: volledig van jou, geen transactiekosten en iDEAL inbegrepen. Vraag vrijblijvend een voorstel aan.",
   keywords: [
     "woocommerce webshop laten maken",
     "woocommerce specialist",

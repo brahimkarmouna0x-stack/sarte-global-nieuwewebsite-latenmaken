@@ -20,9 +20,9 @@ export const WORDPRESS_PROJECT_TYPE = PROJECT_TYPE;
 
 export const WORDPRESS_META = {
   path: "/wordpress-website-laten-maken",
-  title: "WordPress website laten maken | Sarte Global",
+  title: "WordPress Website Laten Maken | Zelf Beheren · Sarte Global",
   description:
-    "WordPress website laten maken door een WordPress-specialist. Maatwerk thema's, sterke SEO en een website die je zelf eenvoudig beheert. Vraag vrijblijvend een voorstel aan.",
+    "WordPress-specialist bouwt jouw maatwerk website. Zelf eenvoudig te beheren, sterke SEO en volledig naar wens. Vraag vrijblijvend een voorstel aan.",
   keywords: [
     "wordpress website laten maken",
     "wordpress specialist",

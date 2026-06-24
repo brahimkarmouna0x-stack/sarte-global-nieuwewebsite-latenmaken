@@ -21,9 +21,9 @@ export const SHOPIFY_PROJECT_TYPE = PROJECT_TYPE;
 
 export const SHOPIFY_META = {
   path: "/shopify-webshop-laten-maken",
-  title: "Shopify webshop laten maken | Sarte Global",
+  title: "Shopify Webshop Laten Maken | Snel Live · Sarte Global",
   description:
-    "Shopify webshop laten maken door specialisten: een snelle, betrouwbare en schaalbare webshop met maatwerk Shopify-thema. iDEAL en alle betaalmethoden, weinig onderhoud en sterke conversie. Vraag vrijblijvend een voorstel aan.",
+    "Maatwerk Shopify-webshop: snel live, weinig onderhoud en hoge conversie. iDEAL en alle betaalmethoden inbegrepen. Vraag vrijblijvend een voorstel aan.",
   keywords: [
     "shopify webshop laten maken",
     "shopify specialist",

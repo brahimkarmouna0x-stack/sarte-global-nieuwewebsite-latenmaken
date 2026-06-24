@@ -19,9 +19,9 @@ export const WEBSHOP_PROJECT_TYPE = PROJECT_TYPE;
 
 export const WEBSHOP_META = {
   path: "/webshop-laten-maken",
-  title: "Webshop laten maken | Sarte Global",
+  title: "Webshop Laten Maken | iDEAL & Snel Online · Sarte Global",
   description:
-    "Webshop laten maken met WooCommerce: een snelle, conversiegerichte webshop die verkoopt. iDEAL en alle betaalmethoden, mobiel afrekenen en sterke SEO. Vraag vrijblijvend een voorstel aan.",
+    "Conversiegerichte webshop die echt verkoopt. WooCommerce op maat, iDEAL en alle betaalmethoden, snelle checkout en sterke SEO. Vraag een voorstel aan.",
   keywords: [
     "webshop laten maken",
     "woocommerce webshop laten maken",

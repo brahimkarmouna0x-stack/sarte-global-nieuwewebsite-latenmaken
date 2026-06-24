@@ -28,9 +28,9 @@ import {
 } from "@/lib/seo";
 
 const PATH = "/website-laten-maken";
-const PAGE_TITLE = "Website laten maken voor ondernemers | Sarte Global";
+const PAGE_TITLE = "Website Laten Maken — Snel & Vindbaar | Sarte Global";
 const PAGE_DESC =
-  "Website laten maken bij Sarte Global. Professionele, moderne en responsive websites voor ondernemers in Nederland — sterk in SEO en gemaakt om te converteren. Vraag vrijblijvend een voorstel aan.";
+  "Professionele website die bezoekers omzet in klanten. Modern design, sterke SEO en snelle oplevering. Vraag vrijblijvend een voorstel aan — vandaag nog.";
 
 export const metadata: Metadata = {
   // `absolute`: PAGE_TITLE already carries the brand; skip the root title template.

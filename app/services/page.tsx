@@ -7,9 +7,9 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { SERVICES, SITE } from "@/constants";
 
 const PATH = "/services";
-const PAGE_TITLE = "Diensten | Website, webshop, SEO & meer - Sarte Global";
+const PAGE_TITLE = "Diensten | Website, Webshop, SEO & Meer · Sarte Global";
 const PAGE_DESC =
-  "Ontdek alle diensten van Sarte Global: een nieuwe website of webshop laten maken, landingspagina's, SEO, UX/UI-design, mobiele apps en online advertising — één partner voor digitale groei.";
+  "Alles voor jouw online groei: website, webshop, landing pages en SEO. Eén partner, duidelijke resultaten. Bekijk alle diensten van Sarte Global.";
 
 export const metadata: Metadata = {
   // `absolute`: PAGE_TITLE already carries the brand; skip the root title template.
